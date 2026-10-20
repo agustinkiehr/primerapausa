@@ -1,0 +1,20 @@
+---
+interface Props { dark?: boolean; center?: boolean; }
+const { dark = false, center = false } = Astro.props;
+---
+<div class:list={['flex flex-col gap-3', center && 'items-center text-center']}>
+  <div class:list={['flex w-full flex-col gap-3 sm:w-auto sm:flex-row', center && 'sm:justify-center']}>
+    <a href="/solicitar?tipo=programada" class:list={[dark ? 'btn bg-white text-primary hover:bg-secondary-fixed' : 'btn-primary ripple']}>
+      <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+      Necesito hablar
+    </a>
+    <a href="/solicitar?tipo=prioritaria" class:list={[dark ? 'btn border border-white/40 text-white hover:bg-white/10' : 'btn-soft']}>
+      <span class="material-symbols-outlined" aria-hidden="true">bolt</span>
+      Necesito hablar hoy
+    </a>
+  </div>
+  <p class:list={['flex items-start gap-1.5 text-xs', dark ? 'text-primary-fixed-dim' : 'text-outline']}>
+    <span class="material-symbols-outlined text-tint" aria-hidden="true">info</span>
+    Turnos prioritarios sujetos a disponibilidad. No es un servicio de emergencia.
+  </p>
+</div>

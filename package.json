@@ -1,0 +1,17 @@
+{
+  "name": "primera-pausa",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/vercel": "^11.0.16",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.1",
+    "tailwindcss": "^4.3.3"
+  }
+}

@@ -1,0 +1,166 @@
+---
+import Base from '../layouts/Base.astro';
+import EmergencyLines from '../components/EmergencyLines.astro';
+import { triage, modalidades, site, formatPrice } from '../data/site';
+const opts = [['si', 'Sí'], ['no', 'No'], ['nose', 'No estoy seguro/a']];
+---
+<Base title="Solicitar una consulta" noindex>
+  <section class="mx-auto max-w-3xl px-5 py-12 lg:py-16">
+
+    <!-- PASO 1: SEGURIDAD -->
+    <form id="step-triage" class="flex flex-col gap-8" novalidate>
+      <div class="flex flex-col gap-3">
+        <span class="eyebrow">Paso 1 de 2</span>
+        <h1 class="text-3xl sm:text-4xl">Antes de empezar, unas preguntas de cuidado</h1>
+        <p class="leading-relaxed text-ink-soft">Nos ayudan a saber si Primera Pausa es el espacio adecuado para lo que estás atravesando hoy. Tus respuestas no se guardan si el formato no es adecuado.</p>
+      </div>
+      <ol class="flex flex-col gap-4">
+        {triage.map((t, i) => (
+          <li class="card p-5 sm:p-6">
+            <fieldset>
+              <legend class="font-medium leading-relaxed"><span class="mr-1 font-serif text-primary">{i + 1}.</span> {t.q}</legend>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {opts.map(([v, l]) => (
+                  <label class="cursor-pointer">
+                    <input type="radio" name={`t${i}`} value={v} required class="peer sr-only" data-block={t.block ? '1' : '0'} />
+                    <span class="inline-block rounded-full border border-[#ddd3c4] bg-surface-lowest px-5 py-2 text-sm font-semibold transition peer-checked:border-primary-container peer-checked:bg-primary-container peer-checked:text-white peer-focus-visible:ring-4 peer-focus-visible:ring-[#d8a49c]/40">{l}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          </li>
+        ))}
+      </ol>
+      <p id="triage-error" class="hidden rounded-xl bg-[#ffdad6] px-4 py-3 text-sm text-[#93000a]" role="alert">Respondé todas las preguntas para continuar.</p>
+      <button type="submit" class="btn-primary self-start">Continuar <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button>
+    </form>
+
+    <!-- PANTALLA DE SEGURIDAD -->
+    <div id="step-safety" class="hidden flex-col gap-8" tabindex="-1">
+      <div class="flex flex-col gap-3">
+        <h1 class="text-3xl sm:text-4xl">En este momento, lo más importante es tu seguridad</h1>
+        <p class="leading-relaxed text-ink-soft">Por lo que respondiste, Primera Pausa no es el espacio adecuado para acompañarte ahora. Hay personas preparadas para ayudarte de inmediato, de forma gratuita.</p>
+      </div>
+      <EmergencyLines />
+    </div>
+
+    <!-- PASO 2: DATOS -->
+    <form id="step-datos" class="hidden flex-col gap-8" novalidate>
+      <div class="flex flex-col gap-3">
+        <span class="eyebrow">Paso 2 de 2</span>
+        <h1 class="text-3xl sm:text-4xl">Contanos sobre vos</h1>
+        <p class="leading-relaxed text-ink-soft">Con estos datos revisamos tu solicitud y te contactamos para coordinar.</p>
+      </div>
+
+      <fieldset class="flex flex-col gap-3">
+        <legend class="mb-3 font-semibold">¿Cuándo necesitás hablar?</legend>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <label class="card flex cursor-pointer gap-3 p-5 has-[:checked]:border-primary-container has-[:checked]:bg-secondary-container/20">
+            <input type="radio" name="tipo" value="programada" class="mt-1 accent-[#6b0003]" checked />
+            <span><span class="font-semibold">Consulta programada</span><span class="block text-sm text-ink-soft">En los próximos turnos disponibles.</span></span>
+          </label>
+          <label class="card flex cursor-pointer gap-3 p-5 has-[:checked]:border-primary-container has-[:checked]:bg-secondary-container/20">
+            <input type="radio" name="tipo" value="prioritaria" class="mt-1 accent-[#6b0003]" />
+            <span><span class="font-semibold">Necesito hablar hoy</span><span class="block text-sm text-ink-soft">Prioritaria, sujeta a disponibilidad. No es una guardia.</span></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="flex flex-col gap-2">
+        <span class="font-semibold">Modalidad que te interesa <span class="font-normal text-ink-soft">(podés cambiarla después)</span></span>
+        <select name="modalidad" class="field">
+          <option value="no-se">Todavía no sé, quiero que me orienten</option>
+          {modalidades.map((m) => <option value={m.id}>{m.name} · {m.duration} · {formatPrice(m.price)}</option>)}
+        </select>
+      </label>
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <label class="flex flex-col gap-2 sm:col-span-2"><span class="font-semibold">Nombre</span><input name="nombre" class="field" required autocomplete="name" maxlength="120" /></label>
+        <label class="flex flex-col gap-2"><span class="font-semibold">Email</span><input name="email" type="email" class="field" required autocomplete="email" maxlength="160" /></label>
+        <label class="flex flex-col gap-2"><span class="font-semibold">Teléfono / WhatsApp</span><input name="telefono" type="tel" class="field" required autocomplete="tel" placeholder="+54 9 223 …" maxlength="40" /></label>
+      </div>
+
+      <label class="flex items-start gap-3"><input type="checkbox" name="mayor18" required class="mt-1 h-4 w-4 accent-[#6b0003]" /><span>Confirmo que tengo 18 años o más.</span></label>
+
+      <label class="flex flex-col gap-2">
+        <span class="font-semibold">¿Sobre qué te gustaría conversar?</span>
+        <span class="text-sm text-ink-soft">No hace falta que nos cuentes toda tu historia. Contanos brevemente qué te está pasando y sobre qué te gustaría conversar.</span>
+        <textarea name="motivo" rows="5" class="field" required maxlength="2000"></textarea>
+      </label>
+
+      <fieldset class="flex flex-col gap-4 rounded-2xl bg-surface-low p-5">
+        <label class="flex items-start gap-3 text-sm leading-relaxed"><input type="checkbox" name="acepta_condiciones" required class="mt-1 h-4 w-4 shrink-0 accent-[#6b0003]" /><span>Leí, comprendí y acepto las <a href="/condiciones-del-servicio" target="_blank" class="font-semibold text-primary underline">Condiciones del Servicio</a> de Primera Pausa, incluyendo su carácter de orientación psicológica puntual, sus alcances y limitaciones, y que no constituye un servicio de emergencias ni implica el inicio de un proceso de psicoterapia.</span></label>
+        <label class="flex items-start gap-3 text-sm leading-relaxed"><input type="checkbox" name="acepta_privacidad" required class="mt-1 h-4 w-4 shrink-0 accent-[#6b0003]" /><span>Leí la <a href="/politica-de-privacidad" target="_blank" class="font-semibold text-primary underline">Política de Privacidad</a> y consiento el tratamiento de mis datos personales, incluida la información relacionada con mi salud que decida proporcionar, para gestionar mi solicitud y la prestación del servicio.</span></label>
+      </fieldset>
+
+      <!-- antispam: honeypot -->
+      <input type="text" name="empresa" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+      <p id="datos-error" class="hidden rounded-xl bg-[#ffdad6] px-4 py-3 text-sm text-[#93000a]" role="alert"></p>
+      <button type="submit" class="btn-primary self-start" id="send-btn">Enviar solicitud</button>
+    </form>
+  </section>
+</Base>
+
+<script define:vars={{ versions: site.legalVersions, contactEmail: site.email }}>
+  const $ = (id) => document.getElementById(id);
+  const params = new URLSearchParams(location.search);
+  const startedAt = Date.now();
+  let triageAnswers = {};
+
+  const show = (id) => {
+    ['step-triage', 'step-safety', 'step-datos'].forEach((s) => {
+      $(s).classList.toggle('hidden', s !== id);
+      $(s).classList.toggle('flex', s === id);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Precargar tipo/modalidad desde la URL
+  const tipo = params.get('tipo');
+  if (tipo === 'prioritaria') document.querySelector('input[name=tipo][value=prioritaria]').checked = true;
+  const mod = params.get('modalidad');
+  if (mod) { const sel = document.querySelector('select[name=modalidad]'); if ([...sel.options].some((o) => o.value === mod)) sel.value = mod; }
+  if (mod === 'prioritaria') document.querySelector('input[name=tipo][value=prioritaria]').checked = true;
+
+  $('step-triage').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const groups = [...new Set([...e.target.querySelectorAll('input[type=radio]')].map((i) => i.name))];
+    if (groups.some((g) => !fd.get(g))) { $('triage-error').classList.remove('hidden'); return; }
+    $('triage-error').classList.add('hidden');
+    let blocked = false;
+    groups.forEach((g) => {
+      const input = e.target.querySelector(`input[name=${g}]:checked`);
+      triageAnswers[g] = input.value;
+      if (input.dataset.block === '1' && input.value !== 'no') blocked = true;
+    });
+    if (blocked) { triageAnswers = {}; show('step-safety'); $('step-safety').focus(); return; }
+    show('step-datos');
+  });
+
+  $('step-datos').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target; const err = $('datos-error');
+    if (!form.checkValidity()) { err.textContent = 'Revisá los campos: todos son obligatorios, incluidas las dos aceptaciones.'; err.classList.remove('hidden'); form.reportValidity(); return; }
+    err.classList.add('hidden');
+    const btn = $('send-btn'); btn.disabled = true; btn.textContent = 'Enviando…';
+    const data = Object.fromEntries(new FormData(form));
+    const payload = {
+      ...data,
+      triage: triageAnswers,
+      condiciones_version: versions.condiciones,
+      privacidad_version: versions.privacidad,
+      elapsed_ms: Date.now() - startedAt,
+      utm: Object.fromEntries([...params].filter(([k]) => k.startsWith('utm_'))),
+    };
+    try {
+      const res = await fetch('/api/solicitud', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      if (!res.ok) throw new Error();
+      location.href = '/gracias';
+    } catch {
+      err.innerHTML = `No pudimos enviar tu solicitud. Probá de nuevo en unos minutos o escribinos a <a class="underline" href="mailto:${contactEmail}">${contactEmail}</a>.`;
+      err.classList.remove('hidden'); btn.disabled = false; btn.textContent = 'Enviar solicitud';
+    }
+  });
+</script>

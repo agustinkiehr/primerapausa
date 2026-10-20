@@ -1,0 +1,29 @@
+---
+import { lineasAyuda } from '../data/site';
+---
+<div class="flex flex-col gap-6">
+  <div class="rounded-3xl bg-primary p-7 text-white sm:p-9">
+    <h2 class="text-2xl !text-white sm:text-3xl">¿Qué hago si estoy en una emergencia?</h2>
+    <p class="mt-3 leading-relaxed text-primary-fixed">Si existe un riesgo inmediato para vos o para otra persona, comunicate con el <strong class="text-white">911</strong>, con el servicio de emergencias médicas de tu localidad o acercate a la guardia más cercana. Si podés hacerlo de manera segura, avisale a una persona de confianza y evitá quedarte solo/a.</p>
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+      <a href="tel:08009990091" class="btn bg-white text-primary hover:bg-secondary-fixed"><span class="material-symbols-outlined" aria-hidden="true">call</span>Llamar al 0800-999-0091</a>
+      <a href="tel:911" class="btn border border-white/40 text-white hover:bg-white/10"><span class="material-symbols-outlined" aria-hidden="true">emergency</span>Llamar al 911</a>
+    </div>
+    <p class="mt-5 text-sm text-primary-fixed-dim">Este formulario no está siendo supervisado en tiempo real y enviarlo no equivale a solicitar asistencia de emergencia.</p>
+  </div>
+  <div>
+    <h3 class="text-xl">Líneas de ayuda en Argentina</h3>
+    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+      {lineasAyuda.map((l) => (
+        <li class="card flex gap-4 p-5">
+          <a href={`tel:${l.tel}`} class="font-serif text-2xl whitespace-nowrap text-primary underline-offset-4 hover:underline">{l.num}</a>
+          <div>
+            <p class="font-semibold">{l.title}</p>
+            <p class="mt-1 text-sm leading-relaxed text-ink-soft">{l.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-5 text-sm text-ink-soft">Si no sabés a qué recurso recurrir y existe un peligro inmediato, llamá al 911 o acercate a la guardia más cercana.</p>
+  </div>
+</div>
