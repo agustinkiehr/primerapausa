@@ -18,9 +18,22 @@ const page = (title: string, body: string) =>
   );
 
 export const GET: APIRoute = async ({ params, url }) => {
-  const adminKey = env('ADMIN_KEY');
+  const adminKey = env('ADMIN_KEY')?.trim();
   const redirect = `${url.origin}/api/google/callback`;
-  const autorizado = adminKey && url.searchParams.get('clave') === adminKey;
+  const autorizado = Boolean(adminKey) && (url.searchParams.get('clave') ?? '').trim() === adminKey;
+
+  // Diagnóstico sin datos sensibles: solo nombres de variables y si coinciden.
+  if (params.accion === 'estado') {
+    const nombres = Object.keys(typeof process !== 'undefined' ? process.env : {}).filter((k) => /google|admin|gcal|clave|cliente|secreto|resend|solicitudes|mp_/i.test(k));
+    return Response.json({
+      variables_encontradas: nombres,
+      GOOGLE_CLIENT_ID: Boolean(env('GOOGLE_CLIENT_ID')),
+      GOOGLE_CLIENT_SECRET: Boolean(env('GOOGLE_CLIENT_SECRET')),
+      ADMIN_KEY: Boolean(adminKey),
+      GOOGLE_REFRESH_TOKEN: Boolean(env('GOOGLE_REFRESH_TOKEN')),
+      clave_del_link_coincide: url.searchParams.has('clave') ? autorizado : 'no se envió clave',
+    }, { headers: { 'Cache-Control': 'no-store' } });
+  }
 
   if (params.accion === 'conectar') {
     if (!autorizado) return new Response('No autorizado', { status: 401 });
