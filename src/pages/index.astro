@@ -6,7 +6,7 @@ import {
   profesionales, faq, formatPrice,
 } from '../data/site';
 
-const initials = (n: string) => n.replace(/^Lic\.\s*/, '').split(' ').map((p) => p[0]).slice(0, 2).join('');
+const initials = (n: string) => n.replace(/^Lic\.\s*/, '').split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase();
 ---
 <Base tracking>
   <!-- HERO -->

@@ -1,16 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
 import EmergencyLines from '../components/EmergencyLines.astro';
-import { triage, modalidades, site, formatPrice } from '../data/site';
+import { triage, modalidades, profesionales, site, formatPrice } from '../data/site';
 const opts = [['si', 'Sí'], ['no', 'No'], ['nose', 'No estoy seguro/a']];
+const pros = profesionales.map((p) => ({ id: p.id, nombre: p.nombre }));
+const mods = modalidades.map((m) => ({ id: m.id, name: m.name, minutos: m.minutos, price: m.price }));
 ---
-<Base title="Solicitar una consulta" noindex>
+<Base title="Reservar una consulta" noindex>
   <section class="mx-auto max-w-3xl px-5 py-12 lg:py-16">
 
     <!-- PASO 1: SEGURIDAD -->
     <form id="step-triage" class="flex flex-col gap-8" novalidate>
       <div class="flex flex-col gap-3">
-        <span class="eyebrow">Paso 1 de 2</span>
+        <span class="eyebrow">Paso 1 de 3</span>
         <h1 class="text-3xl sm:text-4xl">Antes de empezar, unas preguntas de cuidado</h1>
         <p class="leading-relaxed text-ink-soft">Nos ayudan a saber si Primera Pausa es el espacio adecuado para lo que estás atravesando hoy. Tus respuestas no se guardan si el formato no es adecuado.</p>
       </div>
@@ -44,12 +46,12 @@ const opts = [['si', 'Sí'], ['no', 'No'], ['nose', 'No estoy seguro/a']];
       <EmergencyLines />
     </div>
 
-    <!-- PASO 2: DATOS -->
-    <form id="step-datos" class="hidden flex-col gap-8" novalidate>
+    <!-- PASO 2: TURNO -->
+    <div id="step-turno" class="hidden flex-col gap-8">
       <div class="flex flex-col gap-3">
-        <span class="eyebrow">Paso 2 de 2</span>
-        <h1 class="text-3xl sm:text-4xl">Contanos sobre vos</h1>
-        <p class="leading-relaxed text-ink-soft">Con estos datos revisamos tu solicitud y te contactamos para coordinar.</p>
+        <span class="eyebrow">Paso 2 de 3</span>
+        <h1 class="text-3xl sm:text-4xl">Elegí tu turno</h1>
+        <p class="leading-relaxed text-ink-soft">Horarios en hora de Argentina. Todas las consultas son online, por audio o videollamada.</p>
       </div>
 
       <fieldset class="flex flex-col gap-3">
@@ -57,22 +59,52 @@ const opts = [['si', 'Sí'], ['no', 'No'], ['nose', 'No estoy seguro/a']];
         <div class="grid gap-3 sm:grid-cols-2">
           <label class="card flex cursor-pointer gap-3 p-5 has-[:checked]:border-primary-container has-[:checked]:bg-secondary-container/20">
             <input type="radio" name="tipo" value="programada" class="mt-1 accent-[#6b0003]" checked />
-            <span><span class="font-semibold">Consulta programada</span><span class="block text-sm text-ink-soft">En los próximos turnos disponibles.</span></span>
+            <span><span class="font-semibold">Consulta programada</span><span class="block text-sm text-ink-soft">Turnos desde mañana y hasta dos semanas.</span></span>
           </label>
           <label class="card flex cursor-pointer gap-3 p-5 has-[:checked]:border-primary-container has-[:checked]:bg-secondary-container/20">
             <input type="radio" name="tipo" value="prioritaria" class="mt-1 accent-[#6b0003]" />
-            <span><span class="font-semibold">Necesito hablar hoy</span><span class="block text-sm text-ink-soft">Prioritaria, sujeta a disponibilidad. No es una guardia.</span></span>
+            <span><span class="font-semibold">Necesito hablar hoy</span><span class="block text-sm text-ink-soft">Turnos de las próximas 24 h, sujetos a disponibilidad. No es una guardia.</span></span>
           </label>
         </div>
       </fieldset>
 
-      <label class="flex flex-col gap-2">
-        <span class="font-semibold">Modalidad que te interesa <span class="font-normal text-ink-soft">(podés cambiarla después)</span></span>
-        <select name="modalidad" class="field">
-          <option value="no-se">Todavía no sé, quiero que me orienten</option>
-          {modalidades.map((m) => <option value={m.id}>{m.name} · {m.duration} · {formatPrice(m.price)}</option>)}
+      <label class="flex flex-col gap-2" id="mod-wrap">
+        <span class="font-semibold">Modalidad</span>
+        <select id="modalidad" class="field">
+          {mods.filter((m) => m.id !== 'prioritaria').map((m) => <option value={m.id}>{m.name} · {m.minutos} min · {formatPrice(m.price)}</option>)}
         </select>
       </label>
+      <p id="mod-prio" class="hidden rounded-2xl bg-surface-low p-4 text-sm"><strong>Pausa Prioritaria</strong> · 60 min · {formatPrice(modalidades.find((m) => m.id === 'prioritaria')!.price)}</p>
+
+      <div class="flex flex-col gap-3">
+        <span class="font-semibold">Profesional</span>
+        <div class="flex flex-wrap gap-2" id="pro-chips">
+          <button type="button" data-pro="" class="pro-chip rounded-full border px-4 py-2 text-sm font-semibold">Cualquiera disponible</button>
+          {pros.map((p) => <button type="button" data-pro={p.id} class="pro-chip rounded-full border px-4 py-2 text-sm font-semibold">{p.nombre}</button>)}
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <span class="font-semibold">Día</span>
+        <div id="days" class="-mx-1 flex gap-2 overflow-x-auto px-1 pb-2" role="listbox" aria-label="Días disponibles"></div>
+        <span class="font-semibold">Horario</span>
+        <div id="slots" class="grid grid-cols-3 gap-2 sm:grid-cols-5" aria-live="polite"></div>
+        <p id="agenda-msg" class="text-sm text-ink-soft">Cargando turnos…</p>
+      </div>
+
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <button type="button" id="turno-next" class="btn-primary" disabled>Continuar <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button>
+        <button type="button" id="sin-turno" class="text-sm font-semibold text-primary underline underline-offset-4">No encuentro horario, prefiero que me contacten</button>
+      </div>
+    </div>
+
+    <!-- PASO 3: DATOS -->
+    <form id="step-datos" class="hidden flex-col gap-8" novalidate>
+      <div class="flex flex-col gap-3">
+        <span class="eyebrow">Paso 3 de 3</span>
+        <h1 class="text-3xl sm:text-4xl">Contanos sobre vos</h1>
+        <div id="resumen" class="rounded-2xl border border-secondary-fixed-dim/60 bg-secondary-container/20 p-5"></div>
+      </div>
 
       <div class="grid gap-5 sm:grid-cols-2">
         <label class="flex flex-col gap-2 sm:col-span-2"><span class="font-semibold">Nombre</span><input name="nombre" class="field" required autocomplete="name" maxlength="120" /></label>
@@ -93,36 +125,41 @@ const opts = [['si', 'Sí'], ['no', 'No'], ['nose', 'No estoy seguro/a']];
         <label class="flex items-start gap-3 text-sm leading-relaxed"><input type="checkbox" name="acepta_privacidad" required class="mt-1 h-4 w-4 shrink-0 accent-[#6b0003]" /><span>Leí la <a href="/politica-de-privacidad" target="_blank" class="font-semibold text-primary underline">Política de Privacidad</a> y consiento el tratamiento de mis datos personales, incluida la información relacionada con mi salud que decida proporcionar, para gestionar mi solicitud y la prestación del servicio.</span></label>
       </fieldset>
 
-      <!-- antispam: honeypot -->
       <input type="text" name="empresa" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
       <p id="datos-error" class="hidden rounded-xl bg-[#ffdad6] px-4 py-3 text-sm text-[#93000a]" role="alert"></p>
-      <button type="submit" class="btn-primary self-start" id="send-btn">Enviar solicitud</button>
+      <div class="flex flex-wrap items-center gap-4">
+        <button type="submit" class="btn-primary" id="send-btn">Reservar turno</button>
+        <button type="button" id="back-turno" class="text-sm font-semibold text-primary underline underline-offset-4">Cambiar turno</button>
+      </div>
     </form>
   </section>
 </Base>
 
-<script define:vars={{ versions: site.legalVersions, contactEmail: site.email }}>
+<script define:vars={{ versions: site.legalVersions, contactEmail: site.email, pros, mods }}>
   const $ = (id) => document.getElementById(id);
   const params = new URLSearchParams(location.search);
   const startedAt = Date.now();
+  const TZ = 'America/Argentina/Buenos_Aires';
   let triageAnswers = {};
+  const st = { tipo: 'programada', modalidad: 'estandar', pro: '', slots: [], day: null, slot: null, demo: false, sinTurno: false };
 
   const show = (id) => {
-    ['step-triage', 'step-safety', 'step-datos'].forEach((s) => {
+    ['step-triage', 'step-safety', 'step-turno', 'step-datos'].forEach((s) => {
       $(s).classList.toggle('hidden', s !== id);
       $(s).classList.toggle('flex', s === id);
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Precargar tipo/modalidad desde la URL
-  const tipo = params.get('tipo');
-  if (tipo === 'prioritaria') document.querySelector('input[name=tipo][value=prioritaria]').checked = true;
-  const mod = params.get('modalidad');
-  if (mod) { const sel = document.querySelector('select[name=modalidad]'); if ([...sel.options].some((o) => o.value === mod)) sel.value = mod; }
-  if (mod === 'prioritaria') document.querySelector('input[name=tipo][value=prioritaria]').checked = true;
+  // Precarga desde la URL
+  const pm = params.get('modalidad');
+  if (params.get('tipo') === 'prioritaria' || pm === 'prioritaria') st.tipo = 'prioritaria';
+  if (pm && pm !== 'prioritaria' && mods.some((m) => m.id === pm)) st.modalidad = pm;
+  $('modalidad').value = st.modalidad;
+  document.querySelector(`input[name=tipo][value=${st.tipo}]`).checked = true;
 
+  // Paso 1
   $('step-triage').addEventListener('submit', (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -136,31 +173,119 @@ const opts = [['si', 'Sí'], ['no', 'No'], ['nose', 'No estoy seguro/a']];
       if (input.dataset.block === '1' && input.value !== 'no') blocked = true;
     });
     if (blocked) { triageAnswers = {}; show('step-safety'); $('step-safety').focus(); return; }
-    show('step-datos');
+    show('step-turno'); syncTipo(); cargar();
   });
 
+  // Paso 2
+  const fmtDay = (iso) => new Date(iso).toLocaleDateString('es-AR', { timeZone: TZ, weekday: 'short', day: 'numeric', month: 'short' });
+  const dayKey = (iso) => new Date(iso).toLocaleDateString('en-CA', { timeZone: TZ });
+  const fmtTime = (iso) => new Date(iso).toLocaleTimeString('es-AR', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+  const modActual = () => mods.find((m) => m.id === (st.tipo === 'prioritaria' ? 'prioritaria' : st.modalidad));
+
+  function syncTipo() {
+    const prio = st.tipo === 'prioritaria';
+    $('mod-wrap').classList.toggle('hidden', prio);
+    $('mod-prio').classList.toggle('hidden', !prio);
+    document.querySelectorAll('.pro-chip').forEach((b) => {
+      const on = b.dataset.pro === st.pro;
+      b.className = 'pro-chip rounded-full border px-4 py-2 text-sm font-semibold transition ' + (on ? 'border-primary-container bg-primary-container text-white' : 'border-[#ddd3c4] bg-surface-lowest hover:border-secondary-fixed-dim');
+      b.setAttribute('aria-pressed', on);
+    });
+  }
+
+  async function cargar() {
+    st.slot = null; st.day = null; $('turno-next').disabled = true;
+    $('days').innerHTML = ''; $('slots').innerHTML = '';
+    $('agenda-msg').textContent = 'Cargando turnos…';
+    try {
+      const r = await fetch(`/api/disponibilidad?modalidad=${modActual().id}&tipo=${st.tipo}`);
+      if (!r.ok) throw new Error();
+      const j = await r.json();
+      st.slots = j.slots; st.demo = j.demo;
+      render();
+    } catch {
+      $('agenda-msg').textContent = 'No pudimos cargar la agenda. Podés pedir que te contactemos.';
+    }
+  }
+
+  function render() {
+    const list = st.slots.filter((s) => !st.pro || s.profesionalId === st.pro);
+    // un horario por inicio: si varias están libres, se asigna la primera
+    const byStart = new Map();
+    list.forEach((s) => { if (!byStart.has(s.start)) byStart.set(s.start, s); });
+    const uniq = [...byStart.values()];
+    const days = [...new Set(uniq.map((s) => dayKey(s.start)))];
+    if (!days.length) {
+      $('days').innerHTML = ''; $('slots').innerHTML = '';
+      $('agenda-msg').textContent = st.tipo === 'prioritaria' ? 'No quedan turnos en las próximas 24 h. Probá con una consulta programada o pedí que te contactemos.' : 'No hay turnos libres con este filtro.';
+      return;
+    }
+    if (!st.day || !days.includes(st.day)) st.day = days[0];
+    $('days').innerHTML = days.map((d) => {
+      const s = uniq.find((x) => dayKey(x.start) === d);
+      const on = d === st.day;
+      return `<button type="button" data-day="${d}" role="option" aria-selected="${on}" class="shrink-0 rounded-2xl border px-4 py-3 text-sm font-semibold capitalize transition ${on ? 'border-primary-container bg-primary-container text-white' : 'border-[#ddd3c4] bg-surface-lowest hover:border-secondary-fixed-dim'}">${fmtDay(s.start)}</button>`;
+    }).join('');
+    const daySlots = uniq.filter((s) => dayKey(s.start) === st.day);
+    $('slots').innerHTML = daySlots.map((s) => {
+      const on = st.slot && st.slot.start === s.start;
+      return `<button type="button" data-start="${s.start}" data-pro="${s.profesionalId}" class="rounded-full border px-3 py-2.5 text-sm font-semibold tabular-nums transition ${on ? 'border-primary-container bg-primary-container text-white' : 'border-[#ddd3c4] bg-surface-lowest hover:border-secondary-fixed-dim'}">${fmtTime(s.start)}</button>`;
+    }).join('');
+    $('agenda-msg').textContent = st.demo ? 'Agenda de muestra: todavía no está conectada al calendario real.' : '';
+  }
+
+  document.querySelectorAll('input[name=tipo]').forEach((r) => r.addEventListener('change', () => { st.tipo = r.value; syncTipo(); cargar(); }));
+  $('modalidad').addEventListener('change', (e) => { st.modalidad = e.target.value; cargar(); });
+  $('pro-chips').addEventListener('click', (e) => { const b = e.target.closest('.pro-chip'); if (!b) return; st.pro = b.dataset.pro; st.slot = null; $('turno-next').disabled = true; syncTipo(); render(); });
+  $('days').addEventListener('click', (e) => { const b = e.target.closest('[data-day]'); if (!b) return; st.day = b.dataset.day; st.slot = null; $('turno-next').disabled = true; render(); });
+  $('slots').addEventListener('click', (e) => { const b = e.target.closest('[data-start]'); if (!b) return; st.slot = { start: b.dataset.start, profesionalId: b.dataset.pro }; $('turno-next').disabled = false; render(); });
+
+  const resumen = () => {
+    const m = modActual();
+    if (st.sinTurno) return `<p class="font-semibold">Sin turno elegido</p><p class="text-sm text-ink-soft">Te contactamos para coordinar un horario. Modalidad: ${m.name}.</p>`;
+    const p = pros.find((x) => x.id === st.slot.profesionalId);
+    const d0 = new Date(st.slot.start).toLocaleDateString('es-AR', { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'long' });
+    const when = d0.charAt(0).toUpperCase() + d0.slice(1) + ', ' + fmtTime(st.slot.start);
+    return `<p class="font-semibold">${when} h</p><p class="text-sm text-ink-soft">${m.name} · ${m.minutos} min · $${m.price.toLocaleString('es-AR')} · con ${p.nombre}</p>`;
+  };
+  $('turno-next').addEventListener('click', () => {
+    st.sinTurno = false; $('resumen').innerHTML = resumen();
+    $('send-btn').textContent = 'Reservar turno'; show('step-datos');
+  });
+  $('sin-turno').addEventListener('click', () => {
+    st.sinTurno = true; $('resumen').innerHTML = resumen();
+    $('send-btn').textContent = 'Enviar solicitud'; show('step-datos');
+  });
+  $('back-turno').addEventListener('click', () => { show('step-turno'); cargar(); });
+
+  // Paso 3
   $('step-datos').addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target; const err = $('datos-error');
     if (!form.checkValidity()) { err.textContent = 'Revisá los campos: todos son obligatorios, incluidas las dos aceptaciones.'; err.classList.remove('hidden'); form.reportValidity(); return; }
     err.classList.add('hidden');
-    const btn = $('send-btn'); btn.disabled = true; btn.textContent = 'Enviando…';
-    const data = Object.fromEntries(new FormData(form));
+    const btn = $('send-btn'); const label = btn.textContent; btn.disabled = true; btn.textContent = 'Enviando…';
     const payload = {
-      ...data,
+      ...Object.fromEntries(new FormData(form)),
+      tipo: st.tipo,
+      modalidad: modActual().id,
       triage: triageAnswers,
       condiciones_version: versions.condiciones,
       privacidad_version: versions.privacidad,
       elapsed_ms: Date.now() - startedAt,
       utm: Object.fromEntries([...params].filter(([k]) => k.startsWith('utm_'))),
+      ...(st.sinTurno ? {} : { inicio: st.slot.start, profesionalId: st.slot.profesionalId }),
     };
     try {
-      const res = await fetch('/api/solicitud', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      if (!res.ok) throw new Error();
-      location.href = '/gracias';
+      const res = await fetch(st.sinTurno ? '/api/solicitud' : '/api/reservar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      if (res.status === 409) { err.textContent = await res.text(); err.classList.remove('hidden'); btn.disabled = false; btn.textContent = label; return; }
+      if (!res.ok) throw new Error(await res.text());
+      const j = await res.json();
+      if (j.pago) { location.href = j.pago; return; }
+      location.href = st.sinTurno ? '/gracias' : `/gracias?reserva=ok&inicio=${encodeURIComponent(st.slot.start)}`;
     } catch {
-      err.innerHTML = `No pudimos enviar tu solicitud. Probá de nuevo en unos minutos o escribinos a <a class="underline" href="mailto:${contactEmail}">${contactEmail}</a>.`;
-      err.classList.remove('hidden'); btn.disabled = false; btn.textContent = 'Enviar solicitud';
+      err.innerHTML = `No pudimos completar la ${st.sinTurno ? 'solicitud' : 'reserva'}. Probá de nuevo en unos minutos o escribinos a <a class="underline" href="mailto:${contactEmail}">${contactEmail}</a>.`;
+      err.classList.remove('hidden'); btn.disabled = false; btn.textContent = label;
     }
   });
 </script>

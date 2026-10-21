@@ -80,6 +80,7 @@ export const alcance = {
 export const modalidades = [
   {
     id: 'breve',
+    minutos: 30,
     name: 'Pausa Breve',
     duration: '30 minutos',
     price: 45000,
@@ -90,6 +91,7 @@ export const modalidades = [
   },
   {
     id: 'estandar',
+    minutos: 60,
     name: 'Pausa Estándar',
     duration: '60 minutos',
     price: 70000,
@@ -100,6 +102,7 @@ export const modalidades = [
   },
   {
     id: 'extendida',
+    minutos: 90,
     name: 'Pausa Extendida',
     duration: '90 minutos',
     price: 90000,
@@ -110,6 +113,7 @@ export const modalidades = [
   },
   {
     id: 'prioritaria',
+    minutos: 60,
     name: 'Pausa Prioritaria',
     duration: '60 minutos',
     price: 95000,
@@ -122,24 +126,41 @@ export const modalidades = [
 ];
 
 // Para sumar una profesional: copiar un bloque. foto = ruta en /public/equipo/
+// calendarEnv = variable de entorno con el ID de su Google Calendar ("primary" si no está).
+// horarios: 0=domingo … 6=sábado, bloques "HH:MM" en hora de Argentina.
 export const profesionales = [
   {
-    nombre: 'Lic. Nombre Apellido',
+    id: 'psicologa-1',
+    nombre: 'Lic. Psicóloga 1',
     titulo: 'Licenciada en Psicología',
     matricula: 'M.P. pendiente',
     foto: '',
     bio: 'Breve presentación y formación. (Texto pendiente)',
     enfoque: ['Área de experiencia', 'Enfoque'],
+    calendarEnv: 'GCAL_ID_1',
+    horarios: { 1: [['09:00', '13:00']], 3: [['09:00', '13:00']], 5: [['15:00', '19:00']] } as Record<number, string[][]>,
   },
   {
-    nombre: 'Lic. Nombre Apellido',
+    id: 'psicologa-2',
+    nombre: 'Lic. Psicóloga 2',
     titulo: 'Licenciada en Psicología',
     matricula: 'M.P. pendiente',
     foto: '',
     bio: 'Breve presentación y formación. (Texto pendiente)',
     enfoque: ['Área de experiencia', 'Enfoque'],
+    calendarEnv: 'GCAL_ID_2',
+    horarios: { 2: [['14:00', '20:00']], 4: [['14:00', '20:00']], 6: [['10:00', '13:00']] } as Record<number, string[][]>,
   },
 ];
+
+// Reglas de la agenda
+export const agenda = {
+  margenMin: 15, // descanso entre consultas
+  pasoMin: 30, // cada cuánto puede empezar un turno
+  reservaMin: 15, // cuánto se guarda un turno mientras se paga
+  programada: { desdeHoras: 24, hastaDias: 14 },
+  prioritaria: { desdeHoras: 2, hastaHoras: 24 },
+};
 
 export const faq = [
   {

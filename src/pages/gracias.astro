@@ -1,13 +1,31 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Recibimos tu solicitud" tracking noindex>
+<Base title="Gracias" tracking noindex>
   <section class="mx-auto flex max-w-2xl flex-col items-center gap-6 px-5 py-20 text-center lg:py-28">
-    <span class="flex h-16 w-16 items-center justify-center rounded-full bg-secondary-container/50 text-primary"><span class="material-symbols-outlined !text-3xl" aria-hidden="true">mark_email_read</span></span>
-    <h1 class="text-4xl">Recibimos tu solicitud</h1>
-    <p class="text-lg leading-relaxed text-ink-soft">Gracias por escribirnos. Vamos a revisarla para ver si Primera Pausa es un espacio adecuado para lo que necesitás y, si es así, te contactamos para coordinar.</p>
-    <p class="rounded-2xl bg-surface-low p-5 text-sm leading-relaxed"><strong>Tu consulta todavía no está confirmada.</strong> La confirmación se realiza una vez revisada la solicitud, coordinado el horario y acreditado el pago.</p>
+    <span class="flex h-16 w-16 items-center justify-center rounded-full bg-secondary-container/50 text-primary"><span class="material-symbols-outlined !text-3xl" aria-hidden="true" id="g-icon">mark_email_read</span></span>
+    <h1 class="text-4xl" id="g-title">Recibimos tu solicitud</h1>
+    <p class="text-lg leading-relaxed text-ink-soft" id="g-lead">Gracias por escribirnos. Vamos a revisarla para ver si Primera Pausa es un espacio adecuado para lo que necesitás y, si es así, te contactamos para coordinar.</p>
+    <p class="rounded-2xl bg-surface-low p-5 text-sm leading-relaxed" id="g-note"><strong>Tu consulta todavía no está confirmada.</strong> La confirmación se realiza una vez revisada la solicitud, coordinado el horario y acreditado el pago.</p>
     <p class="text-sm text-ink-soft">Si en algún momento sentís que estás en riesgo, no esperes nuestra respuesta: llamá al <a class="font-semibold text-primary underline" href="tel:08009990091">0800-999-0091</a> o al <a class="font-semibold text-primary underline" href="tel:911">911</a>.</p>
     <a href="/" class="btn-soft">Volver al inicio</a>
   </section>
 </Base>
+<script>
+  const q = new URLSearchParams(location.search);
+  const r = q.get('reserva');
+  const set = (id: string, v: string) => { document.getElementById(id)!.innerHTML = v; };
+  if (r === 'ok') {
+    const ini = q.get('inicio');
+    const tz = 'America/Argentina/Buenos_Aires';
+    const d0 = ini ? new Date(ini).toLocaleDateString('es-AR', { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long' }) : '';
+    const when = ini ? d0.charAt(0).toUpperCase() + d0.slice(1) + ', ' + new Date(ini).toLocaleTimeString('es-AR', { timeZone: tz, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }) + ' h' : '';
+    set('g-icon', 'event_available');
+    set('g-title', 'Tu turno está reservado');
+    set('g-lead', `${when ? `${when}. ` : ''}Te llega por mail la invitación con el link de la videollamada.`);
+    set('g-note', 'Antes de la consulta revisamos tu solicitud. Si consideramos que Primera Pausa no es el espacio adecuado para tu situación, te avisamos y te devolvemos el pago completo.');
+  } else if (r === 'pendiente') {
+    set('g-title', 'Tu pago está en proceso');
+    set('g-lead', 'Cuando Mercado Pago lo acredite, te llega la confirmación del turno por mail.');
+  }
+</script>
