@@ -1,3 +1,6 @@
+---
+// src/pages/index.astro - Primera Pausa (Astro + Tailwind CDN Inline)
+---
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="es">
 <head>
@@ -9,9 +12,65 @@
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-  <style>
+  
+  <!-- IMPORTANTE EN ASTRO: is:inline fuerza la carga inmediata del CDN de Tailwind -->
+  <script is:inline src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script is:inline>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#4a0002",
+            "primary-dark": "#360002",
+            "primary-deep": "#2d0001",
+            "primary-container": "#6b0003",
+            "on-primary": "#ffffff",
+            "terracota": "#d9531e",
+            "terracota-light": "#e06d3b",
+            "terracota-warm": "#c85a32",
+            "surface": "#fcf9f3",
+            "surface-dim": "#f5f0e6",
+            "surface-container-low": "#f6f3ed",
+            "surface-container": "#f0eee8",
+            "surface-container-high": "#ebe8e2",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#1c1c18",
+            "on-surface-variant": "#58413e",
+            "secondary-container": "#ffc7bf",
+            "secondary-fixed": "#ffdad5",
+            "secondary-fixed-dim": "#f0bab1",
+            "outline": "#8c716d",
+            "outline-variant": "#e0bfbb",
+            "surface-tint": "#ab3329",
+            "error": "#ba1a1a"
+          },
+          fontFamily: {
+            "serif": ["Playfair Display", "serif"],
+            "sans": ["Plus Jakarta Sans", "sans-serif"],
+            "display-lg": ["Playfair Display", "serif"],
+            "headline-lg": ["Playfair Display", "serif"],
+            "headline-md": ["Playfair Display", "serif"],
+            "headline-sm": ["Playfair Display", "serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "1.75rem",
+            "xl": "2.5rem",
+            "full": "9999px"
+          }
+        }
+      }
+    };
+  </script>
+
+  <style is:inline>
     :root {
-      /* Tokens de arquitectura estilo Carbon adaptados a Editorial Serenity */
       --cds-background: #fcf9f3;
       --cds-background-inverse: #4a0002;
       --cds-layer-01: #f6f3ed;
@@ -21,12 +80,10 @@
       --cds-focus: #e06d3b;
     }
 
-    @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
-      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
-      .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
-    }
+    html, body { margin: 0; padding: 0; background-color: #fcf9f3; }
+    body { overscroll-behavior: none; }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
     ::-webkit-scrollbar { display: none; }
 
     /* Animaciones de entrada sutiles */
@@ -100,60 +157,6 @@
       animation: targetFlash 1.4s ease-out;
     }
   </style>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#4a0002",
-            "primary-dark": "#360002",
-            "primary-deep": "#2d0001",
-            "primary-container": "#6b0003",
-            "on-primary": "#ffffff",
-            "terracota": "#d9531e",
-            "terracota-light": "#e06d3b",
-            "terracota-warm": "#c85a32",
-            "surface": "#fcf9f3",
-            "surface-dim": "#f5f0e6",
-            "surface-container-low": "#f6f3ed",
-            "surface-container": "#f0eee8",
-            "surface-container-high": "#ebe8e2",
-            "surface-container-lowest": "#ffffff",
-            "on-surface": "#1c1c18",
-            "on-surface-variant": "#58413e",
-            "secondary-container": "#ffc7bf",
-            "secondary-fixed": "#ffdad5",
-            "secondary-fixed-dim": "#f0bab1",
-            "outline": "#8c716d",
-            "outline-variant": "#e0bfbb",
-            "surface-tint": "#ab3329",
-            "error": "#ba1a1a"
-          },
-          fontFamily: {
-            "serif": ["Playfair Display", "serif"],
-            "sans": ["Plus Jakarta Sans", "sans-serif"],
-            "display-lg": ["Playfair Display", "serif"],
-            "headline-lg": ["Playfair Display", "serif"],
-            "headline-md": ["Playfair Display", "serif"],
-            "headline-sm": ["Playfair Display", "serif"],
-            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
-            "body-md": ["Plus Jakarta Sans", "sans-serif"],
-            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
-            "label-md": ["Plus Jakarta Sans", "sans-serif"],
-            "label-sm": ["Plus Jakarta Sans", "sans-serif"]
-          },
-          borderRadius: {
-            "DEFAULT": "1rem",
-            "lg": "1.75rem",
-            "xl": "2.5rem",
-            "full": "9999px"
-          }
-        }
-      }
-    };
-  </script>
 </head>
 <body class="bg-surface font-sans text-on-surface antialiased selection:bg-terracota selection:text-white pb-20 lg:pb-0">
 
@@ -231,7 +234,6 @@
 <main class="w-full">
   <!-- ==================== 1. HERO SECTION ==================== -->
   <section class="relative w-full bg-[#4a0002] text-white overflow-hidden py-12 sm:py-16 lg:py-24 border-b border-[#631014]">
-    <!-- Resplandor ambiental -->
     <div class="pointer-events-none absolute -top-40 -left-40 w-[500px] sm:w-[600px] h-[500px] sm:h-[600px] rounded-full bg-[#7a060a] blur-[120px] animate-ambient-glow -z-0"></div>
     <div class="pointer-events-none absolute bottom-0 right-0 w-[400px] sm:w-[500px] h-[400px] sm:h-[500px] rounded-full bg-[#360002] blur-[100px] -z-0"></div>
 
@@ -272,7 +274,6 @@
             </button>
           </div>
 
-          <!-- Microcopia ética con contraste mejorado WCAG AA -->
           <div class="flex items-center gap-2 pt-1 text-xs text-[#ffdad5]/85">
             <span class="material-symbols-outlined text-[16px] text-terracota-light shrink-0">info</span>
             <span>Turnos sujetos a disponibilidad. No es un servicio de emergencia ni guardia médica.</span>
@@ -282,7 +283,6 @@
         <!-- Columna Derecha: Clima visual con las voces que abruman vs la pregunta esencial -->
         <div class="lg:col-span-5 relative flex items-center justify-center min-h-[280px] sm:min-h-[360px] lg:min-h-[440px] reveal-init" style="transition-delay: 150ms;">
           <div class="relative w-full h-full p-6 sm:p-8 rounded-2xl bg-[#3a0002]/60 border border-[#6b151a] overflow-hidden flex flex-col justify-center items-center shadow-inner">
-            <!-- Voces de fondo -->
             <div class="chatter-voice absolute top-5 left-5 text-xs sm:text-sm lg:text-base">“YO EN TU LUGAR...”</div>
             <div class="chatter-voice absolute top-12 right-5 text-[11px] sm:text-xs lg:text-sm">“TENÉS QUE DEJARLO”</div>
             <div class="chatter-voice absolute top-24 left-4 text-[11px] sm:text-xs">“NO ES PARA TANTO”</div>
@@ -291,7 +291,6 @@
             <div class="chatter-voice absolute bottom-5 right-8 text-[11px] sm:text-xs">“PENSÁ EN VOS”</div>
             <div class="chatter-voice hidden sm:block absolute top-32 right-8 text-xs">“YA VA A PASAR...”</div>
 
-            <!-- Centro tipográfico destacado -->
             <div class="relative z-10 text-center px-5 py-7 sm:px-6 sm:py-8 max-w-sm rounded-xl bg-[#4a0002]/85 backdrop-blur-sm border border-[#ffdad5]/20 shadow-xl">
               <span class="text-[11px] uppercase tracking-[0.25em] text-[#ffdad5]/85 font-semibold block mb-2">
                 ENTRE TANTAS VOCES
@@ -310,14 +309,12 @@
   <!-- ==================== 2. SECCIÓN: SITUACIONES ==================== -->
   <section class="w-full bg-[#3d0002] text-white py-16 sm:py-20 lg:py-28 relative overflow-hidden" id="situaciones">
     <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-12 sm:gap-14">
-      <!-- Encabezado reflexivo -->
       <div class="max-w-3xl reveal-init">
         <p class="font-serif text-2xl sm:text-3xl text-[#ffdad5] leading-snug font-normal">
           Hay situaciones que no necesitan un tratamiento largo, sino una <span class="italic text-terracota-light">conversación a tiempo</span> con alguien que sabe escuchar y ordenar.
         </p>
       </div>
 
-      <!-- Las 3 tarjetas de problemáticas categorizadas con números '01', '02', '03' -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
         <!-- Tarjeta 1: VÍNCULOS -->
         <div onclick="openPausaModalWithArea('Vínculos / Pareja')" class="cursor-pointer relative bg-[#4e0205] rounded-2xl p-7 sm:p-8 border border-[#78181e] flex flex-col justify-between min-h-[240px] shadow-lg overflow-hidden group hover:border-terracota hover:-translate-y-1 transition-all duration-300 reveal-init">
@@ -449,7 +446,6 @@
         </p>
       </div>
 
-      <!-- Mapa mental de 4 movimientos + Tarjeta terracota -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         <div class="lg:col-span-8 flex flex-col gap-6 sm:gap-8 relative reveal-init">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8 relative">
@@ -537,7 +533,6 @@
         </div>
       </div>
 
-      <!-- Botones al pie del módulo -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-start gap-3.5 sm:gap-4 pt-4 border-t border-[#6b151a]">
         <button type="button" onclick="openPausaModal()" class="inline-flex items-center justify-center gap-2 bg-[#fdfbf7] text-[#4a0002] font-semibold text-sm px-7 py-3 rounded-full hover:bg-[#ffdad5] transition-all duration-300">
           <span class="material-symbols-outlined text-[18px]">chat</span>
@@ -574,11 +569,9 @@
         </div>
       </div>
 
-      <!-- Stepper conectado de 4 pasos -->
       <div class="relative w-full pt-6 sm:pt-8 pb-4 reveal-init">
         <div class="hidden lg:block absolute top-[44px] left-[10%] right-[10%] h-[2px] bg-terracota/50 -z-0"></div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 sm:gap-8 relative z-10">
-          <!-- Paso 1 -->
           <div class="flex flex-col gap-2.5 group">
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 rounded-full bg-terracota text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
@@ -595,7 +588,6 @@
             </div>
           </div>
 
-          <!-- Paso 2 -->
           <div class="flex flex-col gap-2.5 group">
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 rounded-full bg-terracota text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
@@ -612,7 +604,6 @@
             </div>
           </div>
 
-          <!-- Paso 3 -->
           <div class="flex flex-col gap-2.5 group">
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 rounded-full bg-terracota text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
@@ -629,7 +620,6 @@
             </div>
           </div>
 
-          <!-- Paso 4 -->
           <div class="flex flex-col gap-2.5 group">
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 rounded-full bg-terracota text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
@@ -670,7 +660,6 @@
         </p>
       </div>
 
-      <!-- Tarjeta del Slider -->
       <div class="w-full bg-white p-6 sm:p-8 lg:p-10 rounded-2xl shadow-[0_8px_32px_rgba(67,0,1,0.06)] border border-outline-variant/40 flex flex-col gap-7 sm:gap-8 reveal-init">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-surface-container pb-5">
           <div class="flex flex-col">
@@ -693,7 +682,6 @@
           </div>
         </div>
 
-        <!-- Panel de Recomendación Conectado a las Cards y al Formulario -->
         <div class="bg-surface-container-low rounded-xl p-5 sm:p-6 border border-outline-variant/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 sm:gap-6 transition-all duration-300">
           <div class="flex items-start gap-3.5 sm:gap-4">
             <div class="w-11 h-11 rounded-full bg-secondary-container/60 text-primary flex items-center justify-center shrink-0 mt-0.5">
@@ -887,7 +875,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-        <!-- Profesional 1: Lic. Clara Benítez (Texto completo sin truncado en mobile) -->
+        <!-- Profesional 1: Lic. Clara Benítez -->
         <div class="bg-white p-6 sm:p-8 lg:p-10 rounded-2xl flex flex-col sm:flex-row gap-6 sm:gap-8 items-start shadow-sm border border-outline-variant/30 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 reveal-init">
           <div class="relative shrink-0 overflow-hidden rounded-full ring-4 ring-terracota/20">
             <img alt="Retrato de la Lic. Clara Benítez" class="w-24 h-24 sm:w-36 sm:h-36 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrBS5NjhThD2YkMUvLEILXeIffUuWTv5WG1SlMkNvFJaOkIW3JGJ2DA_lCuPjwN4PrHkP6pWfc8aNkzjrQbl2RigLVLcoaT5isFPMVAdyUfCfHnU1H9ycEJIKCzjC1t0dqiVC32DngysyTL-EjRWFI5kKsT5B-xHbYgqfqSU9UZF_pGliOzXl1VqzalYxWPVFUNAj49kCuaI3emL9RFgei32IW5I6vbTsRdjhHF6yCtuE1Jl0QiygXWHuIVA"/>
@@ -922,7 +910,7 @@
     </div>
   </section>
 
-  <!-- ==================== 8. PREGUNTAS FRECUENTES (Acordeones Accesibles ARIA) ==================== -->
+  <!-- ==================== 8. PREGUNTAS FRECUENTES ==================== -->
   <section class="w-full bg-surface py-16 sm:py-20 lg:py-28" id="preguntas">
     <div class="max-w-4xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-10 sm:gap-12">
       <div class="flex flex-col gap-3 text-center items-center reveal-init">
@@ -998,7 +986,6 @@
 <!-- ==================== FOOTER UNIFICADO CON LÍNEAS CLICABLES ==================== -->
 <footer class="w-full bg-[#3d0002] text-white pt-14 sm:pt-16 pb-12 border-t border-[#540407]">
   <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-10 sm:gap-12">
-    <!-- Aviso Clínico de Urgencia con botones tel: clicables -->
     <div class="bg-[#520306] rounded-2xl p-6 lg:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border border-[#75161c]">
       <div class="flex items-start gap-4 max-w-2xl">
         <span class="material-symbols-outlined text-terracota text-3xl shrink-0 mt-0.5">health_and_safety</span>
@@ -1023,7 +1010,6 @@
       </div>
     </div>
 
-    <!-- Grilla de Navegación e Institucional -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
       <div class="md:col-span-5 flex flex-col gap-4">
         <div class="flex items-center gap-3">
@@ -1092,7 +1078,6 @@
 <!-- ==================== MODAL / DRAWER DE PRE-ADMISIÓN ==================== -->
 <div id="pausa-form-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#2d0001]/80 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="relative w-full max-w-lg rounded-2xl bg-surface border border-outline-variant/50 shadow-[0_24px_60px_rgba(74,0,2,0.5)] overflow-hidden transform scale-95 transition-transform duration-300" id="pausa-modal-panel">
-    <!-- Cabecera en Borgoña Profundo -->
     <div class="bg-[#4a0002] text-white px-6 py-5 sm:py-6 border-b border-[#6b151a] flex items-start justify-between gap-4">
       <div>
         <span class="text-[11px] uppercase tracking-[0.2em] text-[#ffdad5]/85 font-semibold block mb-1">
@@ -1107,9 +1092,7 @@
       </button>
     </div>
 
-    <!-- Cuerpo del Formulario en Arena Cálido (#fcf9f3) -->
     <form id="pausa-intake-form" onsubmit="submitPausaForm(event)" class="p-5 sm:p-7 flex flex-col gap-5 max-h-[80vh] overflow-y-auto">
-      <!-- 1. Área / Situación -->
       <div>
         <label class="block text-xs font-bold uppercase tracking-wider text-primary mb-2">
           1. ¿En qué área sentís que necesitás foco hoy?
@@ -1146,7 +1129,6 @@
         </div>
       </div>
 
-      <!-- 2. Modalidad -->
       <div>
         <label for="form-modalidad" class="block text-xs font-bold uppercase tracking-wider text-primary mb-2">
           2. Modalidad de pausa
@@ -1159,7 +1141,6 @@
         </select>
       </div>
 
-      <!-- 3. Breve descripción -->
       <div>
         <label for="form-contexto" class="block text-xs font-bold uppercase tracking-wider text-primary mb-1.5">
           3. ¿Qué te gustaría ordenar en esta conversación? <span class="text-outline font-normal lowercase">(opcional)</span>
@@ -1167,7 +1148,6 @@
         <textarea id="form-contexto" rows="2" placeholder="En una o dos oraciones, contanos qué situación tenés en mente..." class="w-full rounded-xl bg-white border border-outline-variant/60 p-3.5 text-sm text-on-surface placeholder:text-outline/70 focus:border-terracota focus:ring-2 focus:ring-terracota/20 outline-none"></textarea>
       </div>
 
-      <!-- 4. Disponibilidad -->
       <div>
         <label for="form-horario" class="block text-xs font-bold uppercase tracking-wider text-primary mb-1.5">
           4. Tu nombre y franja horaria preferida
@@ -1175,7 +1155,6 @@
         <input id="form-horario" type="text" required placeholder="Ej: Lucía — Mañanas o después de las 18 hs" class="w-full rounded-xl bg-white border border-outline-variant/60 px-4 py-2.5 text-sm text-on-surface placeholder:text-outline/70 focus:border-terracota focus:ring-2 focus:ring-terracota/20 outline-none" />
       </div>
 
-      <!-- CTA de Envío -->
       <div class="pt-1 flex flex-col gap-2.5">
         <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-terracota hover:bg-terracota-light text-white font-bold text-sm py-4 px-6 rounded-full shadow-[0_8px_24px_rgba(217,83,30,0.3)] transition-all">
           <span>ENVIAR SOLICITUD Y COORDINAR</span>
@@ -1189,8 +1168,8 @@
   </div>
 </div>
 
-<!-- ==================== SCRIPTS DE INTERACTIVIDAD ==================== -->
-<script>
+<!-- ==================== SCRIPTS DE INTERACTIVIDAD (is:inline para Astro) ==================== -->
+<script is:inline>
   // 1. Menú Mobile
   function toggleMobileMenu() {
     const drawer = document.getElementById('mobile-nav-drawer');
@@ -1355,7 +1334,6 @@
     }, 250);
   }
 
-  // Cerrar modal al hacer clic fuera del panel o con tecla Escape
   document.getElementById('pausa-form-modal').addEventListener('click', (e) => {
     if (e.target.id === 'pausa-form-modal') closePausaModal();
   });
@@ -1371,15 +1349,15 @@
     const contexto = document.getElementById('form-contexto').value.trim();
     const horario = document.getElementById('form-horario').value.trim();
 
-    let mensaje = `Hola, completé el formulario en Primera Pausa.\n\n` +
-                  `• *Área:* ${situacion}\n` +
-                  `• *Modalidad:* ${modalidad}\n` +
-                  `• *Nombre y disponibilidad:* ${horario}`;
+    let mensaje = "Hola, completé el formulario en Primera Pausa.\n\n" +
+                  "• *Área:* " + situacion + "\n" +
+                  "• *Modalidad:* " + modalidad + "\n" +
+                  "• *Nombre y disponibilidad:* " + horario;
     if (contexto) {
-      mensaje += `\n• *Motivo:* ${contexto}`;
+      mensaje += "\n• *Motivo:* " + contexto;
     }
 
-    const waUrl = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+    const waUrl = "https://wa.me/?text=" + encodeURIComponent(mensaje);
     window.open(waUrl, '_blank', 'noopener,noreferrer');
     closePausaModal();
   }
