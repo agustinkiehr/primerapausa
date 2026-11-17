@@ -1,5 +1,5 @@
 ---
-// src/pages/index.astro — Base 100% fiel a code landing.html de Stitch + 7 retoques puntuales de Lucía y Barbi
+// src/pages/index.astro — Conectado a /solicitar, /lineas-de-ayuda y páginas legales
 ---
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="es">
@@ -91,35 +91,37 @@
       animation: subtlePulse 7s ease-in-out infinite;
     }
 
-    /* Voces de fondo en "Entre tantas voces" ahora visibles y legibles */
-    .chatter-voice {
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 700;
-      opacity: 0.55;
-      color: #ffdad5;
-      user-select: none;
-      transition: opacity 0.4s ease, transform 0.4s ease;
+    /* Microanimación suave para cada letra de "NECESITÁS hablar." */
+    @keyframes charReveal {
+      0% { opacity: 0; filter: blur(6px); transform: translateY(10px); }
+      100% { opacity: 1; filter: blur(0px); transform: translateY(0); }
     }
-    .chatter-voice:hover {
-      opacity: 0.95;
-      transform: scale(1.03);
+    .char-anim {
+      display: inline-block;
+      opacity: 0;
+      animation: charReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Cursor sutil para la escritura inicial de NECESITÁS hablar. */
-    @keyframes blinkCaret {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    /* Aparición escalonada de la pastilla, bajada y botones */
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(16px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
-    .type-caret {
-      display: inline-block;
-      width: 3px;
-      height: 0.85em;
-      background-color: #e06d3b;
-      margin-left: 4px;
-      vertical-align: baseline;
-      animation: blinkCaret 0.8s infinite;
+    .hero-cascade-1 { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards; }
+    .hero-cascade-2 { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards; }
+    .hero-cascade-3 { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.55s forwards; }
+
+    /* Movimiento orgánico continuo para las voces de "Entre tantas voces" */
+    @keyframes floatVoiceA {
+      0%, 100% { transform: translate(0px, 0px); opacity: 0.48; }
+      50% { transform: translate(4px, -5px); opacity: 0.88; }
     }
+    @keyframes floatVoiceB {
+      0%, 100% { transform: translate(0px, 0px); opacity: 0.8; }
+      50% { transform: translate(-4px, 5px); opacity: 0.42; }
+    }
+    .voice-anim-a { animation: floatVoiceA 5s ease-in-out infinite; }
+    .voice-anim-b { animation: floatVoiceB 6s ease-in-out infinite; }
 
     /* Range slider custom thumb */
     input[type="range"]::-webkit-slider-thumb {
@@ -151,18 +153,16 @@
 </head>
 <body class="bg-[#3d0002] font-sans text-white antialiased selection:bg-terracota selection:text-white">
 
-<!-- ==================== HEADER ORIGINAL STITCH (con botón sin dibujito y borde suave) ==================== -->
+<!-- ==================== HEADER ==================== -->
 <header class="sticky top-0 left-0 w-full z-50 bg-[#3d0002]/95 backdrop-blur-md border-b border-[#631014] transition-all duration-300">
   <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
-    <!-- Brand Logo '|| Primera Pausa' -->
-    <a class="flex items-center gap-3 shrink-0 group" href="#">
+    <a class="flex items-center gap-3 shrink-0 group" href="/">
       <div class="w-7 h-7 rounded-full bg-terracota text-white flex items-center justify-center font-bold tracking-tighter text-xs shadow-sm group-hover:scale-105 transition-transform duration-200">
         <span class="inline-block tracking-[-2px] text-sm font-black">||</span>
       </div>
       <span class="font-serif text-2xl font-bold tracking-tight text-white">Primera Pausa</span>
     </a>
 
-    <!-- Desktop Navigation Menu -->
     <nav class="hidden lg:flex items-center gap-8 text-[15px] font-medium text-[#ffdad5]/85">
       <a class="hover:text-terracota-light transition-colors duration-200" href="#situaciones">Situaciones</a>
       <a class="hover:text-terracota-light transition-colors duration-200" href="#como-funciona">Cómo funciona</a>
@@ -172,9 +172,8 @@
       <a class="hover:text-terracota-light transition-colors duration-200" href="#preguntas">Preguntas</a>
     </nav>
 
-    <!-- CTA Button sin iconito predeterminado y con borde menos redondeado (rounded-xl) -->
     <div class="flex items-center gap-4 shrink-0">
-      <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] text-[14px] font-semibold px-6 py-2.5 rounded-xl hover:bg-terracota hover:text-white transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.25)] hover:-translate-y-0.5 active:translate-y-0" href="https://wa.me/?text=Hola%2C%20quisiera%20consultar%20por%20un%20turno%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+      <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] text-[14px] font-semibold px-6 py-2.5 rounded-xl hover:bg-terracota hover:text-white transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.25)] hover:-translate-y-0.5 active:translate-y-0" href="/solicitar">
         <span>Necesito hablar</span>
       </a>
     </div>
@@ -182,165 +181,90 @@
 </header>
 
 <main class="w-full">
-  <!-- ==================== 1. HERO SECTION CON MICROANIMACIÓN COREOGRAFIADA ==================== -->
-<section class="relative w-full bg-[#4a0002] text-white overflow-hidden py-16 lg:py-24 border-b border-[#631014]">
-  <style is:inline>
-    /* Microanimación suave para cada letra de "NECESITÁS hablar." */
-    @keyframes charReveal {
-      0% { opacity: 0; filter: blur(6px); transform: translateY(10px); }
-      100% { opacity: 1; filter: blur(0px); transform: translateY(0); }
-    }
-    .char-anim {
-      display: inline-block;
-      opacity: 0;
-      animation: charReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
+  <!-- ==================== 1. HERO SECTION ==================== -->
+  <section class="relative w-full bg-[#4a0002] text-white overflow-hidden py-16 lg:py-24 border-b border-[#631014]">
+    <div class="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#7a060a] blur-[120px] animate-ambient-glow -z-0"></div>
+    <div class="pointer-events-none absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#360002] blur-[100px] -z-0"></div>
 
-    /* Aparición escalonada de la pastilla, bajada y botones */
-    @keyframes fadeSlideUp {
-      0% { opacity: 0; transform: translateY(16px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    .hero- cascade-1 { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards; }
-    .hero-cascade-2 { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards; }
-    .hero-cascade-3 { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.55s forwards; }
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div class="lg:col-span-7 flex flex-col items-start gap-6">
+          <div class="text-[12px] uppercase tracking-[0.2em] text-[#ffdad5]/80 font-semibold">
+            ORIENTACIÓN PSICOLÓGICA PUNTUAL
+          </div>
 
-    /* Movimiento orgánico continuo para las voces de "Entre tantas voces" */
-    @keyframes floatVoiceA {
-      0%, 100% { transform: translate(0px, 0px); opacity: 0.45; }
-      50% { transform: translate(4px, -6px); opacity: 0.85; }
-    }
-    @keyframes floatVoiceB {
-      0%, 100% { transform: translate(0px, 0px); opacity: 0.75; }
-      50% { transform: translate(-5px, 5px); opacity: 0.4; }
-    }
-    .voice-anim-a { animation: floatVoiceA 5s ease-in-out infinite; }
-    .voice-anim-b { animation: floatVoiceB 6s ease-in-out infinite; }
-  </style>
+          <div class="relative">
+            <h1 class="font-serif text-6xl sm:text-7xl lg:text-[90px] font-bold tracking-tight text-white mb-3 leading-[1.02]" id="animated-hero-title" aria-label="Necesitás hablar.">
+              <span class="block" id="anim-line-1">NECESITÁS</span>
+              <span class="block italic font-normal text-terracota-light text-6xl sm:text-7xl lg:text-[88px] -mt-1 lg:-mt-2" id="anim-line-2">hablar.</span>
+            </h1>
+            <div class="hero-cascade-1 inline-block mt-2 px-4 py-1.5 rounded-lg bg-terracota text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
+              No necesariamente hacer terapia.
+            </div>
+          </div>
 
-  <!-- Ambient aura glow -->
-  <div class="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#7a060a] blur-[120px] animate-ambient-glow -z-0"></div>
-  <div class="pointer-events-none absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#360002] blur-[100px] -z-0"></div>
+          <p class="hero-cascade-2 font-sans text-base sm:text-lg text-[#ffdad5]/95 font-medium max-w-xl leading-relaxed pt-1">
+            Una conversación profesional para entender mejor lo que te está pasando, ordenar la situación y pensar cómo abordarla.
+          </p>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-      
-      <!-- Columna Izquierda: Titular con Microanimación de Escritura Fluida -->
-      <div class="lg:col-span-7 flex flex-col items-start gap-6">
-        <div class="text-[12px] uppercase tracking-[0.2em] text-[#ffdad5]/80 font-semibold">
-          ORIENTACIÓN PSICOLÓGICA PUNTUAL
-        </div>
+          <!-- Botones conectados al formulario /solicitar -->
+          <div class="hero-cascade-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-4">
+            <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.25)] hover:bg-[#ffdad5] hover:-translate-y-0.5 transition-all duration-300" href="/solicitar">
+              <span>Necesito hablar</span>
+            </a>
+            <a class="inline-flex items-center justify-center bg-[#2d0001] text-white border border-[#852327] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl hover:bg-terracota hover:border-terracota hover:-translate-y-0.5 transition-all duration-300" href="/solicitar?modalidad=prioritaria">
+              <span>Necesito hablar hoy</span>
+            </a>
+          </div>
 
-        <div class="relative">
-          <h1 class="font-serif text-6xl sm:text-7xl lg:text-[90px] font-bold tracking-tight text-white mb-3 leading-[1.02]" id="animated-hero-title" aria-label="Necesitás hablar.">
-            <span class="block" id="anim-line-1">NECESITÁS</span>
-            <span class="block italic font-normal text-terracota-light text-6xl sm:text-7xl lg:text-[88px] -mt-1 lg:-mt-2" id="anim-line-2">hablar.</span>
-          </h1>
-
-          <!-- Pastilla aparece a los 1.05s -->
-          <div class="hero-cascade-1 inline-block mt-2 px-4 py-1.5 rounded-lg bg-terracota text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-            No necesariamente hacer terapia.
+          <div class="hero-cascade-3 flex items-center gap-2 pt-2 text-xs text-[#ffdad5]/75">
+            <span>Turnos sujetos a disponibilidad. No es un servicio de emergencia ni guardia.</span>
           </div>
         </div>
 
-        <!-- Bajada aparece a los 1.3s -->
-        <p class="hero-cascade-2 font-sans text-base sm:text-lg text-[#ffdad5]/95 font-medium max-w-xl leading-relaxed pt-1">
-          Una conversación profesional para entender mejor lo que te está pasando, ordenar la situación y pensar cómo abordarla.
-        </p>
+        <!-- Columna Derecha: "ENTRE TANTAS VOCES" -->
+        <div class="lg:col-span-5 relative flex items-center justify-center min-h-[400px] lg:min-h-[450px]">
+          <div class="relative w-full h-full p-6 sm:p-8 rounded-2xl bg-[#3a0002]/80 border border-[#6b151a] overflow-hidden flex flex-col justify-between items-center shadow-inner gap-6">
+            <div class="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pt-1 text-[#ffdad5] font-bold tracking-wider uppercase">
+              <span class="voice-anim-a text-xs sm:text-sm">“YO EN TU LUGAR...”</span>
+              <span class="voice-anim-b text-xs sm:text-sm">“TENÉS QUE DEJARLO”</span>
+              <span class="voice-anim-a text-xs" style="animation-delay: 1.2s;">“NO ES PARA TANTO”</span>
+              <span class="voice-anim-b text-xs sm:text-sm" style="animation-delay: 0.7s;">“YA VA A PASAR...”</span>
+            </div>
 
-        <!-- Botones aparecen a los 1.55s -->
-        <div class="hero-cascade-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-4">
-          <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.25)] hover:bg-[#ffdad5] hover:-translate-y-0.5 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20consultar%20por%20un%20turno%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
-            <span>Necesito hablar</span>
-          </a>
-          <a class="inline-flex items-center justify-center bg-[#2d0001] text-white border border-[#852327] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl hover:bg-terracota hover:border-terracota hover:-translate-y-0.5 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20necesito%20hablar%20hoy%20mismo%20con%20una%20profesional%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
-            <span>Necesito hablar hoy</span>
-          </a>
-        </div>
+            <div class="relative z-10 text-center px-6 py-7 w-full max-w-sm rounded-xl bg-[#4a0002]/95 border border-[#ffdad5]/25 shadow-2xl my-2">
+              <span class="text-[11px] uppercase tracking-[0.25em] text-[#ffdad5]/85 font-semibold block mb-2">
+                ENTRE TANTAS VOCES
+              </span>
+              <h3 class="font-serif italic text-3xl sm:text-4xl text-[#ffc7bf] font-medium leading-tight">
+                ¿qué necesitás vos?
+              </h3>
+              <div class="w-12 h-0.5 bg-terracota mx-auto mt-4 rounded-full"></div>
+            </div>
 
-        <div class="hero-cascade-3 flex items-center gap-2 pt-2 text-xs text-[#ffdad5]/75">
-          <span>Turnos sujetos a disponibilidad. No es un servicio de emergencia ni guardia.</span>
+            <div class="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pb-1 text-[#ffdad5] font-bold tracking-wider uppercase">
+              <span class="voice-anim-b text-xs sm:text-sm" style="animation-delay: 0.5s;">“DEBERÍAS HABLARLO”</span>
+              <span class="voice-anim-a text-xs sm:text-sm" style="animation-delay: 1.5s;">“PENSÁ EN VOS”</span>
+              <span class="voice-anim-b text-xs sm:text-sm ml-auto" style="animation-delay: 2.1s;">“NO LE DES TANTAS VUELTAS”</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      <!-- Columna Derecha: "ENTRE TANTAS VOCES" con Microanimación Flotante (o Video de Omni de fondo) -->
-      <div class="lg:col-span-5 relative flex items-center justify-center min-h-[400px] lg:min-h-[450px]">
-        <div class="relative w-full h-full p-6 sm:p-8 rounded-2xl bg-[#3a0002]/80 border border-[#6b151a] overflow-hidden flex flex-col justify-between items-center shadow-inner gap-6">
-          
-          <!-- OPCIONAL: Si generás el video en Omni, descomentá esta línea para ponerlo de fondo del cuadro -->
-          <!-- <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-35 pointer-events-none" src="/video-omni-voces.mp4"></video> -->
-
-          <!-- Voces superiores animadas y destapadas -->
-          <div class="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pt-1 text-[#ffdad5] font-bold tracking-wider uppercase">
-            <span class="voice-anim-a text-xs sm:text-sm">“YO EN TU LUGAR...”</span>
-            <span class="voice-anim-b text-xs sm:text-sm">“TENÉS QUE DEJARLO”</span>
-            <span class="voice-anim-a text-xs" style="animation-delay: 1.2s;">“NO ES PARA TANTO”</span>
-            <span class="voice-anim-b text-xs sm:text-sm" style="animation-delay: 0.7s;">“YA VA A PASAR...”</span>
-          </div>
-
-          <!-- Pregunta Central -->
-          <div class="relative z-10 text-center px-6 py-7 w-full max-w-sm rounded-xl bg-[#4a0002]/95 border border-[#ffdad5]/25 shadow-2xl my-2">
-            <span class="text-[11px] uppercase tracking-[0.25em] text-[#ffdad5]/85 font-semibold block mb-2">
-              ENTRE TANTAS VOCES
-            </span>
-            <h3 class="font-serif italic text-3xl sm:text-4xl text-[#ffc7bf] font-medium leading-tight">
-              ¿qué necesitás vos?
-            </h3>
-            <div class="w-12 h-0.5 bg-terracota mx-auto mt-4 rounded-full"></div>
-          </div>
-
-          <!-- Voces inferiores animadas y destapadas -->
-          <div class="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pb-1 text-[#ffdad5] font-bold tracking-wider uppercase">
-            <span class="voice-anim-b text-xs sm:text-sm" style="animation-delay: 0.5s;">“DEBERÍAS HABLARLO”</span>
-            <span class="voice-anim-a text-xs sm:text-sm" style="animation-delay: 1.5s;">“PENSÁ EN VOS”</span>
-            <span class="voice-anim-b text-xs sm:text-sm ml-auto" style="animation-delay: 2.1s;">“NO LE DES TANTAS VUELTAS”</span>
-          </div>
-
-        </div>
-      </div>
-
     </div>
-  </div>
+  </section>
 
-  <script is:inline>
-    // Divide "NECESITÁS" y "hablar." en letras individuales con delay progresivo suave
-    (function animateHeroTitle() {
-      const l1 = document.getElementById('anim-line-1');
-      const l2 = document.getElementById('anim-line-2');
-      if (!l1 || !l2) return;
-
-      const wrapChars = (el, baseDelay) => {
-        const text = el.textContent.trim();
-        el.innerHTML = '';
-        [...text].forEach((ch, idx) => {
-          const span = document.createElement('span');
-          span.className = 'char-anim';
-          span.style.animationDelay = `${baseDelay + idx * 0.055}s`;
-          span.textContent = ch === ' ' ? '\u00A0' : ch;
-          el.appendChild(span);
-        });
-      };
-
-      wrapChars(l1, 0.1);
-      wrapChars(l2, 0.65);
-    })();
-  </script>
-</section>
-
-  <!-- ==================== 2. SECCIÓN: SITUACIONES (SIN DIBUJITOS Y TIPOGRAFÍA MÁS FIRME) ==================== -->
+  <!-- ==================== 2. SECCIÓN: SITUACIONES ==================== -->
   <section class="w-full bg-[#3d0002] text-white py-20 lg:py-28 relative overflow-hidden" id="situaciones">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-14">
-      <!-- Encabezado reflexivo (Tipografía firme y clara, punto 2 de Lucía) -->
       <div class="max-w-3xl reveal-init">
         <p class="font-sans text-2xl sm:text-3xl text-[#ffdad5] leading-snug font-semibold tracking-tight">
           Hay situaciones que no necesitan un tratamiento, sino una conversación a tiempo con alguien que sabe escuchar y ordenar.
         </p>
       </div>
 
-      <!-- Las 3 tarjetas SIN los dibujitos de corazón/valija y con tipografía firme sin cursiva blanda (Puntos 3 y 4 de Lucía) -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
         <!-- Tarjeta 1: VÍNCULOS -->
-        <div class="relative bg-[#4e0205] rounded-2xl p-8 border border-[#78181e] flex flex-col justify-between min-h-[250px] shadow-lg overflow-hidden group hover:border-terracota transition-all duration-300 reveal-init">
+        <a href="/solicitar" class="relative bg-[#4e0205] rounded-2xl p-8 border border-[#78181e] flex flex-col justify-between min-h-[250px] shadow-lg overflow-hidden group hover:border-terracota transition-all duration-300 reveal-init">
           <div class="absolute -top-4 -left-2 font-serif text-[110px] font-bold text-white/5 select-none pointer-events-none group-hover:text-white/10 transition-colors">
             01
           </div>
@@ -360,10 +284,10 @@
             <span class="text-terracota font-bold">→</span>
             <span>Desarmar la escalada y clarificar límites saludables</span>
           </div>
-        </div>
+        </a>
 
         <!-- Tarjeta 2: DECISIONES -->
-        <div class="relative bg-[#4e0205] rounded-2xl p-8 border border-[#78181e] flex flex-col justify-between min-h-[250px] shadow-lg overflow-hidden group hover:border-terracota transition-all duration-300 reveal-init" style="transition-delay: 100ms;">
+        <a href="/solicitar" class="relative bg-[#4e0205] rounded-2xl p-8 border border-[#78181e] flex flex-col justify-between min-h-[250px] shadow-lg overflow-hidden group hover:border-terracota transition-all duration-300 reveal-init" style="transition-delay: 100ms;">
           <div class="absolute -top-4 -left-2 font-serif text-[110px] font-bold text-white/5 select-none pointer-events-none group-hover:text-white/10 transition-colors">
             02
           </div>
@@ -383,10 +307,10 @@
             <span class="text-terracota font-bold">→</span>
             <span>Mitigar la parálisis y ordenar alternativas posibles</span>
           </div>
-        </div>
+        </a>
 
         <!-- Tarjeta 3: TRABAJO -->
-        <div class="relative bg-[#4e0205] rounded-2xl p-8 border border-[#78181e] flex flex-col justify-between min-h-[250px] shadow-lg overflow-hidden group hover:border-terracota transition-all duration-300 reveal-init" style="transition-delay: 200ms;">
+        <a href="/solicitar" class="relative bg-[#4e0205] rounded-2xl p-8 border border-[#78181e] flex flex-col justify-between min-h-[250px] shadow-lg overflow-hidden group hover:border-terracota transition-all duration-300 reveal-init" style="transition-delay: 200ms;">
           <div class="absolute -top-4 -left-2 font-serif text-[110px] font-bold text-white/5 select-none pointer-events-none group-hover:text-white/10 transition-colors">
             03
           </div>
@@ -406,10 +330,9 @@
             <span class="text-terracota font-bold">→</span>
             <span>Despejar la rumia y recuperar serenidad operativa</span>
           </div>
-        </div>
+        </a>
       </div>
 
-      <!-- Módulo Inferior: Lista de situaciones orientativas -->
       <div class="bg-[#2c0002]/70 rounded-2xl p-8 lg:p-12 border border-[#6b151a] flex flex-col lg:flex-row gap-8 lg:gap-16 items-start justify-between reveal-init">
         <div class="max-w-md flex flex-col gap-3">
           <h4 class="font-serif text-2xl lg:text-3xl font-bold text-white leading-tight">
@@ -449,7 +372,7 @@
     </div>
   </section>
 
-  <!-- ==================== 3. SECCIÓN INTACTA: ¿QUÉ PODEMOS TRABAJAR? ("Esto me re gusta") ==================== -->
+  <!-- ==================== 3. SECCIÓN: ¿QUÉ PODEMOS TRABAJAR? ==================== -->
   <section class="w-full bg-[#4a0002] text-white py-20 lg:py-28 relative overflow-hidden" id="que-trabajamos">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-16">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 reveal-init">
@@ -541,19 +464,19 @@
         </div>
       </div>
 
-      <!-- Botones al pie del módulo sin los iconitos y con bordes suaves -->
+      <!-- Botones conectados a /solicitar -->
       <div class="flex flex-col sm:flex-row items-center justify-start gap-4 pt-4 border-t border-[#6b151a]">
-        <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-sm px-7 py-3 rounded-xl hover:bg-[#ffdad5] transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20consultar%20por%20un%20turno%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+        <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-sm px-7 py-3 rounded-xl hover:bg-[#ffdad5] transition-all duration-300" href="/solicitar">
           <span>Necesito hablar</span>
         </a>
-        <a class="inline-flex items-center justify-center bg-[#2d0001] text-white border border-[#7d171d] font-semibold text-sm px-7 py-3 rounded-xl hover:bg-terracota transition-all duration-300" href="https://wa.me/?text=Hola%2C%20necesito%20hablar%20hoy%20mismo%20con%20una%20profesional%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+        <a class="inline-flex items-center justify-center bg-[#2d0001] text-white border border-[#7d171d] font-semibold text-sm px-7 py-3 rounded-xl hover:bg-terracota transition-all duration-300" href="/solicitar?modalidad=prioritaria">
           <span>Necesito hablar hoy</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ==================== 4. SECCIÓN INTACTA: CÓMO FUNCIONA ("Esto me re gusta") ==================== -->
+  <!-- ==================== 4. SECCIÓN: CÓMO FUNCIONA / FORMULARIO ==================== -->
   <section class="w-full bg-[#3d0002] text-white py-20 lg:py-28 relative overflow-hidden" id="como-funciona">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-14">
       <div class="flex flex-col gap-3 max-w-4xl reveal-init">
@@ -568,8 +491,9 @@
         <p class="text-base sm:text-lg text-[#ffdad5]/90 max-w-xl pt-2">
           Es breve y nos ayuda a entender qué necesitás. Después, te guiamos en cada paso.
         </p>
+        <!-- Conectado directo a /solicitar -->
         <div class="pt-4">
-          <a class="inline-flex items-center gap-3 bg-terracota hover:bg-terracota-light text-white font-bold text-sm sm:text-base px-8 py-4 rounded-xl shadow-[0_8px_24px_rgba(217,83,30,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quiero%20completar%20el%20formulario%20para%20coordinar%20mi%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+          <a class="inline-flex items-center gap-3 bg-terracota hover:bg-terracota-light text-white font-bold text-sm sm:text-base px-8 py-4 rounded-xl shadow-[0_8px_24px_rgba(217,83,30,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300" href="/solicitar">
             <span class="tracking-wide">COMPLETAR EL FORMULARIO</span>
             <span class="text-lg leading-none">→</span>
           </a>
@@ -647,7 +571,7 @@
     </div>
   </section>
 
-  <!-- ==================== 5. MEDIDOR DE PESO EMOCIONAL (PASADO DEL BEIGE AL MISMO BORDÓ DEL SITIO) ==================== -->
+  <!-- ==================== 5. MEDIDOR DE PESO EMOCIONAL ==================== -->
   <section class="w-full bg-[#4a0002] border-y border-[#6b151a] py-16 lg:py-24 text-white" id="termometro">
     <div class="max-w-4xl mx-auto px-6 lg:px-12 flex flex-col items-center gap-10">
       <div class="text-center flex flex-col items-center gap-3 reveal-init">
@@ -662,7 +586,6 @@
         </p>
       </div>
 
-      <!-- Slider Card en Bordó Elevado -->
       <div class="w-full bg-[#3d0002] p-8 lg:p-10 rounded-2xl shadow-[0_12px_36px_rgba(0,0,0,0.3)] border border-[#78181e] flex flex-col gap-8 reveal-init">
         <div class="flex items-center justify-between border-b border-[#6b151a] pb-5">
           <div class="flex flex-col">
@@ -685,6 +608,7 @@
           </div>
         </div>
 
+        <!-- Conectado a /solicitar?modalidad=... según el nivel elegido -->
         <div class="bg-[#4e0205] rounded-xl p-6 border border-[#78181e] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition-all duration-300">
           <div class="flex flex-col gap-1">
             <span class="text-xs text-terracota-light font-bold uppercase tracking-wider" id="slider-suggestion-tag">Sugerencia: Pausa Breve (30 min) o Estándar</span>
@@ -692,15 +616,15 @@
               “A veces solo hace falta desenredar un pensamiento recurrente antes de que crezca. Una conversación a tiempo devuelve el control.”
             </p>
           </div>
-          <a class="shrink-0 w-full md:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-[#fdfbf7] text-[#4a0002] text-sm font-semibold hover:bg-terracota hover:text-white transition-all duration-300" href="https://wa.me/?text=Hola%2C%20estuve%20haciendo%20el%20medidor%20de%20carga%20mental%20y%20siento%20un%20nivel%20de%20rumia%20mental." id="slider-cta-btn" rel="noopener noreferrer" target="_blank">
-            <span id="slider-cta-label">Hablar por WhatsApp</span>
+          <a class="shrink-0 w-full md:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-[#fdfbf7] text-[#4a0002] text-sm font-semibold hover:bg-terracota hover:text-white transition-all duration-300" href="/solicitar?modalidad=estandar" id="slider-cta-btn">
+            <span id="slider-cta-label">Solicitar esta pausa</span>
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ==================== 6. MODALIDADES Y PRECIOS (PASADO DEL BEIGE AL MISMO BORDÓ DEL SITIO) ==================== -->
+  <!-- ==================== 6. MODALIDADES Y PRECIOS (CONECTADAS A /solicitar?modalidad=...) ==================== -->
   <section class="w-full bg-[#3d0002] text-white py-20 lg:py-28" id="modalidades">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-16">
       <div class="text-center max-w-2xl mx-auto flex flex-col gap-3 reveal-init">
@@ -714,7 +638,7 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-        <!-- Card 1: Breve -->
+        <!-- Card 1: Breve (?modalidad=breve) -->
         <div class="bg-[#4e0205] rounded-2xl p-8 flex flex-col justify-between gap-8 shadow-lg hover:-translate-y-2 transition-all duration-300 border border-[#78181e] reveal-init" id="card-breve">
           <div class="flex flex-col gap-4">
             <span class="text-xs font-semibold text-terracota-light uppercase tracking-wider">30 minutos</span>
@@ -724,7 +648,7 @@
               <span class="text-xs text-[#ffdad5]/70">ARS</span>
             </div>
             <p class="text-xs text-[#ffdad5]/85 pt-2 leading-relaxed">
-              Ideal para una duda puntual, un dilema específico o una consulta breve y enfocada.
+              Un espacio breve para conversar sobre una situación puntual, ordenar lo que te está pasando y pensar cómo seguir.
             </p>
             <ul class="flex flex-col gap-2.5 pt-4 text-xs text-[#ffdad5]">
               <li class="flex items-center gap-2">
@@ -733,20 +657,20 @@
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-terracota-light font-bold">✓</span>
-                <span>Foco exclusivo en un asunto</span>
+                <span>Audio o videollamada</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-terracota-light font-bold">✓</span>
-                <span>Puntos clave por escrito</span>
+                <span>Sin compromiso de continuidad</span>
               </li>
             </ul>
           </div>
-          <a class="w-full text-center bg-[#2d0001] text-white border border-[#78181e] font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota hover:border-terracota transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20reservar%20una%20Pausa%20Breve%20(30%20min)%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+          <a class="w-full text-center bg-[#2d0001] text-white border border-[#78181e] font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota hover:border-terracota transition-all duration-300" href="/solicitar?modalidad=breve">
             Elegir esta modalidad
           </a>
         </div>
 
-        <!-- Card 2: Estándar (Más Elegida) -->
+        <!-- Card 2: Estándar (?modalidad=estandar) -->
         <div class="bg-[#570509] rounded-2xl p-8 flex flex-col justify-between gap-8 shadow-[0_12px_40px_rgba(0,0,0,0.35)] relative hover:-translate-y-2 transition-all duration-300 border-2 border-terracota reveal-init" id="card-estandar" style="transition-delay: 100ms;">
           <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-terracota text-white px-4 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider shadow-md">
             Más elegida
@@ -759,7 +683,7 @@
               <span class="text-xs text-[#ffdad5]/70">ARS</span>
             </div>
             <p class="text-xs text-[#ffdad5]/90 pt-2 leading-relaxed">
-              El tiempo justo para profundizar en el conflicto, desarmar el nudo y trazar un plan claro.
+              Un espacio para desarrollar con mayor amplitud lo que estás viviendo, ordenar la situación y explorar las opciones disponibles.
             </p>
             <ul class="flex flex-col gap-2.5 pt-4 text-xs text-white">
               <li class="flex items-center gap-2">
@@ -768,20 +692,20 @@
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-terracota-light font-bold">✓</span>
-                <span>Guía de preguntas orientadoras</span>
+                <span>Audio o videollamada</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-terracota-light font-bold">✓</span>
-                <span>Devolución personalizada escrita</span>
+                <span>Orientación práctica enfocada</span>
               </li>
             </ul>
           </div>
-          <a class="w-full text-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota hover:text-white transition-all duration-300 shadow-md" href="https://wa.me/?text=Hola%2C%20quisiera%20reservar%20una%20Pausa%20Est%C3%A1ndar%20(60%20min)%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+          <a class="w-full text-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota hover:text-white transition-all duration-300 shadow-md" href="/solicitar?modalidad=estandar">
             Elegir esta modalidad
           </a>
         </div>
 
-        <!-- Card 3: Extendida -->
+        <!-- Card 3: Extendida (?modalidad=extendida) -->
         <div class="bg-[#4e0205] rounded-2xl p-8 flex flex-col justify-between gap-8 shadow-lg hover:-translate-y-2 transition-all duration-300 border border-[#78181e] reveal-init" id="card-extendida" style="transition-delay: 200ms;">
           <div class="flex flex-col gap-4">
             <span class="text-xs font-semibold text-terracota-light uppercase tracking-wider">90 minutos</span>
@@ -791,7 +715,7 @@
               <span class="text-xs text-[#ffdad5]/70">ARS</span>
             </div>
             <p class="text-xs text-[#ffdad5]/85 pt-2 leading-relaxed">
-              Para situaciones complejas con múltiples variables o cuando necesitás descargarte sin mirar el reloj.
+              Una consulta con más tiempo para abordar situaciones que requieren mayor desarrollo y profundización durante el encuentro.
             </p>
             <ul class="flex flex-col gap-2.5 pt-4 text-xs text-[#ffdad5]">
               <li class="flex items-center gap-2">
@@ -800,24 +724,24 @@
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-terracota-light font-bold">✓</span>
-                <span>Mapa de situación analítico</span>
+                <span>Audio o videollamada</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-terracota-light font-bold">✓</span>
-                <span>Pautas de acción estructuradas</span>
+                <span>Mayor tiempo de elaboración</span>
               </li>
             </ul>
           </div>
-          <a class="w-full text-center bg-[#2d0001] text-white border border-[#78181e] font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota hover:border-terracota transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20reservar%20una%20Pausa%20Extendida%20(90%20min)%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+          <a class="w-full text-center bg-[#2d0001] text-white border border-[#78181e] font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota hover:border-terracota transition-all duration-300" href="/solicitar?modalidad=extendida">
             Elegir esta modalidad
           </a>
         </div>
 
-        <!-- Card 4: Prioritaria -->
+        <!-- Card 4: Prioritaria (?modalidad=prioritaria) -->
         <div class="bg-[#2c0002] rounded-2xl p-8 flex flex-col justify-between gap-8 shadow-lg relative hover:-translate-y-2 transition-all duration-300 border border-terracota/60 reveal-init" id="card-prioritaria" style="transition-delay: 300ms;">
           <div class="flex flex-col gap-4">
             <div class="inline-flex items-center px-3 py-1 rounded-lg bg-terracota text-white w-fit text-[11px] font-bold uppercase tracking-wider">
-              <span>Garantizado &lt;24hs</span>
+              <span>Prioridad &lt;24hs</span>
             </div>
             <div class="font-serif text-2xl font-bold text-white">Pausa Prioritaria</div>
             <div class="flex items-baseline gap-1">
@@ -825,24 +749,24 @@
               <span class="text-xs text-[#ffdad5]/70">ARS</span>
             </div>
             <p class="text-xs text-[#ffdad5]/85 pt-2 leading-relaxed">
-              Cuando la situación apremia, no podés esperar días y necesitás hablar hoy mismo.
+              Para cuando necesitás conversar una situación sin esperar a la disponibilidad habitual. Acceso prioritario dentro de las próximas 24 horas.
             </p>
             <ul class="flex flex-col gap-2.5 pt-4 text-xs text-[#ffdad5]">
               <li class="flex items-center gap-2">
                 <span class="text-terracota-light font-bold">✓</span>
-                <span>Atención express en el día</span>
+                <span>Asignación prioritaria (&lt;24hs)</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-terracota-light font-bold">✓</span>
-                <span>Sesión de 60 min prioritaria</span>
+                <span>Sesión de 60 min</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-terracota-light font-bold">✓</span>
-                <span>Plan de contención inmediata</span>
+                <span>Sujeto a disponibilidad</span>
               </li>
             </ul>
           </div>
-          <a class="w-full text-center bg-terracota text-white font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota-light transition-all duration-300 shadow-sm" href="https://wa.me/?text=Hola%2C%20necesito%20una%20Pausa%20Prioritaria%20urgente%20(&lt;24hs)%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+          <a class="w-full text-center bg-terracota text-white font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota-light transition-all duration-300 shadow-sm" href="/solicitar?modalidad=prioritaria">
             Elegir esta modalidad
           </a>
         </div>
@@ -850,7 +774,7 @@
     </div>
   </section>
 
-  <!-- ==================== 7. QUIÉNES SOMOS (PASADO DEL BEIGE AL MISMO BORDÓ DEL SITIO) ==================== -->
+  <!-- ==================== 7. QUIÉNES SOMOS ==================== -->
   <section class="w-full bg-[#4a0002] border-t border-[#6b151a] py-20 lg:py-28 text-white" id="quienes-somos">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-16">
       <div class="max-w-2xl flex flex-col gap-3 reveal-init">
@@ -864,7 +788,6 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-        <!-- Fundadora 1: Lic. Clara Benítez -->
         <div class="bg-[#3d0002] p-8 lg:p-10 rounded-2xl flex flex-col sm:flex-row gap-8 items-start shadow-lg border border-[#78181e] hover:-translate-y-1 transition-all duration-300 reveal-init">
           <div class="relative shrink-0 overflow-hidden rounded-full ring-4 ring-terracota/30">
             <img alt="Lic. Clara Benítez" class="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrBS5NjhThD2YkMUvLEILXeIffUuWTv5WG1SlMkNvFJaOkIW3JGJ2DA_lCuPjwN4PrHkP6pWfc8aNkzjrQbl2RigLVLcoaT5isFPMVAdyUfCfHnU1H9ycEJIKCzjC1t0dqiVC32DngysyTL-EjRWFI5kKsT5B-xHbYgqfqSU9UZF_pGliOzXl1VqzalYxWPVFUNAj49kCuaI3emL9RFgei32IW5I6vbTsRdjhHF6yCtuE1Jl0QiygXWHuIVA"/>
@@ -880,7 +803,6 @@
           </div>
         </div>
 
-        <!-- Fundadora 2: Lic. Sofía Valenzuela -->
         <div class="bg-[#3d0002] p-8 lg:p-10 rounded-2xl flex flex-col sm:flex-row gap-8 items-start shadow-lg border border-[#78181e] hover:-translate-y-1 transition-all duration-300 reveal-init" style="transition-delay: 150ms;">
           <div class="relative shrink-0 overflow-hidden rounded-full ring-4 ring-terracota/30">
             <img alt="Lic. Sofía Valenzuela" class="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrD2DpOCQiiQh1O3W_bHabk7p3ShastfhCNL0AS1_-q_7U37jjO3_UqvQK-2SF2XF7EMlOA7GCOoNGjsFRta1TMOSpQdJ2ov0karDQytTn6SkN2TRbGUmbM7MCA4QEhUikHKipI9x33g77Kte-1cZi1Ll7US5AMbFEijYLMeMitiNahEC-8CHHGlsILTisbhEJ34-mFPNFYEIB20FptM38f9903H1dBp3RLzWfUICgZMHAa9VMdg4wzT0WsT"/>
@@ -899,7 +821,7 @@
     </div>
   </section>
 
-  <!-- ==================== 8. PREGUNTAS FRECUENTES (PASADO DEL BEIGE AL MISMO BORDÓ DEL SITIO) ==================== -->
+  <!-- ==================== 8. PREGUNTAS FRECUENTES ==================== -->
   <section class="w-full bg-[#3d0002] border-t border-[#6b151a] py-20 lg:py-28 text-white" id="preguntas">
     <div class="max-w-4xl mx-auto px-6 lg:px-12 flex flex-col gap-12">
       <div class="flex flex-col gap-3 text-center items-center reveal-init">
@@ -915,51 +837,51 @@
       <div class="flex flex-col gap-4" id="faq-accordion">
         <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
           <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
-            <span class="group-hover:text-terracota-light transition-colors">¿Es una sesión de psicoterapia tradicional?</span>
+            <span class="group-hover:text-terracota-light transition-colors">¿Primera Pausa es una sesión de terapia?</span>
             <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
           <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
-            No. Es una orientación psicológica puntual. No requiere diagnósticos clínicos prolongados ni el compromiso de semanas o meses de sesiones regulares. Es un espacio de asesoramiento clínico intensivo de una sola vez, concebido para desbloquear un dilema específico.
+            No. Es una consulta psicológica puntual y no reemplaza una psicoterapia. Su objetivo es ofrecerte escucha profesional, ayudarte a ordenar la situación y orientarte sobre posibles próximos pasos.
           </div>
         </div>
 
         <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
           <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
-            <span class="group-hover:text-terracota-light transition-colors">¿Cómo se coordina el turno?</span>
+            <span class="group-hover:text-terracota-light transition-colors">¿Qué sucede después de completar el formulario?</span>
             <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
           <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
-            Completás el breve formulario o nos escribís por WhatsApp con tus preferencias horarias. Revisamos tu solicitud y te contactamos al instante para confirmar el horario y enviarte el enlace de videollamada.
+            Revisamos tu solicitud para evaluar si Primera Pausa es un espacio adecuado para lo que necesitás. Si el formato resulta apropiado, podés elegir modalidad y uno de los turnos disponibles. Completar el formulario no significa que la consulta esté confirmada hasta que se acredita el pago.
           </div>
         </div>
 
         <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
           <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
-            <span class="group-hover:text-terracota-light transition-colors">¿Por qué medio se realiza la sesión?</span>
+            <span class="group-hover:text-terracota-light transition-colors">¿La consulta puede ser por audio o por videollamada?</span>
             <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
           <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
-            A través de Google Meet o videollamada cifrada de WhatsApp, garantizando total privacidad, confidencialidad bajo secreto profesional y la posibilidad de conectarte desde cualquier lugar tranquilo.
+            Sí. Al momento de completar la solicitud y coordinar tu turno, podés elegir si preferís realizarla únicamente por audio o por videollamada.
           </div>
         </div>
 
         <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
           <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
-            <span class="group-hover:text-terracota-light transition-colors">¿Qué pasa si después siento que quiero continuar?</span>
+            <span class="group-hover:text-terracota-light transition-colors">¿Qué diferencia hay entre una consulta programada y una prioritaria?</span>
             <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
           <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
-            Si al concluir la sesión sentís que el asunto requiere un proceso psicoterapéutico sostenido en el tiempo, te brindamos una derivación responsable con profesionales colegas de confianza adaptados a tu necesidad.
+            La consulta programada se coordina entre los próximos turnos disponibles y tiene un valor menor. La consulta prioritaria está pensada para quienes necesitan hablar lo antes posible dentro de las próximas 24 horas (sujeta a disponibilidad de las profesionales).
           </div>
         </div>
 
         <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
           <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
-            <span class="group-hover:text-terracota-light transition-colors">¿Atienden emergencias o crisis de riesgo de vida?</span>
+            <span class="group-hover:text-terracota-light transition-colors">¿Qué hago si estoy atravesando una emergencia?</span>
             <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
           <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
-            No. Primera Pausa no es un servicio de guardia hospitalaria ni de emergencias psiquiátricas. Ante crisis agudas con riesgo inminente se debe acudir a la guardia más cercana o comunicarse a las líneas gratuitas de salud mental (107 / 0800-999-0091).
+            Primera Pausa no brinda atención de urgencias o emergencias. Si existe riesgo inmediato para vos o para otra persona, comunicate con el servicio de emergencias (911 / 107 / 0800-999-0091) o consultá nuestra página de <a href="/lineas-de-ayuda" class="underline text-white font-semibold">Líneas de Ayuda</a>.
           </div>
         </div>
       </div>
@@ -967,13 +889,16 @@
   </section>
 </main>
 
-<!-- ==================== FOOTER ORIGINAL STITCH ==================== -->
+<!-- ==================== FOOTER CON RUTAS REALES DE ASTRO ==================== -->
 <footer class="w-full bg-[#2c0002] text-white pt-16 pb-12 border-t border-[#540407]">
   <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-12">
-    <div class="bg-[#520306] rounded-2xl p-6 lg:p-8 flex flex-col md:flex-row items-start md:items-center gap-4 border border-[#75161c]">
+    <div class="bg-[#520306] rounded-2xl p-6 lg:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-[#75161c]">
       <div class="flex-1 text-xs sm:text-sm text-[#ffdad5] leading-relaxed">
-        <strong class="font-bold text-white">Primera Pausa no es un servicio de urgencias médicas ni guardia psiquiátrica.</strong> Si te encontrás en situación de crisis o riesgo inminente en Argentina, comunicate inmediatamente con las líneas de asistencia gratuitas: <a href="tel:107" class="font-bold text-white underline">107</a> (SAME / Emergencias Médicas), <a href="tel:144" class="font-bold text-white underline">144</a> (Atención a Víctimas de Violencia de Género) o al <a href="tel:08009990091" class="font-bold text-white underline">0800-999-0091</a> (Salud Mental Nacional, 24 hs).
+        <strong class="font-bold text-white">Primera Pausa no es un servicio de urgencias médicas ni guardia psiquiátrica.</strong> Si te encontrás en situación de crisis o riesgo inminente en Argentina, comunicate inmediatamente con las líneas de asistencia gratuitas: <a href="tel:911" class="font-bold text-white underline">911</a>, <a href="tel:107" class="font-bold text-white underline">107</a> (SAME), <a href="tel:144" class="font-bold text-white underline">144</a> (Violencia de Género) o al <a href="tel:08009990091" class="font-bold text-white underline">0800-999-0091</a> (Salud Mental 24 hs).
       </div>
+      <a href="/lineas-de-ayuda" class="shrink-0 inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#3d0002] border border-[#852327] text-xs font-semibold text-white hover:bg-terracota transition-colors">
+        Ver todas las líneas de ayuda
+      </a>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
@@ -996,69 +921,51 @@
         <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#que-trabajamos">Qué trabajamos</a>
         <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#termometro">Carga Mental</a>
         <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#modalidades">Modalidades</a>
-        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#quienes-somos">Equipo Profesional</a>
-        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#preguntas">Preguntas Frecuentes</a>
+        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="/solicitar">Solicitar consulta</a>
+        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="/lineas-de-ayuda">Líneas de ayuda</a>
       </div>
 
       <div class="md:col-span-4 flex flex-col gap-2.5">
         <span class="text-xs font-bold uppercase tracking-wider text-terracota">Contacto y Atención</span>
         <span class="text-xs sm:text-sm text-[#ffdad5]/75">Atención online para toda la República Argentina y residentes en el exterior de habla hispana.</span>
-        <a class="text-xs sm:text-sm text-[#ffdad5] hover:text-white transition-colors" href="mailto:contacto@primerapausa.com">contacto@primerapausa.com</a>
+        <a class="text-xs sm:text-sm text-[#ffdad5] hover:text-white transition-colors" href="mailto:hola@primerapausa.com.ar">hola@primerapausa.com.ar</a>
       </div>
     </div>
 
     <div class="pt-8 border-t border-[#540407] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#ffdad5]/60">
       <p>© 2026 Primera Pausa. Todos los derechos reservados.</p>
       <div class="flex items-center gap-6">
-        <a class="hover:text-white transition-colors" href="#privacidad">Políticas de Privacidad</a>
-        <a class="hover:text-white transition-colors" href="#terminos">Términos y Condiciones</a>
+        <a class="hover:text-white transition-colors" href="/politica-de-privacidad">Política de Privacidad</a>
+        <a class="hover:text-white transition-colors" href="/condiciones-del-servicio">Condiciones del Servicio</a>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- Scripts: Typewriter en "NECESITÁS hablar.", Slider & Accordion -->
 <script is:inline>
-  // 0. Animación de escritura suave para "NECESITÁS hablar." al abrir la web
-  document.addEventListener('DOMContentLoaded', () => {
-    const word1 = document.getElementById('hero-word-1');
-    const word2 = document.getElementById('hero-word-2');
-    if (!word1 || !word2) return;
+  // 0. Animación letra por letra de "NECESITÁS hablar."
+  (function animateHeroTitle() {
+    const l1 = document.getElementById('anim-line-1');
+    const l2 = document.getElementById('anim-line-2');
+    if (!l1 || !l2) return;
 
-    const text1 = "NECESITÁS";
-    const text2 = "hablar.";
-    word1.innerHTML = '<span class="type-caret"></span>';
-    word2.innerHTML = '';
+    const wrapChars = (el, baseDelay) => {
+      const text = el.textContent.trim();
+      el.innerHTML = '';
+      [...text].forEach((ch, idx) => {
+        const span = document.createElement('span');
+        span.className = 'char-anim';
+        span.style.animationDelay = `${baseDelay + idx * 0.055}s`;
+        span.textContent = ch === ' ' ? '\u00A0' : ch;
+        el.appendChild(span);
+      });
+    };
 
-    let i = 0;
-    let j = 0;
+    wrapChars(l1, 0.1);
+    wrapChars(l2, 0.65);
+  })();
 
-    function typeFirst() {
-      if (i < text1.length) {
-        word1.innerHTML = text1.slice(0, i + 1) + '<span class="type-caret"></span>';
-        i++;
-        setTimeout(typeFirst, 55);
-      } else {
-        word1.innerText = text1;
-        word2.innerHTML = '<span class="type-caret"></span>';
-        setTimeout(typeSecond, 110);
-      }
-    }
-
-    function typeSecond() {
-      if (j < text2.length) {
-        word2.innerHTML = text2.slice(0, j + 1) + '<span class="type-caret"></span>';
-        j++;
-        setTimeout(typeSecond, 75);
-      } else {
-        word2.innerText = text2;
-      }
-    }
-
-    setTimeout(typeFirst, 200);
-  });
-
-  // 1. Slider interactivo de Carga Mental
+  // 1. Slider interactivo conectado a /solicitar?modalidad=...
   const mentalSlider = document.getElementById('mental-load-slider');
   const sliderLevelTitle = document.getElementById('slider-level-title');
   const sliderIntensityBadge = document.getElementById('slider-intensity-badge');
@@ -1073,35 +980,35 @@
       badge: "Claridad general",
       suggestion: "Sugerencia: Pausa Breve (30 min)",
       message: "“A veces solo hace falta desenredar un pensamiento incipiente antes de que crezca y tome más espacio.”",
-      waText: "Hola%2C%20hice%20el%20test%20y%20tengo%20un%20asunto%20puntual%20que%20me%20gustar%C3%ADa%20despejar%20en%20una%20Pausa%20Breve."
+      url: "/solicitar?modalidad=breve"
     },
     2: {
       title: "Nivel 2: Rumia mental",
       badge: "Fricción incipiente",
       suggestion: "Sugerencia: Pausa Breve (30 min) o Estándar (60 min)",
       message: "“A veces solo hace falta desenredar un pensamiento recurrente antes de que crezca. Una conversación a tiempo devuelve el control.”",
-      waText: "Hola%2C%20estuve%20haciendo%20el%20medidor%20de%20carga%20mental%20y%20siento%20un%20nivel%20de%20rumia%20mental."
+      url: "/solicitar?modalidad=estandar"
     },
     3: {
       title: "Nivel 3: Trabada en un dilema",
       badge: "Parálisis por análisis",
       suggestion: "Sugerencia: Pausa Estándar (60 min)",
       message: "“La sensación de estar trabada consume más energía que la decisión misma. Vamos a ordenarlo juntas paso a paso.”",
-      waText: "Hola%2C%20utilic%C3%A9%20el%20medidor%20y%20estoy%20trabada%20ante%20una%20situaci%C3%B3n.%20Me%20gustar%C3%ADa%20coordinar%20una%20Pausa%20Est%C3%A1ndar."
+      url: "/solicitar?modalidad=estandar"
     },
     4: {
       title: "Nivel 4: Carga abrumadora",
       badge: "Saturación emocional",
-      suggestion: "Sugerencia: Pausa Estándar o Extendida",
+      suggestion: "Sugerencia: Pausa Extendida (90 min)",
       message: "“Cuando todo se siente urgente, una pausa guiada de 60 o 90 min te devuelve el eje y baja la sobrecarga hoy mismo.”",
-      waText: "Hola%2C%20hice%20el%20medidor%20y%20me%20siento%20muy%20abrumada.%20Quisiera%20consultar%20disponibilidad%20para%20una%20sesi%C3%B3n."
+      url: "/solicitar?modalidad=extendida"
     },
     5: {
       title: "Nivel 5: Al límite",
       badge: "Atención prioritaria",
       suggestion: "Sugerencia: Pausa Prioritaria (<24hs)",
       message: "“Cuando la angustia o el estrés te desbordan, contar con una profesional en el día es la prioridad.”",
-      waText: "Hola%2C%20necesito%20atenci%C3%B3n%20urgente%20hoy.%20Hice%20el%20medidor%20y%20estoy%20al%20l%C3%ADmite.%20%C2%BFTienen%20turno%20prioritario%3F"
+      url: "/solicitar?modalidad=prioritaria"
     }
   };
 
@@ -1112,7 +1019,7 @@
     sliderIntensityBadge.innerText = data.badge;
     sliderSuggestionTag.innerText = data.suggestion;
     sliderMessageText.innerText = data.message;
-    sliderCtaBtn.href = "https://wa.me/?text=" + data.waText;
+    sliderCtaBtn.href = data.url;
 
     sliderTickBtns.forEach(btn => {
       if (btn.getAttribute('data-val') === String(val)) {
@@ -1160,6 +1067,11 @@
       }
     });
   }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal-init').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
 
   document.querySelectorAll('.reveal-init').forEach(el => observer.observe(el));
 </script>
