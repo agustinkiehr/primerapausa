@@ -182,89 +182,150 @@
 </header>
 
 <main class="w-full">
-  <!-- ==================== 1. HERO SECTION (MÁS GRANDE, ANIMADO AL ENTRAR Y VOCES DESTAPADAS) ==================== -->
-  <section class="relative w-full bg-[#4a0002] text-white overflow-hidden py-16 lg:py-24 border-b border-[#631014]">
-    <!-- Ambient aura glow -->
-    <div class="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#7a060a] blur-[120px] animate-ambient-glow -z-0"></div>
-    <div class="pointer-events-none absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#360002] blur-[100px] -z-0"></div>
+  <!-- ==================== 1. HERO SECTION CON MICROANIMACIÓN COREOGRAFIADA ==================== -->
+<section class="relative w-full bg-[#4a0002] text-white overflow-hidden py-16 lg:py-24 border-b border-[#631014]">
+  <style is:inline>
+    /* Microanimación suave para cada letra de "NECESITÁS hablar." */
+    @keyframes charReveal {
+      0% { opacity: 0; filter: blur(6px); transform: translateY(10px); }
+      100% { opacity: 1; filter: blur(0px); transform: translateY(0); }
+    }
+    .char-anim {
+      display: inline-block;
+      opacity: 0;
+      animation: charReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
 
-    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-        <!-- Columna Izquierda: Titular más grande + animación de escritura -->
-        <div class="lg:col-span-7 flex flex-col items-start gap-6 reveal-init">
-          <div class="text-[12px] uppercase tracking-[0.2em] text-[#ffdad5]/80 font-semibold">
-            ORIENTACIÓN PSICOLÓGICA PUNTUAL
-          </div>
+    /* Aparición escalonada de la pastilla, bajada y botones */
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(16px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .hero- cascade-1 { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards; }
+    .hero-cascade-2 { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards; }
+    .hero-cascade-3 { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.55s forwards; }
 
-          <div class="relative">
-            <!-- Tamaño aumentado como pidieron Barbi y Lucía + efecto escritura -->
-            <h1 class="font-serif text-6xl sm:text-7xl lg:text-[88px] font-bold tracking-tight text-white mb-3 leading-[1.02] min-h-[125px] sm:min-h-[150px] lg:min-h-[180px]">
-              <span id="hero-word-1">NECESITÁS</span>
-              <span class="block italic font-normal text-terracota-light text-6xl sm:text-7xl lg:text-[86px] -mt-1 lg:-mt-2" id="hero-word-2">
-                hablar.
-              </span>
-            </h1>
-            <!-- Badge terracota con borde menos redondeado -->
-            <div class="inline-block mt-2 px-4 py-1.5 rounded-lg bg-terracota text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-              No necesariamente hacer terapia.
-            </div>
-          </div>
+    /* Movimiento orgánico continuo para las voces de "Entre tantas voces" */
+    @keyframes floatVoiceA {
+      0%, 100% { transform: translate(0px, 0px); opacity: 0.45; }
+      50% { transform: translate(4px, -6px); opacity: 0.85; }
+    }
+    @keyframes floatVoiceB {
+      0%, 100% { transform: translate(0px, 0px); opacity: 0.75; }
+      50% { transform: translate(-5px, 5px); opacity: 0.4; }
+    }
+    .voice-anim-a { animation: floatVoiceA 5s ease-in-out infinite; }
+    .voice-anim-b { animation: floatVoiceB 6s ease-in-out infinite; }
+  </style>
 
-          <!-- Bajada con tipografía más firme -->
-          <p class="font-sans text-base sm:text-lg text-[#ffdad5]/95 font-medium max-w-xl leading-relaxed pt-1">
-            Una conversación profesional para entender mejor lo que te está pasando, ordenar la situación y pensar cómo abordarla.
-          </p>
+  <!-- Ambient aura glow -->
+  <div class="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#7a060a] blur-[120px] animate-ambient-glow -z-0"></div>
+  <div class="pointer-events-none absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#360002] blur-[100px] -z-0"></div>
 
-          <!-- Botones duales del Hero: SIN iconitos predeterminados y con esquinas menos redondas (rounded-xl) -->
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-4">
-            <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.25)] hover:bg-[#ffdad5] hover:-translate-y-0.5 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20consultar%20por%20un%20turno%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
-              <span>Necesito hablar</span>
-            </a>
-            <a class="inline-flex items-center justify-center bg-[#2d0001] text-white border border-[#852327] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl hover:bg-terracota hover:border-terracota hover:-translate-y-0.5 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20necesito%20hablar%20hoy%20mismo%20con%20una%20profesional%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
-              <span>Necesito hablar hoy</span>
-            </a>
-          </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      
+      <!-- Columna Izquierda: Titular con Microanimación de Escritura Fluida -->
+      <div class="lg:col-span-7 flex flex-col items-start gap-6">
+        <div class="text-[12px] uppercase tracking-[0.2em] text-[#ffdad5]/80 font-semibold">
+          ORIENTACIÓN PSICOLÓGICA PUNTUAL
+        </div>
 
-          <div class="flex items-center gap-2 pt-2 text-xs text-[#ffdad5]/75">
-            <span>Turnos sujetos a disponibilidad. No es un servicio de emergencia ni guardia.</span>
+        <div class="relative">
+          <h1 class="font-serif text-6xl sm:text-7xl lg:text-[90px] font-bold tracking-tight text-white mb-3 leading-[1.02]" id="animated-hero-title" aria-label="Necesitás hablar.">
+            <span class="block" id="anim-line-1">NECESITÁS</span>
+            <span class="block italic font-normal text-terracota-light text-6xl sm:text-7xl lg:text-[88px] -mt-1 lg:-mt-2" id="anim-line-2">hablar.</span>
+          </h1>
+
+          <!-- Pastilla aparece a los 1.05s -->
+          <div class="hero-cascade-1 inline-block mt-2 px-4 py-1.5 rounded-lg bg-terracota text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
+            No necesariamente hacer terapia.
           </div>
         </div>
 
-        <!-- Columna Derecha: "ENTRE TANTAS VOCES" con las frases de fondo claras y SIN tapar por el cuadro central -->
-        <div class="lg:col-span-5 relative flex items-center justify-center min-h-[400px] lg:min-h-[450px] reveal-init" style="transition-delay: 150ms;">
-          <div class="relative w-full h-full p-6 sm:p-8 rounded-2xl bg-[#3a0002]/70 border border-[#6b151a] overflow-hidden flex flex-col justify-between items-center shadow-inner gap-5">
-            
-            <!-- Voces superiores despejadas (se leen completas) -->
-            <div class="w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pt-1">
-              <div class="chatter-voice text-xs sm:text-sm">“YO EN TU LUGAR...”</div>
-              <div class="chatter-voice text-xs sm:text-sm">“TENÉS QUE DEJARLO”</div>
-              <div class="chatter-voice text-xs">“NO ES PARA TANTO”</div>
-              <div class="chatter-voice text-xs sm:text-sm">“YA VA A PASAR...”</div>
-            </div>
+        <!-- Bajada aparece a los 1.3s -->
+        <p class="hero-cascade-2 font-sans text-base sm:text-lg text-[#ffdad5]/95 font-medium max-w-xl leading-relaxed pt-1">
+          Una conversación profesional para entender mejor lo que te está pasando, ordenar la situación y pensar cómo abordarla.
+        </p>
 
-            <!-- Centro tipográfico destacado (no pisa las frases de arriba ni las de abajo) -->
-            <div class="relative z-10 text-center px-6 py-7 w-full max-w-sm rounded-xl bg-[#4a0002]/95 border border-[#ffdad5]/25 shadow-xl my-2">
-              <span class="text-[11px] uppercase tracking-[0.25em] text-[#ffdad5]/85 font-semibold block mb-2">
-                ENTRE TANTAS VOCES
-              </span>
-              <h3 class="font-serif italic text-3xl sm:text-4xl text-[#ffc7bf] font-medium leading-tight">
-                ¿qué necesitás vos?
-              </h3>
-              <div class="w-12 h-0.5 bg-terracota mx-auto mt-4 rounded-full"></div>
-            </div>
+        <!-- Botones aparecen a los 1.55s -->
+        <div class="hero-cascade-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-4">
+          <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.25)] hover:bg-[#ffdad5] hover:-translate-y-0.5 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20consultar%20por%20un%20turno%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+            <span>Necesito hablar</span>
+          </a>
+          <a class="inline-flex items-center justify-center bg-[#2d0001] text-white border border-[#852327] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl hover:bg-terracota hover:border-terracota hover:-translate-y-0.5 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20necesito%20hablar%20hoy%20mismo%20con%20una%20profesional%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+            <span>Necesito hablar hoy</span>
+          </a>
+        </div>
 
-            <!-- Voces inferiores despejadas (se leen completas) -->
-            <div class="w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pb-1">
-              <div class="chatter-voice text-xs sm:text-sm">“DEBERÍAS HABLARLO”</div>
-              <div class="chatter-voice text-xs sm:text-sm">“PENSÁ EN VOS”</div>
-              <div class="chatter-voice text-xs sm:text-sm ml-auto">“NO LE DES TANTAS VUELTAS”</div>
-            </div>
-
-          </div>
+        <div class="hero-cascade-3 flex items-center gap-2 pt-2 text-xs text-[#ffdad5]/75">
+          <span>Turnos sujetos a disponibilidad. No es un servicio de emergencia ni guardia.</span>
         </div>
       </div>
+
+      <!-- Columna Derecha: "ENTRE TANTAS VOCES" con Microanimación Flotante (o Video de Omni de fondo) -->
+      <div class="lg:col-span-5 relative flex items-center justify-center min-h-[400px] lg:min-h-[450px]">
+        <div class="relative w-full h-full p-6 sm:p-8 rounded-2xl bg-[#3a0002]/80 border border-[#6b151a] overflow-hidden flex flex-col justify-between items-center shadow-inner gap-6">
+          
+          <!-- OPCIONAL: Si generás el video en Omni, descomentá esta línea para ponerlo de fondo del cuadro -->
+          <!-- <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-35 pointer-events-none" src="/video-omni-voces.mp4"></video> -->
+
+          <!-- Voces superiores animadas y destapadas -->
+          <div class="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pt-1 text-[#ffdad5] font-bold tracking-wider uppercase">
+            <span class="voice-anim-a text-xs sm:text-sm">“YO EN TU LUGAR...”</span>
+            <span class="voice-anim-b text-xs sm:text-sm">“TENÉS QUE DEJARLO”</span>
+            <span class="voice-anim-a text-xs" style="animation-delay: 1.2s;">“NO ES PARA TANTO”</span>
+            <span class="voice-anim-b text-xs sm:text-sm" style="animation-delay: 0.7s;">“YA VA A PASAR...”</span>
+          </div>
+
+          <!-- Pregunta Central -->
+          <div class="relative z-10 text-center px-6 py-7 w-full max-w-sm rounded-xl bg-[#4a0002]/95 border border-[#ffdad5]/25 shadow-2xl my-2">
+            <span class="text-[11px] uppercase tracking-[0.25em] text-[#ffdad5]/85 font-semibold block mb-2">
+              ENTRE TANTAS VOCES
+            </span>
+            <h3 class="font-serif italic text-3xl sm:text-4xl text-[#ffc7bf] font-medium leading-tight">
+              ¿qué necesitás vos?
+            </h3>
+            <div class="w-12 h-0.5 bg-terracota mx-auto mt-4 rounded-full"></div>
+          </div>
+
+          <!-- Voces inferiores animadas y destapadas -->
+          <div class="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pb-1 text-[#ffdad5] font-bold tracking-wider uppercase">
+            <span class="voice-anim-b text-xs sm:text-sm" style="animation-delay: 0.5s;">“DEBERÍAS HABLARLO”</span>
+            <span class="voice-anim-a text-xs sm:text-sm" style="animation-delay: 1.5s;">“PENSÁ EN VOS”</span>
+            <span class="voice-anim-b text-xs sm:text-sm ml-auto" style="animation-delay: 2.1s;">“NO LE DES TANTAS VUELTAS”</span>
+          </div>
+
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div>
+
+  <script is:inline>
+    // Divide "NECESITÁS" y "hablar." en letras individuales con delay progresivo suave
+    (function animateHeroTitle() {
+      const l1 = document.getElementById('anim-line-1');
+      const l2 = document.getElementById('anim-line-2');
+      if (!l1 || !l2) return;
+
+      const wrapChars = (el, baseDelay) => {
+        const text = el.textContent.trim();
+        el.innerHTML = '';
+        [...text].forEach((ch, idx) => {
+          const span = document.createElement('span');
+          span.className = 'char-anim';
+          span.style.animationDelay = `${baseDelay + idx * 0.055}s`;
+          span.textContent = ch === ' ' ? '\u00A0' : ch;
+          el.appendChild(span);
+        });
+      };
+
+      wrapChars(l1, 0.1);
+      wrapChars(l2, 0.65);
+    })();
+  </script>
+</section>
 
   <!-- ==================== 2. SECCIÓN: SITUACIONES (SIN DIBUJITOS Y TIPOGRAFÍA MÁS FIRME) ==================== -->
   <section class="w-full bg-[#3d0002] text-white py-20 lg:py-28 relative overflow-hidden" id="situaciones">
