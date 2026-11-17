@@ -1,17 +1,15 @@
 ---
-// src/pages/index.astro - Primera Pausa (Edición Full Bordó Inmersiva, Tipografía Fuerte & Hero Dinámico)
+// src/pages/index.astro — Base 100% fiel a code landing.html de Stitch + 7 retoques puntuales de Lucía y Barbi
 ---
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="es">
 <head>
   <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-  <meta content="Orientación psicológica puntual en sesión única. Una conversación profesional para entender mejor lo que te está pasando, ordenar la situación y pensar cómo abordarla." name="description"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Primera Pausa — Orientación Psicológica Puntual</title>
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <!-- Tipografías con fuerza estructural (Space Grotesk + Plus Jakarta Sans) -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   
   <script is:inline src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -21,21 +19,46 @@
       theme: {
         extend: {
           colors: {
-            "bordo-base": "#3d0002",
-            "bordo-alt": "#4a0002",
-            "bordo-deep": "#280001",
-            "bordo-card": "#560508",
-            "bordo-card-hover": "#66080c",
-            "bordo-border": "#852327",
+            "primary": "#4a0002",
+            "primary-dark": "#360002",
+            "primary-container": "#6b0003",
+            "on-primary": "#ffffff",
             "terracota": "#d9531e",
-            "terracota-light": "#f07643",
-            "marfil": "#fdfbf7",
-            "rosado-claro": "#ffdad5",
-            "rosado-acento": "#ffc7bf"
+            "terracota-light": "#e06d3b",
+            "terracota-warm": "#d87444",
+            "surface": "#fcf9f3",
+            "surface-dim": "#f5f0e6",
+            "surface-container-low": "#f6f3ed",
+            "surface-container": "#f0eee8",
+            "surface-container-high": "#ebe8e2",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#1c1c18",
+            "on-surface-variant": "#58413e",
+            "secondary-container": "#ffc7bf",
+            "secondary-fixed": "#ffdad5",
+            "secondary-fixed-dim": "#f0bab1",
+            "outline": "#8c716d",
+            "outline-variant": "#e0bfbb",
+            "surface-tint": "#ab3329",
           },
           fontFamily: {
-            "display": ["Space Grotesk", "sans-serif"],
-            "sans": ["Plus Jakarta Sans", "sans-serif"]
+            "serif": ["Playfair Display", "serif"],
+            "sans": ["Plus Jakarta Sans", "sans-serif"],
+            "display-lg": ["Playfair Display", "serif"],
+            "headline-lg": ["Playfair Display", "serif"],
+            "headline-md": ["Playfair Display", "serif"],
+            "headline-sm": ["Playfair Display", "serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "1.75rem",
+            "xl": "2.5rem",
+            "full": "9999px"
           }
         }
       }
@@ -43,22 +66,15 @@
   </script>
 
   <style is:inline>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background-color: #3d0002;
-      color: #fdfbf7;
-    }
+    html, body { margin: 0; padding: 0; background-color: #3d0002; }
     body { overscroll-behavior: none; }
-    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
-    .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
     ::-webkit-scrollbar { display: none; }
 
-    /* Animaciones de aparición progresiva al scrollear */
+    /* Subtle reveals and animations */
     .reveal-init {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(22px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform;
     }
     .reveal-visible {
@@ -66,347 +82,305 @@
       transform: translateY(0);
     }
 
-    /* Secuencia escalonada del Hero */
-    .hero-step-1 { opacity: 0; transform: translateY(14px); transition: all 0.6s ease-out; }
-    .hero-step-2 { opacity: 0; transform: translateY(14px); transition: all 0.6s ease-out; }
-    .hero-step-3 { opacity: 0; transform: translateY(14px); transition: all 0.6s ease-out; }
-    .hero-step-visible { opacity: 1 !important; transform: translateY(0) !important; }
+    /* Ambient pulse glow */
+    @keyframes subtlePulse {
+      0%, 100% { opacity: 0.18; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(1.08); }
+    }
+    .animate-ambient-glow {
+      animation: subtlePulse 7s ease-in-out infinite;
+    }
 
-    /* Cursor titilante para el efecto escritura en "NECESITÁS HABLAR." */
-    @keyframes blinkCursor {
+    /* Voces de fondo en "Entre tantas voces" ahora visibles y legibles */
+    .chatter-voice {
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      opacity: 0.55;
+      color: #ffdad5;
+      user-select: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .chatter-voice:hover {
+      opacity: 0.95;
+      transform: scale(1.03);
+    }
+
+    /* Cursor sutil para la escritura inicial de NECESITÁS hablar. */
+    @keyframes blinkCaret {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
-    .typing-cursor {
+    .type-caret {
       display: inline-block;
-      width: 6px;
+      width: 3px;
       height: 0.85em;
-      background-color: #f07643;
-      margin-left: 6px;
+      background-color: #e06d3b;
+      margin-left: 4px;
       vertical-align: baseline;
-      animation: blinkCursor 0.85s infinite;
+      animation: blinkCaret 0.8s infinite;
     }
 
-    /* Flotación suave y legible para las voces ("Entre tantas voces") */
-    @keyframes floatSlow {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
-    }
-    @keyframes floatSlowReverse {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(5px); }
-    }
-    .voice-pill {
-      animation: floatSlow 5s ease-in-out infinite;
-    }
-    .voice-pill-alt {
-      animation: floatSlowReverse 6s ease-in-out infinite;
-    }
-
-    /* Control deslizante del Medidor sobre fondo Bordó */
+    /* Range slider custom thumb */
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
-      background: #f07643;
-      border: 2px solid #fdfbf7;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #e06d3b;
+      border: 3px solid #ffdad5;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
       transition: transform 0.2s ease;
     }
     input[type="range"]::-webkit-slider-thumb:hover {
-      transform: scale(1.12);
-    }
-    input[type="range"]::-moz-range-thumb {
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
-      background: #f07643;
-      border: 2px solid #fdfbf7;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-      transition: transform 0.2s ease;
+      transform: scale(1.15);
     }
 
-    /* Destello de foco en tarjetas de precios */
+    /* Target highlight flash for pricing cards */
     @keyframes targetFlash {
       0% { transform: scale(1); outline: 2px solid transparent; }
-      35% { transform: translateY(-6px) scale(1.02); outline: 3px solid #f07643; box-shadow: 0 20px 45px rgba(0,0,0,0.55); }
+      35% { transform: translateY(-6px) scale(1.02); outline: 3px solid #e06d3b; box-shadow: 0 20px 40px rgba(0,0,0,0.45); }
       100% { transform: translateY(0) scale(1); outline: 2px solid transparent; }
     }
     .card-target-highlight {
-      animation: targetFlash 1.4s ease-out;
+      animation: targetFlash 1.3s ease-out;
     }
   </style>
 </head>
-<body class="bg-bordo-base font-sans text-marfil antialiased selection:bg-terracota selection:text-white pb-20 lg:pb-0">
+<body class="bg-[#3d0002] font-sans text-white antialiased selection:bg-terracota selection:text-white">
 
-<!-- ==================== HEADER STICKY FULL BORDÓ ==================== -->
-<header class="sticky top-0 left-0 w-full z-40 bg-[#2d0001]/95 backdrop-blur-md border-b border-bordo-border/50 transition-all duration-300 pt-safe">
-  <div class="h-16 lg:h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between gap-4">
-    <!-- Isotipo '|| Primera Pausa' -->
+<!-- ==================== HEADER ORIGINAL STITCH (con botón sin dibujito y borde suave) ==================== -->
+<header class="sticky top-0 left-0 w-full z-50 bg-[#3d0002]/95 backdrop-blur-md border-b border-[#631014] transition-all duration-300">
+  <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
+    <!-- Brand Logo '|| Primera Pausa' -->
     <a class="flex items-center gap-3 shrink-0 group" href="#">
-      <div class="w-8 h-8 rounded-md bg-terracota text-white flex items-center justify-center font-bold tracking-tighter text-xs shadow-sm group-hover:bg-terracota-light transition-colors">
+      <div class="w-7 h-7 rounded-full bg-terracota text-white flex items-center justify-center font-bold tracking-tighter text-xs shadow-sm group-hover:scale-105 transition-transform duration-200">
         <span class="inline-block tracking-[-2px] text-sm font-black">||</span>
       </div>
-      <div class="flex flex-col">
-        <span class="font-display text-xl sm:text-2xl font-bold tracking-tight text-white leading-none uppercase">Primera Pausa</span>
-        <span class="text-[10px] uppercase tracking-[0.2em] text-rosado-claro/80 font-semibold mt-0.5">Orientación Puntual</span>
-      </div>
+      <span class="font-serif text-2xl font-bold tracking-tight text-white">Primera Pausa</span>
     </a>
 
-    <!-- Navegación Desktop -->
-    <nav aria-label="Navegación principal" class="hidden lg:flex items-center gap-7 text-sm font-medium text-rosado-claro/90">
+    <!-- Desktop Navigation Menu -->
+    <nav class="hidden lg:flex items-center gap-8 text-[15px] font-medium text-[#ffdad5]/85">
       <a class="hover:text-terracota-light transition-colors duration-200" href="#situaciones">Situaciones</a>
-      <a class="hover:text-terracota-light transition-colors duration-200" href="#que-trabajamos">Qué trabajamos</a>
       <a class="hover:text-terracota-light transition-colors duration-200" href="#como-funciona">Cómo funciona</a>
-      <a class="hover:text-terracota-light transition-colors duration-200" href="#termometro">Medidor</a>
+      <a class="hover:text-terracota-light transition-colors duration-200" href="#que-trabajamos">Qué trabajamos</a>
       <a class="hover:text-terracota-light transition-colors duration-200" href="#modalidades">Modalidades</a>
       <a class="hover:text-terracota-light transition-colors duration-200" href="#quienes-somos">Quiénes somos</a>
       <a class="hover:text-terracota-light transition-colors duration-200" href="#preguntas">Preguntas</a>
     </nav>
 
-    <!-- Acciones Derecha (Botón con bordes firmes rounded-md) -->
-    <div class="flex items-center gap-2.5 shrink-0">
-      <button type="button" onclick="openPausaModal()" class="inline-flex items-center justify-center bg-marfil text-bordo-deep text-xs sm:text-sm font-bold uppercase tracking-wider px-5 py-2.5 rounded-md hover:bg-terracota hover:text-white transition-all duration-200 shadow-sm">
-        Necesito hablar
-      </button>
-      <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-expanded="false" aria-controls="mobile-nav-drawer" aria-label="Abrir menú" class="lg:hidden w-10 h-10 rounded-md bg-bordo-card border border-bordo-border text-white flex items-center justify-center hover:bg-terracota transition-colors">
-        <span class="material-symbols-outlined text-[22px]" id="mobile-menu-icon">menu</span>
-      </button>
+    <!-- CTA Button sin iconito predeterminado y con borde menos redondeado (rounded-xl) -->
+    <div class="flex items-center gap-4 shrink-0">
+      <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] text-[14px] font-semibold px-6 py-2.5 rounded-xl hover:bg-terracota hover:text-white transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.25)] hover:-translate-y-0.5 active:translate-y-0" href="https://wa.me/?text=Hola%2C%20quisiera%20consultar%20por%20un%20turno%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+        <span>Necesito hablar</span>
+      </a>
     </div>
-  </div>
-
-  <!-- Menú Desplegable Mobile -->
-  <div id="mobile-nav-drawer" class="hidden lg:hidden bg-bordo-deep border-b border-bordo-border px-6 py-5 flex-col gap-3 shadow-2xl">
-    <a onclick="toggleMobileMenu()" class="py-2 text-sm font-semibold text-white border-b border-bordo-border/40 flex items-center justify-between" href="#situaciones">
-      <span>Situaciones frecuentes</span>
-      <span class="text-terracota-light font-bold">→</span>
-    </a>
-    <a onclick="toggleMobileMenu()" class="py-2 text-sm font-semibold text-white border-b border-bordo-border/40 flex items-center justify-between" href="#que-trabajamos">
-      <span>¿Qué podemos trabajar?</span>
-      <span class="text-terracota-light font-bold">→</span>
-    </a>
-    <a onclick="toggleMobileMenu()" class="py-2 text-sm font-semibold text-white border-b border-bordo-border/40 flex items-center justify-between" href="#como-funciona">
-      <span>Cómo funciona</span>
-      <span class="text-terracota-light font-bold">→</span>
-    </a>
-    <a onclick="toggleMobileMenu()" class="py-2 text-sm font-semibold text-white border-b border-bordo-border/40 flex items-center justify-between" href="#termometro">
-      <span>Medidor de Peso Emocional</span>
-      <span class="text-terracota-light font-bold">→</span>
-    </a>
-    <a onclick="toggleMobileMenu()" class="py-2 text-sm font-semibold text-white border-b border-bordo-border/40 flex items-center justify-between" href="#modalidades">
-      <span>Modalidades y Tarifas</span>
-      <span class="text-terracota-light font-bold">→</span>
-    </a>
-    <a onclick="toggleMobileMenu()" class="py-2 text-sm font-semibold text-white border-b border-bordo-border/40 flex items-center justify-between" href="#quienes-somos">
-      <span>Equipo Profesional</span>
-      <span class="text-terracota-light font-bold">→</span>
-    </a>
-    <a onclick="toggleMobileMenu()" class="py-2 text-sm font-semibold text-white flex items-center justify-between" href="#preguntas">
-      <span>Preguntas Frecuentes</span>
-      <span class="text-terracota-light font-bold">→</span>
-    </a>
   </div>
 </header>
 
 <main class="w-full">
-  <!-- ==================== 1. HERO SECTION (IMPACTO DINÁMICO Y TIPOGRAFÍA FUERTE) ==================== -->
-  <section class="relative w-full bg-bordo-alt text-white overflow-hidden py-14 sm:py-20 lg:py-28 border-b border-bordo-border/60">
-    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-        
-        <!-- Columna Izquierda: Titular Colosal con Efecto Escritura en Vivo -->
-        <div class="lg:col-span-7 flex flex-col items-start gap-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-bordo-deep border border-bordo-border text-[11px] sm:text-xs uppercase tracking-[0.22em] text-rosado-claro font-bold">
-            <span class="w-2 h-2 bg-terracota-light"></span>
+  <!-- ==================== 1. HERO SECTION (MÁS GRANDE, ANIMADO AL ENTRAR Y VOCES DESTAPADAS) ==================== -->
+  <section class="relative w-full bg-[#4a0002] text-white overflow-hidden py-16 lg:py-24 border-b border-[#631014]">
+    <!-- Ambient aura glow -->
+    <div class="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#7a060a] blur-[120px] animate-ambient-glow -z-0"></div>
+    <div class="pointer-events-none absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#360002] blur-[100px] -z-0"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <!-- Columna Izquierda: Titular más grande + animación de escritura -->
+        <div class="lg:col-span-7 flex flex-col items-start gap-6 reveal-init">
+          <div class="text-[12px] uppercase tracking-[0.2em] text-[#ffdad5]/80 font-semibold">
             ORIENTACIÓN PSICOLÓGICA PUNTUAL
           </div>
 
-          <!-- Titular Dinámico más grande y con carácter -->
-          <div class="min-h-[130px] sm:min-h-[165px] lg:min-h-[195px] flex flex-col justify-center">
-            <h1 class="font-display text-6xl sm:text-7xl lg:text-[84px] font-bold tracking-tight text-white leading-[0.96] uppercase">
-              <span id="typewriter-line-1"></span>
-              <span class="block text-terracota-light mt-1" id="typewriter-line-2"></span>
+          <div class="relative">
+            <!-- Tamaño aumentado como pidieron Barbi y Lucía + efecto escritura -->
+            <h1 class="font-serif text-6xl sm:text-7xl lg:text-[88px] font-bold tracking-tight text-white mb-3 leading-[1.02] min-h-[125px] sm:min-h-[150px] lg:min-h-[180px]">
+              <span id="hero-word-1">NECESITÁS</span>
+              <span class="block italic font-normal text-terracota-light text-6xl sm:text-7xl lg:text-[86px] -mt-1 lg:-mt-2" id="hero-word-2">
+                hablar.
+              </span>
             </h1>
+            <!-- Badge terracota con borde menos redondeado -->
+            <div class="inline-block mt-2 px-4 py-1.5 rounded-lg bg-terracota text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
+              No necesariamente hacer terapia.
+            </div>
           </div>
 
-          <!-- Pastilla de contraste firme (aparece en secuencia) -->
-          <div id="hero-badge" class="hero-step-1 inline-block px-4 py-2 rounded-md bg-terracota text-white text-sm sm:text-base font-bold uppercase tracking-wider shadow-lg">
-            No necesariamente hacer terapia.
-          </div>
-
-          <!-- Bajada (aparece en secuencia) -->
-          <p id="hero-desc" class="hero-step-2 font-sans text-base sm:text-lg lg:text-xl text-rosado-claro/95 max-w-xl leading-relaxed">
+          <!-- Bajada con tipografía más firme -->
+          <p class="font-sans text-base sm:text-lg text-[#ffdad5]/95 font-medium max-w-xl leading-relaxed pt-1">
             Una conversación profesional para entender mejor lo que te está pasando, ordenar la situación y pensar cómo abordarla.
           </p>
 
-          <!-- Botones Rectangulares con Carácter (sin bordes redondeados blandos ni iconitos) -->
-          <div id="hero-ctas" class="hero-step-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-2">
-            <button type="button" onclick="openPausaModal()" class="inline-flex items-center justify-center bg-marfil text-bordo-deep font-bold text-sm sm:text-base uppercase tracking-wider px-8 py-4 rounded-md shadow-[0_10px_28px_rgba(0,0,0,0.35)] hover:bg-terracota hover:text-white transition-all duration-200">
-              Necesito hablar
-            </button>
-            <button type="button" onclick="openPausaModal('Pausa Prioritaria (<24hs - $95.000 ARS)')" class="inline-flex items-center justify-center bg-bordo-deep text-white border-2 border-terracota/80 font-bold text-sm sm:text-base uppercase tracking-wider px-8 py-4 rounded-md hover:bg-terracota hover:border-terracota transition-all duration-200">
-              Necesito hablar hoy
-            </button>
+          <!-- Botones duales del Hero: SIN iconitos predeterminados y con esquinas menos redondas (rounded-xl) -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-4">
+            <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.25)] hover:bg-[#ffdad5] hover:-translate-y-0.5 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20consultar%20por%20un%20turno%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+              <span>Necesito hablar</span>
+            </a>
+            <a class="inline-flex items-center justify-center bg-[#2d0001] text-white border border-[#852327] font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl hover:bg-terracota hover:border-terracota hover:-translate-y-0.5 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20necesito%20hablar%20hoy%20mismo%20con%20una%20profesional%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+              <span>Necesito hablar hoy</span>
+            </a>
           </div>
 
-          <div class="hero-step-3 flex items-center gap-2 pt-1 text-xs text-rosado-claro/80" id="hero-disclaimer">
-            <span>Turnos sujetos a disponibilidad. No es un servicio de emergencia ni guardia médica.</span>
+          <div class="flex items-center gap-2 pt-2 text-xs text-[#ffdad5]/75">
+            <span>Turnos sujetos a disponibilidad. No es un servicio de emergencia ni guardia.</span>
           </div>
         </div>
 
-        <!-- Columna Derecha: "ENTRE TANTAS VOCES" 100% VISIBLE Y DESTAPADO -->
-        <div class="lg:col-span-5 relative reveal-init">
-          <div class="relative w-full rounded-xl bg-bordo-deep/90 border border-bordo-border p-6 sm:p-8 shadow-2xl flex flex-col justify-between gap-6">
+        <!-- Columna Derecha: "ENTRE TANTAS VOCES" con las frases de fondo claras y SIN tapar por el cuadro central -->
+        <div class="lg:col-span-5 relative flex items-center justify-center min-h-[400px] lg:min-h-[450px] reveal-init" style="transition-delay: 150ms;">
+          <div class="relative w-full h-full p-6 sm:p-8 rounded-2xl bg-[#3a0002]/70 border border-[#6b151a] overflow-hidden flex flex-col justify-between items-center shadow-inner gap-5">
             
-            <!-- Nube superior de voces mentales (Claramente legibles, sin quedar tapadas) -->
-            <div class="flex flex-wrap items-center justify-between gap-2.5">
-              <span class="voice-pill px-3 py-1.5 rounded bg-bordo-alt/90 border border-bordo-border/70 text-xs sm:text-sm font-semibold text-rosado-claro/90 tracking-wide">
-                “YO EN TU LUGAR...”
-              </span>
-              <span class="voice-pill-alt px-3 py-1.5 rounded bg-bordo-alt/90 border border-bordo-border/70 text-xs sm:text-sm font-semibold text-rosado-claro/75 tracking-wide">
-                “TENÉS QUE DEJARLO”
-              </span>
-              <span class="voice-pill px-3 py-1.5 rounded bg-bordo-alt/90 border border-bordo-border/70 text-xs sm:text-sm font-semibold text-rosado-claro/80 tracking-wide">
-                “NO ES PARA TANTO”
-              </span>
-              <span class="voice-pill-alt px-3 py-1.5 rounded bg-bordo-alt/90 border border-bordo-border/70 text-xs sm:text-sm font-semibold text-rosado-claro/90 tracking-wide">
-                “NO LE DES TANTAS VUELTAS”
-              </span>
+            <!-- Voces superiores despejadas (se leen completas) -->
+            <div class="w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pt-1">
+              <div class="chatter-voice text-xs sm:text-sm">“YO EN TU LUGAR...”</div>
+              <div class="chatter-voice text-xs sm:text-sm">“TENÉS QUE DEJARLO”</div>
+              <div class="chatter-voice text-xs">“NO ES PARA TANTO”</div>
+              <div class="chatter-voice text-xs sm:text-sm">“YA VA A PASAR...”</div>
             </div>
 
-            <!-- Pregunta Central Firme y Despejada -->
-            <div class="my-2 py-7 px-6 rounded-lg bg-bordo-card border-l-4 border-terracota shadow-lg text-left">
-              <span class="text-xs uppercase tracking-[0.25em] text-terracota-light font-bold block mb-2">
-                ENTRE TANTAS VOCES EXTERNAS
+            <!-- Centro tipográfico destacado (no pisa las frases de arriba ni las de abajo) -->
+            <div class="relative z-10 text-center px-6 py-7 w-full max-w-sm rounded-xl bg-[#4a0002]/95 border border-[#ffdad5]/25 shadow-xl my-2">
+              <span class="text-[11px] uppercase tracking-[0.25em] text-[#ffdad5]/85 font-semibold block mb-2">
+                ENTRE TANTAS VOCES
               </span>
-              <h2 class="font-display text-3xl sm:text-4xl font-bold text-white leading-tight">
-                ¿Qué necesitás vos?
-              </h2>
+              <h3 class="font-serif italic text-3xl sm:text-4xl text-[#ffc7bf] font-medium leading-tight">
+                ¿qué necesitás vos?
+              </h3>
+              <div class="w-12 h-0.5 bg-terracota mx-auto mt-4 rounded-full"></div>
             </div>
 
-            <!-- Nube inferior de voces mentales -->
-            <div class="flex flex-wrap items-center justify-between gap-2.5">
-              <span class="voice-pill-alt px-3 py-1.5 rounded bg-bordo-alt/90 border border-bordo-border/70 text-xs sm:text-sm font-semibold text-rosado-claro/85 tracking-wide">
-                “DEBERÍAS HABLARLO”
-              </span>
-              <span class="voice-pill px-3 py-1.5 rounded bg-bordo-alt/90 border border-bordo-border/70 text-xs sm:text-sm font-semibold text-rosado-claro/75 tracking-wide">
-                “YA VA A PASAR...”
-              </span>
-              <span class="voice-pill-alt px-3 py-1.5 rounded bg-bordo-alt/90 border border-bordo-border/70 text-xs sm:text-sm font-semibold text-rosado-claro/90 tracking-wide">
-                “PENSÁ EN VOS”
-              </span>
+            <!-- Voces inferiores despejadas (se leen completas) -->
+            <div class="w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4 pb-1">
+              <div class="chatter-voice text-xs sm:text-sm">“DEBERÍAS HABLARLO”</div>
+              <div class="chatter-voice text-xs sm:text-sm">“PENSÁ EN VOS”</div>
+              <div class="chatter-voice text-xs sm:text-sm ml-auto">“NO LE DES TANTAS VUELTAS”</div>
             </div>
 
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ==================== 2. SECCIÓN: SITUACIONES (SIN ICONITOS, TIPOGRAFÍA FIRME) ==================== -->
-  <section class="w-full bg-bordo-base text-white py-16 sm:py-20 lg:py-28 border-b border-bordo-border/40" id="situaciones">
-    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-12 sm:gap-14">
-      <div class="max-w-4xl reveal-init">
-        <p class="font-display text-2xl sm:text-3xl lg:text-4xl text-white leading-tight font-bold">
-          Hay situaciones que no necesitan un tratamiento largo, sino una <span class="text-terracota-light underline decoration-terracota/60 underline-offset-8">conversación a tiempo</span> con alguien que sabe escuchar y ordenar.
+  <!-- ==================== 2. SECCIÓN: SITUACIONES (SIN DIBUJITOS Y TIPOGRAFÍA MÁS FIRME) ==================== -->
+  <section class="w-full bg-[#3d0002] text-white py-20 lg:py-28 relative overflow-hidden" id="situaciones">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-14">
+      <!-- Encabezado reflexivo (Tipografía firme y clara, punto 2 de Lucía) -->
+      <div class="max-w-3xl reveal-init">
+        <p class="font-sans text-2xl sm:text-3xl text-[#ffdad5] leading-snug font-semibold tracking-tight">
+          Hay situaciones que no necesitan un tratamiento, sino una conversación a tiempo con alguien que sabe escuchar y ordenar.
         </p>
       </div>
 
-      <!-- 3 Tarjetas con Numeración Editorial Pura (Sin corazoncitos ni valijitas) -->
+      <!-- Las 3 tarjetas SIN los dibujitos de corazón/valija y con tipografía firme sin cursiva blanda (Puntos 3 y 4 de Lucía) -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-        <!-- Tarjeta 01: VÍNCULOS -->
-        <div onclick="openPausaModalWithArea('Vínculos / Pareja')" class="cursor-pointer bg-bordo-card hover:bg-bordo-card-hover rounded-lg p-7 sm:p-8 border border-bordo-border flex flex-col justify-between min-h-[250px] shadow-lg hover:border-terracota-light transition-all duration-200 reveal-init">
-          <div class="flex flex-col gap-5">
-            <div class="flex items-center justify-between border-b border-bordo-border/60 pb-3">
-              <span class="font-display text-sm font-bold tracking-[0.2em] text-terracota-light uppercase">
+        <!-- Tarjeta 1: VÍNCULOS -->
+        <div class="relative bg-[#4e0205] rounded-2xl p-8 border border-[#78181e] flex flex-col justify-between min-h-[250px] shadow-lg overflow-hidden group hover:border-terracota transition-all duration-300 reveal-init">
+          <div class="absolute -top-4 -left-2 font-serif text-[110px] font-bold text-white/5 select-none pointer-events-none group-hover:text-white/10 transition-colors">
+            01
+          </div>
+          <div class="relative z-10 flex flex-col gap-4">
+            <div class="flex items-center gap-3">
+              <span class="font-sans text-xs font-bold tracking-widest text-terracota-light">01</span>
+              <h3 class="font-sans text-terracota font-bold tracking-[0.15em] text-sm lg:text-base uppercase">
                 VÍNCULOS
-              </span>
-              <span class="font-display text-2xl font-bold text-rosado-claro/40">01</span>
+              </h3>
+              <div class="flex-1 h-[1px] bg-terracota/40"></div>
             </div>
-            <p class="font-display text-xl sm:text-2xl font-bold text-white leading-snug">
+            <p class="font-sans font-semibold text-xl sm:text-2xl text-white pt-2 leading-snug">
               “Discutí con mi pareja y no sé qué hacer.”
             </p>
           </div>
-          <div class="pt-5 mt-4 border-t border-bordo-border/30 text-xs sm:text-sm text-rosado-claro/90 font-medium">
-            → Desarmar la escalada y clarificar límites saludables.
+          <div class="relative z-10 pt-4 flex items-center gap-2 text-xs text-[#ffdad5]/80">
+            <span class="text-terracota font-bold">→</span>
+            <span>Desarmar la escalada y clarificar límites saludables</span>
           </div>
         </div>
 
-        <!-- Tarjeta 02: DECISIONES -->
-        <div onclick="openPausaModalWithArea('Toma de decisiones')" class="cursor-pointer bg-bordo-card hover:bg-bordo-card-hover rounded-lg p-7 sm:p-8 border border-bordo-border flex flex-col justify-between min-h-[250px] shadow-lg hover:border-terracota-light transition-all duration-200 reveal-init" style="transition-delay: 100ms;">
-          <div class="flex flex-col gap-5">
-            <div class="flex items-center justify-between border-b border-bordo-border/60 pb-3">
-              <span class="font-display text-sm font-bold tracking-[0.2em] text-terracota-light uppercase">
+        <!-- Tarjeta 2: DECISIONES -->
+        <div class="relative bg-[#4e0205] rounded-2xl p-8 border border-[#78181e] flex flex-col justify-between min-h-[250px] shadow-lg overflow-hidden group hover:border-terracota transition-all duration-300 reveal-init" style="transition-delay: 100ms;">
+          <div class="absolute -top-4 -left-2 font-serif text-[110px] font-bold text-white/5 select-none pointer-events-none group-hover:text-white/10 transition-colors">
+            02
+          </div>
+          <div class="relative z-10 flex flex-col gap-4">
+            <div class="flex items-center gap-3">
+              <span class="font-sans text-xs font-bold tracking-widest text-terracota-light">02</span>
+              <h3 class="font-sans text-terracota font-bold tracking-[0.15em] text-sm lg:text-base uppercase">
                 DECISIONES
-              </span>
-              <span class="font-display text-2xl font-bold text-rosado-claro/40">02</span>
+              </h3>
+              <div class="flex-1 h-[1px] bg-terracota/40"></div>
             </div>
-            <p class="font-display text-xl sm:text-2xl font-bold text-white leading-snug">
+            <p class="font-sans font-semibold text-xl sm:text-2xl text-white pt-2 leading-snug">
               “Tengo que tomar una decisión importante y estoy trabadísima.”
             </p>
           </div>
-          <div class="pt-5 mt-4 border-t border-bordo-border/30 text-xs sm:text-sm text-rosado-claro/90 font-medium">
-            → Mitigar la parálisis y ordenar alternativas posibles.
+          <div class="relative z-10 pt-4 flex items-center gap-2 text-xs text-[#ffdad5]/80">
+            <span class="text-terracota font-bold">→</span>
+            <span>Mitigar la parálisis y ordenar alternativas posibles</span>
           </div>
         </div>
 
-        <!-- Tarjeta 03: TRABAJO -->
-        <div onclick="openPausaModalWithArea('Trabajo / Rumia laboral')" class="cursor-pointer bg-bordo-card hover:bg-bordo-card-hover rounded-lg p-7 sm:p-8 border border-bordo-border flex flex-col justify-between min-h-[250px] shadow-lg hover:border-terracota-light transition-all duration-200 reveal-init" style="transition-delay: 200ms;">
-          <div class="flex flex-col gap-5">
-            <div class="flex items-center justify-between border-b border-bordo-border/60 pb-3">
-              <span class="font-display text-sm font-bold tracking-[0.2em] text-terracota-light uppercase">
+        <!-- Tarjeta 3: TRABAJO -->
+        <div class="relative bg-[#4e0205] rounded-2xl p-8 border border-[#78181e] flex flex-col justify-between min-h-[250px] shadow-lg overflow-hidden group hover:border-terracota transition-all duration-300 reveal-init" style="transition-delay: 200ms;">
+          <div class="absolute -top-4 -left-2 font-serif text-[110px] font-bold text-white/5 select-none pointer-events-none group-hover:text-white/10 transition-colors">
+            03
+          </div>
+          <div class="relative z-10 flex flex-col gap-4">
+            <div class="flex items-center gap-3">
+              <span class="font-sans text-xs font-bold tracking-widest text-terracota-light">03</span>
+              <h3 class="font-sans text-terracota font-bold tracking-[0.15em] text-sm lg:text-base uppercase">
                 TRABAJO
-              </span>
-              <span class="font-display text-2xl font-bold text-rosado-claro/40">03</span>
+              </h3>
+              <div class="flex-1 h-[1px] bg-terracota/40"></div>
             </div>
-            <p class="font-display text-xl sm:text-2xl font-bold text-white leading-snug">
+            <p class="font-sans font-semibold text-xl sm:text-2xl text-white pt-2 leading-snug">
               “Pasó algo en el trabajo y no puedo dejar de pensarlo.”
             </p>
           </div>
-          <div class="pt-5 mt-4 border-t border-bordo-border/30 text-xs sm:text-sm text-rosado-claro/90 font-medium">
-            → Despejar la rumia y recuperar serenidad operativa.
+          <div class="relative z-10 pt-4 flex items-center gap-2 text-xs text-[#ffdad5]/80">
+            <span class="text-terracota font-bold">→</span>
+            <span>Despejar la rumia y recuperar serenidad operativa</span>
           </div>
         </div>
       </div>
 
       <!-- Módulo Inferior: Lista de situaciones orientativas -->
-      <div class="bg-bordo-deep/90 rounded-lg p-7 sm:p-10 border border-bordo-border flex flex-col lg:flex-row gap-8 lg:gap-16 items-start justify-between reveal-init">
-        <div class="max-w-md flex flex-col gap-2">
-          <h3 class="font-display text-2xl lg:text-3xl font-bold text-white leading-tight">
+      <div class="bg-[#2c0002]/70 rounded-2xl p-8 lg:p-12 border border-[#6b151a] flex flex-col lg:flex-row gap-8 lg:gap-16 items-start justify-between reveal-init">
+        <div class="max-w-md flex flex-col gap-3">
+          <h4 class="font-serif text-2xl lg:text-3xl font-bold text-white leading-tight">
             ¿En qué situaciones podemos orientarte?
-          </h3>
-          <p class="text-sm text-rosado-claro/85">
+          </h4>
+          <p class="text-sm text-[#ffdad5]/75">
             Algunos ejemplos de lo que suele traer a una Primera Pausa:
           </p>
         </div>
-        <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm sm:text-base text-marfil font-medium">
+        <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm sm:text-base text-[#ffdad5]">
           <div class="flex items-start gap-3">
-            <span class="text-terracota-light font-bold">→</span>
+            <span class="text-terracota font-bold text-lg select-none">→</span>
             <span>Algo que pasó hoy y necesitás pensar.</span>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-terracota-light font-bold">→</span>
+            <span class="text-terracota font-bold text-lg select-none">→</span>
             <span>Una decisión que no sabés cómo abordar.</span>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-terracota-light font-bold">→</span>
+            <span class="text-terracota font-bold text-lg select-none">→</span>
             <span>Un conflicto de pareja o familiar.</span>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-terracota-light font-bold">→</span>
-            <span>Un conflicto laboral o profesional.</span>
+            <span class="text-terracota font-bold text-lg select-none">→</span>
+            <span>Un conflicto laboral.</span>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-terracota-light font-bold">→</span>
+            <span class="text-terracota font-bold text-lg select-none">→</span>
             <span>Preparar una conversación importante.</span>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-terracota-light font-bold">→</span>
+            <span class="text-terracota font-bold text-lg select-none">→</span>
             <span>Algo que te está generando preocupación, angustia o confusión.</span>
           </div>
         </div>
@@ -414,449 +388,448 @@
     </div>
   </section>
 
-  <!-- ==================== 3. SECCIÓN: ¿QUÉ PODEMOS TRABAJAR? (LA SECCIÓN FAVORITA DEL CLIENTE) ==================== -->
-  <section class="w-full bg-bordo-alt text-white py-16 sm:py-20 lg:py-28 border-b border-bordo-border/40" id="que-trabajamos">
-    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-12 sm:gap-16">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 reveal-init">
+  <!-- ==================== 3. SECCIÓN INTACTA: ¿QUÉ PODEMOS TRABAJAR? ("Esto me re gusta") ==================== -->
+  <section class="w-full bg-[#4a0002] text-white py-20 lg:py-28 relative overflow-hidden" id="que-trabajamos">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-16">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 reveal-init">
         <div class="max-w-2xl flex flex-col gap-2">
-          <span class="text-xs uppercase tracking-[0.22em] text-terracota-light font-bold">
+          <span class="text-[12px] uppercase tracking-[0.2em] text-[#ffdad5]/75 font-semibold">
             UNA CONVERSACIÓN CON FOCO
           </span>
-          <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.05] uppercase">
+          <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
             ¿QUÉ PODEMOS TRABAJAR?
-            <span class="block text-rosado-acento text-2xl sm:text-3xl lg:text-4xl mt-2 font-semibold normal-case">
+            <span class="block italic font-normal text-terracota-light text-3xl sm:text-4xl lg:text-5xl mt-1">
               en una Primera Pausa
             </span>
           </h2>
         </div>
-        <p class="text-sm sm:text-base text-rosado-claro/90 max-w-md leading-relaxed">
+        <p class="text-sm sm:text-base text-[#ffdad5]/85 max-w-md leading-relaxed">
           Según la situación, la conversación puede ayudarnos a distinguir, clarificar, ordenar y considerar alternativas.
         </p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-        <div class="lg:col-span-8 flex flex-col gap-6 relative reveal-init">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 relative">
-            <div class="p-6 rounded-lg bg-bordo-card border border-bordo-border hover:border-terracota-light transition-all duration-200">
-              <div class="flex items-center gap-3 mb-2">
-                <span class="w-6 h-6 rounded bg-terracota text-white text-xs font-bold flex items-center justify-center">01</span>
-                <span class="font-display text-lg font-bold tracking-wide text-white uppercase">
+        <div class="lg:col-span-8 flex flex-col gap-8 relative reveal-init">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 relative">
+            <div class="relative p-6 rounded-xl bg-[#570509]/70 border border-[#7d171d] hover:border-terracota transition-all duration-300">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-terracota"></span>
+                <span class="font-serif text-lg font-bold tracking-wide text-white uppercase">
                   DISTINGUIR
                 </span>
               </div>
-              <p class="text-sm text-rosado-claro/90 leading-relaxed">
-                Qué variables y expectativas están influyendo realmente en la situación.
+              <p class="text-sm text-[#ffdad5]/85 leading-relaxed">
+                Qué está influyendo en la situación.
               </p>
             </div>
 
-            <div class="p-6 rounded-lg bg-bordo-card border border-bordo-border hover:border-terracota-light transition-all duration-200">
-              <div class="flex items-center gap-3 mb-2">
-                <span class="w-6 h-6 rounded bg-terracota text-white text-xs font-bold flex items-center justify-center">02</span>
-                <span class="font-display text-lg font-bold tracking-wide text-white uppercase">
+            <div class="relative p-6 rounded-xl bg-[#570509]/70 border border-[#7d171d] hover:border-terracota transition-all duration-300">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-terracota"></span>
+                <span class="font-serif text-lg font-bold tracking-wide text-white uppercase">
                   CLARIFICAR
                 </span>
               </div>
-              <p class="text-sm text-rosado-claro/90 leading-relaxed">
-                Qué es lo que verdaderamente necesitás y podés pedir en este momento.
+              <p class="text-sm text-[#ffdad5]/85 leading-relaxed">
+                Qué necesitás en este momento.
               </p>
             </div>
 
-            <div class="p-6 rounded-lg bg-bordo-card border border-bordo-border hover:border-terracota-light transition-all duration-200">
-              <div class="flex items-center gap-3 mb-2">
-                <span class="w-6 h-6 rounded bg-terracota text-white text-xs font-bold flex items-center justify-center">03</span>
-                <span class="font-display text-lg font-bold tracking-wide text-white uppercase">
+            <div class="relative p-6 rounded-xl bg-[#570509]/70 border border-[#7d171d] hover:border-terracota transition-all duration-300">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-terracota"></span>
+                <span class="font-serif text-lg font-bold tracking-wide text-white uppercase">
                   ORDENAR
                 </span>
               </div>
-              <p class="text-sm text-rosado-claro/90 leading-relaxed">
-                Lo que te está pasando para despejar el agobio y pensarlo con mayor claridad.
+              <p class="text-sm text-[#ffdad5]/85 leading-relaxed">
+                Lo que te está pasando para pensarlo con mayor claridad.
               </p>
             </div>
 
-            <div class="p-6 rounded-lg bg-bordo-card border border-bordo-border hover:border-terracota-light transition-all duration-200">
-              <div class="flex items-center gap-3 mb-2">
-                <span class="w-6 h-6 rounded bg-terracota text-white text-xs font-bold flex items-center justify-center">04</span>
-                <span class="font-display text-lg font-bold tracking-wide text-white uppercase">
+            <div class="relative p-6 rounded-xl bg-[#570509]/70 border border-[#7d171d] hover:border-terracota transition-all duration-300">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-terracota"></span>
+                <span class="font-serif text-lg font-bold tracking-wide text-white uppercase">
                   CONSIDERAR OPCIONES
                 </span>
               </div>
-              <p class="text-sm text-rosado-claro/90 leading-relaxed">
-                Qué alternativas y respuestas asertivas aparecen frente a la situación.
+              <p class="text-sm text-[#ffdad5]/85 leading-relaxed">
+                Qué alternativas aparecen frente a la situación.
               </p>
             </div>
           </div>
 
-          <div class="text-xs text-rosado-claro/80 pt-1">
-            * Movimientos orientativos: no siempre aparecen todos ni en este orden.
+          <div class="flex items-center gap-2 text-xs text-[#ffdad5]/60 pt-2">
+            <span>Movimientos orientativos: no siempre aparecen todos ni en este orden.</span>
           </div>
         </div>
 
-        <!-- Tarjeta Terracota Destacada -->
         <div class="lg:col-span-4 relative flex justify-center reveal-init" style="transition-delay: 150ms;">
-          <div class="w-full bg-terracota text-white p-8 sm:p-9 rounded-lg shadow-2xl border border-terracota-light">
-            <div class="text-xs font-bold tracking-[0.2em] text-rosado-claro uppercase mb-3">
+          <div class="relative w-full max-w-sm bg-terracota text-white p-8 sm:p-10 rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.35)] transform lg:rotate-2 hover:rotate-0 transition-transform duration-300 border border-[#ff8b57]">
+            <div class="text-[11px] font-bold tracking-[0.2em] text-[#ffdad5] uppercase mb-3">
               ORIENTACIÓN PRÁCTICA
             </div>
-            <h3 class="font-display font-bold text-2xl sm:text-3xl leading-tight uppercase tracking-tight text-white mb-4">
+            <h3 class="font-serif font-black text-2xl sm:text-3xl leading-tight uppercase tracking-tight text-white mb-4">
               UN POSIBLE PRÓXIMO PASO
             </h3>
             <p class="text-sm sm:text-base text-white/95 leading-relaxed">
-              Cuando sea posible, buscamos orientar la conversación hacia algo concreto y viable para pensar cómo seguir.
+              Cuando sea posible, buscamos orientar la conversación hacia algo concreto para pensar cómo seguir.
             </p>
           </div>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-start gap-4 pt-4 border-t border-bordo-border/60">
-        <button type="button" onclick="openPausaModal()" class="inline-flex items-center justify-center bg-marfil text-bordo-deep font-bold text-sm uppercase tracking-wider px-7 py-3.5 rounded-md hover:bg-terracota hover:text-white transition-all duration-200">
-          Necesito hablar
-        </button>
-        <button type="button" onclick="openPausaModal('Pausa Prioritaria (<24hs - $95.000 ARS)')" class="inline-flex items-center justify-center bg-bordo-deep text-white border border-bordo-border font-bold text-sm uppercase tracking-wider px-7 py-3.5 rounded-md hover:bg-terracota hover:border-terracota transition-all duration-200">
-          Necesito hablar hoy
-        </button>
+      <!-- Botones al pie del módulo sin los iconitos y con bordes suaves -->
+      <div class="flex flex-col sm:flex-row items-center justify-start gap-4 pt-4 border-t border-[#6b151a]">
+        <a class="inline-flex items-center justify-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-sm px-7 py-3 rounded-xl hover:bg-[#ffdad5] transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20consultar%20por%20un%20turno%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+          <span>Necesito hablar</span>
+        </a>
+        <a class="inline-flex items-center justify-center bg-[#2d0001] text-white border border-[#7d171d] font-semibold text-sm px-7 py-3 rounded-xl hover:bg-terracota transition-all duration-300" href="https://wa.me/?text=Hola%2C%20necesito%20hablar%20hoy%20mismo%20con%20una%20profesional%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+          <span>Necesito hablar hoy</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- ==================== 4. SECCIÓN: CÓMO FUNCIONA ==================== -->
-  <section class="w-full bg-bordo-base text-white py-16 sm:py-20 lg:py-28 border-b border-bordo-border/40" id="como-funciona">
-    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-12 sm:gap-14">
+  <!-- ==================== 4. SECCIÓN INTACTA: CÓMO FUNCIONA ("Esto me re gusta") ==================== -->
+  <section class="w-full bg-[#3d0002] text-white py-20 lg:py-28 relative overflow-hidden" id="como-funciona">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-14">
       <div class="flex flex-col gap-3 max-w-4xl reveal-init">
-        <span class="text-xs uppercase tracking-[0.22em] text-terracota-light font-bold">
+        <span class="text-[12px] uppercase tracking-[0.2em] text-[#ffdad5]/75 font-semibold">
           CÓMO FUNCIONA
         </span>
-        <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.06] uppercase">
+        <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1]">
           PARA EMPEZAR,
-          <span class="text-terracota-light"> SOLO TENÉS QUE </span>
-          LLENAR UN FORMULARIO.
+          <span class="italic text-terracota-light font-normal"> SOLO TENÉS QUE </span>
+          LLENAR UN <span class="italic text-white">FORMULARIO.</span>
         </h2>
-        <p class="text-base sm:text-lg text-rosado-claro/90 max-w-xl pt-2">
+        <p class="text-base sm:text-lg text-[#ffdad5]/90 max-w-xl pt-2">
           Es breve y nos ayuda a entender qué necesitás. Después, te guiamos en cada paso.
         </p>
         <div class="pt-4">
-          <button type="button" onclick="openPausaModal()" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-terracota hover:bg-terracota-light text-white font-bold text-sm sm:text-base uppercase tracking-wider px-8 py-4 rounded-md shadow-xl transition-all duration-200">
-            <span>COMPLETAR EL FORMULARIO</span>
-            <span>→</span>
-          </button>
+          <a class="inline-flex items-center gap-3 bg-terracota hover:bg-terracota-light text-white font-bold text-sm sm:text-base px-8 py-4 rounded-xl shadow-[0_8px_24px_rgba(217,83,30,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quiero%20completar%20el%20formulario%20para%20coordinar%20mi%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+            <span class="tracking-wide">COMPLETAR EL FORMULARIO</span>
+            <span class="text-lg leading-none">→</span>
+          </a>
         </div>
       </div>
 
-      <!-- Stepper de 4 pasos -->
-      <div class="relative w-full pt-6 sm:pt-8 pb-4 reveal-init">
-        <div class="hidden lg:block absolute top-[44px] left-[5%] right-[15%] h-[2px] bg-terracota/40 -z-0"></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 sm:gap-8 relative z-10">
-          <div class="flex flex-col gap-3 bg-bordo-card/70 p-6 rounded-lg border border-bordo-border/60">
-            <div class="w-9 h-9 rounded bg-terracota text-white flex items-center justify-center font-display font-bold text-sm">
-              01
+      <div class="relative w-full pt-8 pb-4 reveal-init">
+        <div class="hidden lg:block absolute top-[44px] left-[10%] right-[10%] h-[2px] bg-terracota/50 -z-0"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+          <div class="flex flex-col gap-3 group">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-terracota text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
+                1
+              </div>
+              <div class="lg:hidden flex-1 h-[1px] bg-terracota/40"></div>
             </div>
             <div>
-              <span class="font-display font-bold text-terracota-light tracking-wider text-sm uppercase block">
+              <span class="font-bold text-terracota tracking-wider text-sm uppercase block">
                 REVISAMOS
               </span>
-              <span class="text-base text-white font-bold">tu solicitud</span>
-              <p class="text-xs text-rosado-claro/85 mt-1.5 leading-relaxed">Leemos con atención tu motivo de consulta confidencialmente.</p>
+              <span class="text-sm sm:text-base text-white">tu solicitud</span>
             </div>
           </div>
 
-          <div class="flex flex-col gap-3 bg-bordo-card/70 p-6 rounded-lg border border-bordo-border/60">
-            <div class="w-9 h-9 rounded bg-terracota text-white flex items-center justify-center font-display font-bold text-sm">
-              02
+          <div class="flex flex-col gap-3 group">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-terracota text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
+                2
+              </div>
+              <div class="lg:hidden flex-1 h-[1px] bg-terracota/40"></div>
             </div>
             <div>
-              <span class="font-display font-bold text-terracota-light tracking-wider text-sm uppercase block">
+              <span class="font-bold text-terracota tracking-wider text-sm uppercase block">
                 TE CONTACTAMOS
               </span>
-              <span class="text-base text-white font-bold">para coordinar</span>
-              <p class="text-xs text-rosado-claro/85 mt-1.5 leading-relaxed">Por WhatsApp o correo con opciones rápidas de agenda.</p>
+              <span class="text-sm sm:text-base text-white">para coordinar</span>
             </div>
           </div>
 
-          <div class="flex flex-col gap-3 bg-bordo-card/70 p-6 rounded-lg border border-bordo-border/60">
-            <div class="w-9 h-9 rounded bg-terracota text-white flex items-center justify-center font-display font-bold text-sm">
-              03
+          <div class="flex flex-col gap-3 group">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-terracota text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
+                3
+              </div>
+              <div class="lg:hidden flex-1 h-[1px] bg-terracota/40"></div>
             </div>
             <div>
-              <span class="font-display font-bold text-terracota-light tracking-wider text-sm uppercase block">
+              <span class="font-bold text-terracota tracking-wider text-sm uppercase block">
                 ELEGÍS
               </span>
-              <span class="text-base text-white font-bold">la modalidad y el horario</span>
-              <p class="text-xs text-rosado-claro/85 mt-1.5 leading-relaxed">Videollamada o audio según lo que te resulte más cómodo.</p>
+              <span class="text-sm sm:text-base text-white">la modalidad y el horario</span>
             </div>
           </div>
 
-          <div class="flex flex-col gap-3 bg-bordo-card/70 p-6 rounded-lg border border-bordo-border/60">
-            <div class="w-9 h-9 rounded bg-terracota text-white flex items-center justify-center font-display font-bold text-sm">
-              04
+          <div class="flex flex-col gap-3 group">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-terracota text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
+                4
+              </div>
+              <div class="lg:hidden flex-1 h-[1px] bg-terracota/40"></div>
             </div>
             <div>
-              <span class="font-display font-bold text-terracota-light tracking-wider text-sm uppercase block">
+              <span class="font-bold text-terracota tracking-wider text-sm uppercase block">
                 CONFIRMAMOS
               </span>
-              <span class="text-base text-white font-bold">tu Primera Pausa</span>
-              <p class="text-xs text-rosado-claro/85 mt-1.5 leading-relaxed">Encuentro profesional de escucha activa y ordenamiento.</p>
+              <span class="text-sm sm:text-base text-white">tu Primera Pausa</span>
             </div>
           </div>
         </div>
 
-        <div class="pt-8 text-xs sm:text-sm text-rosado-claro/80 max-w-3xl leading-relaxed">
-          Completar el formulario no confirma la consulta automáticamente. Si consideramos que Primera Pausa puede ayudarte, te contactamos para coordinar.
+        <div class="pt-10 text-xs sm:text-sm text-[#ffdad5]/60 max-w-3xl leading-relaxed">
+          Completar el formulario no confirma la consulta. Si consideramos que Primera Pausa puede ayudarte, te contactamos para coordinar.
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ==================== 5. MEDIDOR DE PESO EMOCIONAL (INTEGRADO EN BORDÓ) ==================== -->
-  <section class="w-full bg-bordo-alt text-white py-16 sm:py-20 lg:py-24 border-b border-bordo-border/40" id="termometro">
-    <div class="max-w-4xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col items-center gap-8 sm:gap-10">
+  <!-- ==================== 5. MEDIDOR DE PESO EMOCIONAL (PASADO DEL BEIGE AL MISMO BORDÓ DEL SITIO) ==================== -->
+  <section class="w-full bg-[#4a0002] border-y border-[#6b151a] py-16 lg:py-24 text-white" id="termometro">
+    <div class="max-w-4xl mx-auto px-6 lg:px-12 flex flex-col items-center gap-10">
       <div class="text-center flex flex-col items-center gap-3 reveal-init">
-        <span class="text-xs uppercase tracking-[0.22em] text-terracota-light font-bold">
-          AUTOEVALUACIÓN GUIADA
-        </span>
-        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl text-white font-bold uppercase">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-lg bg-[#570509] text-[#ffdad5] border border-[#7d171d]">
+          <span class="text-xs uppercase tracking-wider font-semibold">Autoevaluación guiada</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white font-bold">
           Medidor de Peso Emocional
         </h2>
-        <p class="text-sm sm:text-base text-rosado-claro/90 max-w-xl">
-          Deslizá el control para identificar el peso de lo que estás sosteniendo hoy y recibir una recomendación a tu medida.
+        <p class="text-sm sm:text-base text-[#ffdad5]/85 max-w-xl">
+          Deslizá el control para identificar el peso de lo que estás sosteniendo hoy y recibir una recomendación respetuosa y a tu medida.
         </p>
       </div>
 
-      <!-- Tarjeta del Medidor en Bordó Profundo -->
-      <div class="w-full bg-bordo-deep p-6 sm:p-8 lg:p-10 rounded-lg shadow-2xl border border-bordo-border flex flex-col gap-7 sm:gap-8 reveal-init">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-bordo-border/50 pb-5">
+      <!-- Slider Card en Bordó Elevado -->
+      <div class="w-full bg-[#3d0002] p-8 lg:p-10 rounded-2xl shadow-[0_12px_36px_rgba(0,0,0,0.3)] border border-[#78181e] flex flex-col gap-8 reveal-init">
+        <div class="flex items-center justify-between border-b border-[#6b151a] pb-5">
           <div class="flex flex-col">
-            <span class="text-xs text-rosado-claro/75 uppercase tracking-wider">Estado actual percibido</span>
-            <span class="font-display text-2xl sm:text-3xl text-white font-bold mt-0.5" id="slider-level-title">Nivel 2: Rumia mental</span>
+            <span class="text-xs text-[#ffdad5]/70 uppercase tracking-wider">Estado actual percibido</span>
+            <span class="font-serif text-2xl text-white font-bold" id="slider-level-title">Nivel 2: Rumia mental</span>
           </div>
-          <div class="self-start sm:self-auto px-4 py-1.5 rounded bg-bordo-card text-terracota-light text-xs sm:text-sm font-bold uppercase tracking-wider border border-bordo-border" id="slider-intensity-badge">
+          <div class="px-4 py-1.5 rounded-lg bg-[#570509] text-[#ffc7bf] text-xs sm:text-sm font-semibold border border-[#7d171d]" id="slider-intensity-badge">
             Fricción incipiente
           </div>
         </div>
 
         <div class="flex flex-col gap-4">
-          <input aria-label="Nivel de Peso Emocional" class="w-full h-3 bg-bordo-card rounded appearance-none cursor-pointer accent-terracota" id="mental-load-slider" max="5" min="1" step="1" type="range" value="2"/>
-          <div class="flex justify-between items-center px-1 text-[11px] sm:text-xs text-rosado-claro/70 select-none">
-            <button class="slider-tick-btn hover:text-white transition-colors text-left py-1" data-val="1" type="button">1. Ligero</button>
-            <button class="slider-tick-btn hover:text-white transition-colors text-center font-bold text-terracota-light py-1" data-val="2" type="button">2. Rumia</button>
-            <button class="slider-tick-btn hover:text-white transition-colors text-center py-1" data-val="3" type="button">3. Trabada</button>
-            <button class="slider-tick-btn hover:text-white transition-colors text-center py-1" data-val="4" type="button">4. Abrumada</button>
-            <button class="slider-tick-btn hover:text-white transition-colors text-right py-1" data-val="5" type="button">5. Al límite</button>
+          <input aria-label="Nivel de Carga Mental" class="w-full h-3 bg-[#2c0002] rounded-full appearance-none cursor-pointer accent-terracota" id="mental-load-slider" max="5" min="1" step="1" type="range" value="2"/>
+          <div class="flex justify-between items-center px-1 text-xs text-[#ffdad5]/70 select-none">
+            <button class="slider-tick-btn hover:text-white transition-colors text-left" data-val="1" type="button">1. Ligero</button>
+            <button class="slider-tick-btn hover:text-white transition-colors text-center font-bold text-terracota-light" data-val="2" type="button">2. Rumia</button>
+            <button class="slider-tick-btn hover:text-white transition-colors text-center" data-val="3" type="button">3. Trabada</button>
+            <button class="slider-tick-btn hover:text-white transition-colors text-center" data-val="4" type="button">4. Abrumada</button>
+            <button class="slider-tick-btn hover:text-white transition-colors text-right" data-val="5" type="button">5. Al límite</button>
           </div>
         </div>
 
-        <div class="bg-bordo-card rounded-lg p-5 sm:p-6 border border-bordo-border flex flex-col md:flex-row items-start md:items-center justify-between gap-5 sm:gap-6">
-          <div class="flex flex-col gap-1.5 max-w-xl">
-            <span class="text-xs text-terracota-light font-bold uppercase tracking-wider" id="slider-suggestion-tag">
-              Sugerencia: Pausa Breve (30 min) o Estándar (60 min)
-            </span>
-            <p class="text-sm sm:text-base text-white leading-relaxed" id="slider-message-text">
+        <div class="bg-[#4e0205] rounded-xl p-6 border border-[#78181e] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition-all duration-300">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs text-terracota-light font-bold uppercase tracking-wider" id="slider-suggestion-tag">Sugerencia: Pausa Breve (30 min) o Estándar</span>
+            <p class="text-sm text-[#ffdad5] leading-relaxed" id="slider-message-text">
               “A veces solo hace falta desenredar un pensamiento recurrente antes de que crezca. Una conversación a tiempo devuelve el control.”
             </p>
           </div>
-
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto shrink-0">
-            <button type="button" onclick="scrollToRecommendedCard()" class="inline-flex items-center justify-center px-4 py-3 rounded-md bg-bordo-deep text-rosado-claro border border-bordo-border text-xs font-bold uppercase tracking-wider hover:border-terracota-light hover:text-white transition-all">
-              Ver modalidad
-            </button>
-            <button type="button" onclick="openPausaModalFromSlider()" class="inline-flex items-center justify-center px-6 py-3 rounded-md bg-terracota text-white text-xs sm:text-sm font-bold uppercase tracking-wider hover:bg-terracota-light transition-all shadow-md">
-              Solicitar pausa
-            </button>
-          </div>
+          <a class="shrink-0 w-full md:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-[#fdfbf7] text-[#4a0002] text-sm font-semibold hover:bg-terracota hover:text-white transition-all duration-300" href="https://wa.me/?text=Hola%2C%20estuve%20haciendo%20el%20medidor%20de%20carga%20mental%20y%20siento%20un%20nivel%20de%20rumia%20mental." id="slider-cta-btn" rel="noopener noreferrer" target="_blank">
+            <span id="slider-cta-label">Hablar por WhatsApp</span>
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ==================== 6. MODALIDADES Y PRECIOS (EN ATMÓSFERA BORDÓ) ==================== -->
-  <section class="w-full bg-bordo-base text-white py-16 sm:py-20 lg:py-28 border-b border-bordo-border/40" id="modalidades">
-    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-12 sm:gap-16">
+  <!-- ==================== 6. MODALIDADES Y PRECIOS (PASADO DEL BEIGE AL MISMO BORDÓ DEL SITIO) ==================== -->
+  <section class="w-full bg-[#3d0002] text-white py-20 lg:py-28" id="modalidades">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-16">
       <div class="text-center max-w-2xl mx-auto flex flex-col gap-3 reveal-init">
-        <span class="text-xs uppercase tracking-[0.22em] text-terracota-light font-bold">MODALIDADES A MEDIDA</span>
-        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl text-white font-bold uppercase">
+        <span class="text-xs uppercase tracking-widest text-terracota-light font-semibold">MODALIDADES A MEDIDA</span>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-bold">
           Elegí el espacio de pausa que necesitás
         </h2>
-        <p class="text-sm sm:text-base text-rosado-claro/85">
+        <p class="text-sm sm:text-base text-[#ffdad5]/85">
           Tarifas transparentes en pesos argentinos, sin suscripciones obligatorias ni letra chica.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-        <!-- Card 1: Pausa Breve -->
-        <div class="bg-bordo-card rounded-lg p-7 sm:p-8 flex flex-col justify-between gap-7 border border-bordo-border hover:border-terracota-light transition-all duration-200 reveal-init" id="card-breve">
-          <div class="flex flex-col gap-3.5">
-            <span class="text-xs font-bold text-terracota-light uppercase tracking-widest">30 MINUTOS</span>
-            <div class="font-display text-2xl font-bold text-white uppercase">Pausa Breve</div>
-            <div class="flex items-baseline gap-1.5">
-              <span class="font-display text-4xl text-white font-bold">$45.000</span>
-              <span class="text-xs text-rosado-claro/75 font-semibold">ARS</span>
+        <!-- Card 1: Breve -->
+        <div class="bg-[#4e0205] rounded-2xl p-8 flex flex-col justify-between gap-8 shadow-lg hover:-translate-y-2 transition-all duration-300 border border-[#78181e] reveal-init" id="card-breve">
+          <div class="flex flex-col gap-4">
+            <span class="text-xs font-semibold text-terracota-light uppercase tracking-wider">30 minutos</span>
+            <div class="font-serif text-2xl font-bold text-white">Pausa Breve</div>
+            <div class="flex items-baseline gap-1">
+              <span class="font-serif text-4xl text-white font-bold">$45.000</span>
+              <span class="text-xs text-[#ffdad5]/70">ARS</span>
             </div>
-            <p class="text-xs sm:text-sm text-rosado-claro/90 pt-1 leading-relaxed">
+            <p class="text-xs text-[#ffdad5]/85 pt-2 leading-relaxed">
               Ideal para una duda puntual, un dilema específico o una consulta breve y enfocada.
             </p>
-            <ul class="flex flex-col gap-2.5 pt-3 text-xs sm:text-sm text-marfil">
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+            <ul class="flex flex-col gap-2.5 pt-4 text-xs text-[#ffdad5]">
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>1 consulta online individual</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>Foco exclusivo en un asunto</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>Puntos clave por escrito</span>
               </li>
             </ul>
           </div>
-          <button type="button" onclick="openPausaModal('Pausa Breve (30 min - $45.000 ARS)')" class="w-full text-center bg-bordo-deep text-white border border-bordo-border font-bold text-xs uppercase tracking-wider py-3.5 rounded-md hover:bg-terracota hover:border-terracota transition-all duration-200">
-            Elegir modalidad
-          </button>
+          <a class="w-full text-center bg-[#2d0001] text-white border border-[#78181e] font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota hover:border-terracota transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20reservar%20una%20Pausa%20Breve%20(30%20min)%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+            Elegir esta modalidad
+          </a>
         </div>
 
-        <!-- Card 2: Pausa Estándar (Más Elegida) -->
-        <div class="bg-[#61060a] rounded-lg p-7 sm:p-8 flex flex-col justify-between gap-7 shadow-2xl relative border-2 border-terracota reveal-init" id="card-estandar" style="transition-delay: 100ms;">
-          <div class="absolute -top-3.5 left-6 bg-terracota text-white px-3.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider shadow-md">
+        <!-- Card 2: Estándar (Más Elegida) -->
+        <div class="bg-[#570509] rounded-2xl p-8 flex flex-col justify-between gap-8 shadow-[0_12px_40px_rgba(0,0,0,0.35)] relative hover:-translate-y-2 transition-all duration-300 border-2 border-terracota reveal-init" id="card-estandar" style="transition-delay: 100ms;">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-terracota text-white px-4 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider shadow-md">
             Más elegida
           </div>
-          <div class="flex flex-col gap-3.5">
-            <span class="text-xs font-bold text-rosado-acento uppercase tracking-widest">60 MINUTOS</span>
-            <div class="font-display text-2xl font-bold text-white uppercase">Pausa Estándar</div>
-            <div class="flex items-baseline gap-1.5">
-              <span class="font-display text-4xl text-white font-bold">$70.000</span>
-              <span class="text-xs text-rosado-claro/75 font-semibold">ARS</span>
+          <div class="flex flex-col gap-4">
+            <span class="text-xs font-semibold text-[#ffc7bf] uppercase tracking-wider">60 minutos</span>
+            <div class="font-serif text-2xl font-bold text-white">Pausa Estándar</div>
+            <div class="flex items-baseline gap-1">
+              <span class="font-serif text-4xl text-white font-bold">$70.000</span>
+              <span class="text-xs text-[#ffdad5]/70">ARS</span>
             </div>
-            <p class="text-xs sm:text-sm text-rosado-claro/95 pt-1 leading-relaxed">
+            <p class="text-xs text-[#ffdad5]/90 pt-2 leading-relaxed">
               El tiempo justo para profundizar en el conflicto, desarmar el nudo y trazar un plan claro.
             </p>
-            <ul class="flex flex-col gap-2.5 pt-3 text-xs sm:text-sm text-white">
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+            <ul class="flex flex-col gap-2.5 pt-4 text-xs text-white">
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>1 sesión completa de 60 min</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>Guía de preguntas orientadoras</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>Devolución personalizada escrita</span>
               </li>
             </ul>
           </div>
-          <button type="button" onclick="openPausaModal('Pausa Estándar (60 min - $70.000 ARS)')" class="w-full text-center bg-marfil text-bordo-deep font-bold text-xs uppercase tracking-wider py-3.5 rounded-md hover:bg-terracota hover:text-white transition-all duration-200 shadow-md">
-            Elegir modalidad
-          </button>
+          <a class="w-full text-center bg-[#fdfbf7] text-[#4a0002] font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota hover:text-white transition-all duration-300 shadow-md" href="https://wa.me/?text=Hola%2C%20quisiera%20reservar%20una%20Pausa%20Est%C3%A1ndar%20(60%20min)%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+            Elegir esta modalidad
+          </a>
         </div>
 
-        <!-- Card 3: Pausa Extendida -->
-        <div class="bg-bordo-card rounded-lg p-7 sm:p-8 flex flex-col justify-between gap-7 border border-bordo-border hover:border-terracota-light transition-all duration-200 reveal-init" id="card-extendida" style="transition-delay: 200ms;">
-          <div class="flex flex-col gap-3.5">
-            <span class="text-xs font-bold text-terracota-light uppercase tracking-widest">90 MINUTOS</span>
-            <div class="font-display text-2xl font-bold text-white uppercase">Pausa Extendida</div>
-            <div class="flex items-baseline gap-1.5">
-              <span class="font-display text-4xl text-white font-bold">$90.000</span>
-              <span class="text-xs text-rosado-claro/75 font-semibold">ARS</span>
+        <!-- Card 3: Extendida -->
+        <div class="bg-[#4e0205] rounded-2xl p-8 flex flex-col justify-between gap-8 shadow-lg hover:-translate-y-2 transition-all duration-300 border border-[#78181e] reveal-init" id="card-extendida" style="transition-delay: 200ms;">
+          <div class="flex flex-col gap-4">
+            <span class="text-xs font-semibold text-terracota-light uppercase tracking-wider">90 minutos</span>
+            <div class="font-serif text-2xl font-bold text-white">Pausa Extendida</div>
+            <div class="flex items-baseline gap-1">
+              <span class="font-serif text-4xl text-white font-bold">$90.000</span>
+              <span class="text-xs text-[#ffdad5]/70">ARS</span>
             </div>
-            <p class="text-xs sm:text-sm text-rosado-claro/90 pt-1 leading-relaxed">
+            <p class="text-xs text-[#ffdad5]/85 pt-2 leading-relaxed">
               Para situaciones complejas con múltiples variables o cuando necesitás descargarte sin mirar el reloj.
             </p>
-            <ul class="flex flex-col gap-2.5 pt-3 text-xs sm:text-sm text-marfil">
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+            <ul class="flex flex-col gap-2.5 pt-4 text-xs text-[#ffdad5]">
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>1 sesión profunda de 90 min</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>Mapa de situación analítico</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>Pautas de acción estructuradas</span>
               </li>
             </ul>
           </div>
-          <button type="button" onclick="openPausaModal('Pausa Extendida (90 min - $90.000 ARS)')" class="w-full text-center bg-bordo-deep text-white border border-bordo-border font-bold text-xs uppercase tracking-wider py-3.5 rounded-md hover:bg-terracota hover:border-terracota transition-all duration-200">
-            Elegir modalidad
-          </button>
+          <a class="w-full text-center bg-[#2d0001] text-white border border-[#78181e] font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota hover:border-terracota transition-all duration-300" href="https://wa.me/?text=Hola%2C%20quisiera%20reservar%20una%20Pausa%20Extendida%20(90%20min)%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+            Elegir esta modalidad
+          </a>
         </div>
 
-        <!-- Card 4: Pausa Prioritaria -->
-        <div class="bg-bordo-deep rounded-lg p-7 sm:p-8 flex flex-col justify-between gap-7 border border-terracota/70 hover:border-terracota-light transition-all duration-200 reveal-init" id="card-prioritaria" style="transition-delay: 300ms;">
-          <div class="flex flex-col gap-3.5">
-            <div class="inline-block px-3 py-1 rounded bg-terracota text-white w-fit text-[11px] font-bold uppercase tracking-wider">
-              ATENCIÓN &lt; 24 HS
+        <!-- Card 4: Prioritaria -->
+        <div class="bg-[#2c0002] rounded-2xl p-8 flex flex-col justify-between gap-8 shadow-lg relative hover:-translate-y-2 transition-all duration-300 border border-terracota/60 reveal-init" id="card-prioritaria" style="transition-delay: 300ms;">
+          <div class="flex flex-col gap-4">
+            <div class="inline-flex items-center px-3 py-1 rounded-lg bg-terracota text-white w-fit text-[11px] font-bold uppercase tracking-wider">
+              <span>Garantizado &lt;24hs</span>
             </div>
-            <div class="font-display text-2xl font-bold text-white uppercase">Pausa Prioritaria</div>
-            <div class="flex items-baseline gap-1.5">
-              <span class="font-display text-4xl text-white font-bold">$95.000</span>
-              <span class="text-xs text-rosado-claro/75 font-semibold">ARS</span>
+            <div class="font-serif text-2xl font-bold text-white">Pausa Prioritaria</div>
+            <div class="flex items-baseline gap-1">
+              <span class="font-serif text-4xl text-white font-bold">$95.000</span>
+              <span class="text-xs text-[#ffdad5]/70">ARS</span>
             </div>
-            <p class="text-xs sm:text-sm text-rosado-claro/90 pt-1 leading-relaxed">
+            <p class="text-xs text-[#ffdad5]/85 pt-2 leading-relaxed">
               Cuando la situación apremia, no podés esperar días y necesitás hablar hoy mismo.
             </p>
-            <ul class="flex flex-col gap-2.5 pt-3 text-xs sm:text-sm text-marfil">
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+            <ul class="flex flex-col gap-2.5 pt-4 text-xs text-[#ffdad5]">
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>Atención express en el día</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>Sesión de 60 min prioritaria</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span class="text-terracota-light font-bold">→</span>
+              <li class="flex items-center gap-2">
+                <span class="text-terracota-light font-bold">✓</span>
                 <span>Plan de contención inmediata</span>
               </li>
             </ul>
           </div>
-          <button type="button" onclick="openPausaModal('Pausa Prioritaria (<24hs - $95.000 ARS)')" class="w-full text-center bg-terracota text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-md hover:bg-terracota-light transition-all duration-200 shadow-md">
-            Coordinar hoy
-          </button>
+          <a class="w-full text-center bg-terracota text-white font-semibold text-xs py-3.5 rounded-xl hover:bg-terracota-light transition-all duration-300 shadow-sm" href="https://wa.me/?text=Hola%2C%20necesito%20una%20Pausa%20Prioritaria%20urgente%20(&lt;24hs)%20en%20Primera%20Pausa" rel="noopener noreferrer" target="_blank">
+            Elegir esta modalidad
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ==================== 7. SECCIÓN: QUIÉNES SOMOS (EN BORDÓ) ==================== -->
-  <section class="w-full bg-bordo-alt text-white py-16 sm:py-20 lg:py-28 border-b border-bordo-border/40" id="quienes-somos">
-    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-12 sm:gap-16">
+  <!-- ==================== 7. QUIÉNES SOMOS (PASADO DEL BEIGE AL MISMO BORDÓ DEL SITIO) ==================== -->
+  <section class="w-full bg-[#4a0002] border-t border-[#6b151a] py-20 lg:py-28 text-white" id="quienes-somos">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-16">
       <div class="max-w-2xl flex flex-col gap-3 reveal-init">
-        <span class="text-xs uppercase tracking-[0.22em] text-terracota-light font-bold">RIGOR CLÍNICO &amp; CERCANÍA</span>
-        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl text-white font-bold uppercase">
+        <span class="text-xs uppercase tracking-widest text-terracota-light font-semibold">RIGOR CLÍNICO &amp; CERCANÍA</span>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-bold">
           Las profesionales detrás de tu pausa
         </h2>
-        <p class="text-sm sm:text-base text-rosado-claro/90">
+        <p class="text-sm sm:text-base text-[#ffdad5]/85">
           Formación universitaria en la UBA, años de práctica en consultorio y una vocación centrada en la claridad y el respeto.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-        <!-- Profesional 1: Lic. Clara Benítez -->
-        <div class="bg-bordo-card p-6 sm:p-8 lg:p-10 rounded-lg flex flex-col sm:flex-row gap-6 sm:gap-8 items-start border border-bordo-border reveal-init">
-          <div class="relative shrink-0 overflow-hidden rounded-lg border-2 border-terracota">
-            <img alt="Retrato de la Lic. Clara Benítez" class="w-24 h-24 sm:w-32 sm:h-32 object-cover shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrBS5NjhThD2YkMUvLEILXeIffUuWTv5WG1SlMkNvFJaOkIW3JGJ2DA_lCuPjwN4PrHkP6pWfc8aNkzjrQbl2RigLVLcoaT5isFPMVAdyUfCfHnU1H9ycEJIKCzjC1t0dqiVC32DngysyTL-EjRWFI5kKsT5B-xHbYgqfqSU9UZF_pGliOzXl1VqzalYxWPVFUNAj49kCuaI3emL9RFgei32IW5I6vbTsRdjhHF6yCtuE1Jl0QiygXWHuIVA"/>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <!-- Fundadora 1: Lic. Clara Benítez -->
+        <div class="bg-[#3d0002] p-8 lg:p-10 rounded-2xl flex flex-col sm:flex-row gap-8 items-start shadow-lg border border-[#78181e] hover:-translate-y-1 transition-all duration-300 reveal-init">
+          <div class="relative shrink-0 overflow-hidden rounded-full ring-4 ring-terracota/30">
+            <img alt="Lic. Clara Benítez" class="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrBS5NjhThD2YkMUvLEILXeIffUuWTv5WG1SlMkNvFJaOkIW3JGJ2DA_lCuPjwN4PrHkP6pWfc8aNkzjrQbl2RigLVLcoaT5isFPMVAdyUfCfHnU1H9ycEJIKCzjC1t0dqiVC32DngysyTL-EjRWFI5kKsT5B-xHbYgqfqSU9UZF_pGliOzXl1VqzalYxWPVFUNAj49kCuaI3emL9RFgei32IW5I6vbTsRdjhHF6yCtuE1Jl0QiygXWHuIVA"/>
           </div>
           <div class="flex flex-col gap-3">
             <div>
-              <h3 class="font-display text-2xl font-bold text-white">Lic. Clara Benítez</h3>
-              <p class="text-xs font-bold text-terracota-light tracking-wider uppercase mt-1">M.N. 48.921 • M.P. 73.104 • UBA</p>
+              <h3 class="font-serif text-2xl font-bold text-white">Lic. Clara Benítez</h3>
+              <p class="text-xs font-semibold text-terracota-light tracking-wide mt-0.5">MN 48.921 • MP 73.104</p>
             </div>
-            <p class="text-xs sm:text-sm text-rosado-claro/90 leading-relaxed">
+            <p class="text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
               Psicóloga graduada en la Universidad de Buenos Aires (UBA) con más de 12 años acompañando procesos de toma de decisión, crisis vitales y gestión del estrés. Su enfoque combina herramientas orientadas a la acción y a la recuperación de la serenidad.
             </p>
           </div>
         </div>
 
-        <!-- Profesional 2: Lic. Sofía Valenzuela -->
-        <div class="bg-bordo-card p-6 sm:p-8 lg:p-10 rounded-lg flex flex-col sm:flex-row gap-6 sm:gap-8 items-start border border-bordo-border reveal-init" style="transition-delay: 150ms;">
-          <div class="relative shrink-0 overflow-hidden rounded-lg border-2 border-terracota">
-            <img alt="Retrato de la Lic. Sofía Valenzuela" class="w-24 h-24 sm:w-32 sm:h-32 object-cover shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrD2DpOCQiiQh1O3W_bHabk7p3ShastfhCNL0AS1_-q_7U37jjO3_UqvQK-2SF2XF7EMlOA7GCOoNGjsFRta1TMOSpQdJ2ov0karDQytTn6SkN2TRbGUmbM7MCA4QEhUikHKipI9x33g77Kte-1cZi1Ll7US5AMbFEijYLMeMitiNahEC-8CHHGlsILTisbhEJ34-mFPNFYEIB20FptM38f9903H1dBp3RLzWfUICgZMHAa9VMdg4wzT0WsT"/>
+        <!-- Fundadora 2: Lic. Sofía Valenzuela -->
+        <div class="bg-[#3d0002] p-8 lg:p-10 rounded-2xl flex flex-col sm:flex-row gap-8 items-start shadow-lg border border-[#78181e] hover:-translate-y-1 transition-all duration-300 reveal-init" style="transition-delay: 150ms;">
+          <div class="relative shrink-0 overflow-hidden rounded-full ring-4 ring-terracota/30">
+            <img alt="Lic. Sofía Valenzuela" class="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrD2DpOCQiiQh1O3W_bHabk7p3ShastfhCNL0AS1_-q_7U37jjO3_UqvQK-2SF2XF7EMlOA7GCOoNGjsFRta1TMOSpQdJ2ov0karDQytTn6SkN2TRbGUmbM7MCA4QEhUikHKipI9x33g77Kte-1cZi1Ll7US5AMbFEijYLMeMitiNahEC-8CHHGlsILTisbhEJ34-mFPNFYEIB20FptM38f9903H1dBp3RLzWfUICgZMHAa9VMdg4wzT0WsT"/>
           </div>
           <div class="flex flex-col gap-3">
             <div>
-              <h3 class="font-display text-2xl font-bold text-white">Lic. Sofía Valenzuela</h3>
-              <p class="text-xs font-bold text-terracota-light tracking-wider uppercase mt-1">M.N. 52.340 • M.P. 81.205 • UBA</p>
+              <h3 class="font-serif text-2xl font-bold text-white">Lic. Sofía Valenzuela</h3>
+              <p class="text-xs font-semibold text-terracota-light tracking-wide mt-0.5">MN 52.340 • MP 81.205</p>
             </div>
-            <p class="text-xs sm:text-sm text-rosado-claro/90 leading-relaxed">
+            <p class="text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
               Psicóloga clínica graduada en la UBA y especialista en comunicación interpersonal y vínculos. Convencida del valor terapéutico de una intervención oportuna para desactivar el desgaste antes de que se vuelva crónico.
             </p>
           </div>
@@ -865,67 +838,67 @@
     </div>
   </section>
 
-  <!-- ==================== 8. PREGUNTAS FRECUENTES (EN BORDÓ) ==================== -->
-  <section class="w-full bg-bordo-base text-white py-16 sm:py-20 lg:py-28" id="preguntas">
-    <div class="max-w-4xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-10 sm:gap-12">
+  <!-- ==================== 8. PREGUNTAS FRECUENTES (PASADO DEL BEIGE AL MISMO BORDÓ DEL SITIO) ==================== -->
+  <section class="w-full bg-[#3d0002] border-t border-[#6b151a] py-20 lg:py-28 text-white" id="preguntas">
+    <div class="max-w-4xl mx-auto px-6 lg:px-12 flex flex-col gap-12">
       <div class="flex flex-col gap-3 text-center items-center reveal-init">
-        <span class="text-xs uppercase tracking-[0.22em] text-terracota-light font-bold">DESPEJANDO DUDAS</span>
-        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl text-white font-bold uppercase">
+        <span class="text-xs uppercase tracking-widest text-terracota-light font-semibold">DESPEJANDO DUDAS</span>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-bold">
           Preguntas Frecuentes
         </h2>
-        <p class="text-sm sm:text-base text-rosado-claro/85 max-w-lg">
+        <p class="text-sm sm:text-base text-[#ffdad5]/85 max-w-lg">
           Respuestas transparentes sobre cómo funciona la orientación focalizada de sesión única.
         </p>
       </div>
 
       <div class="flex flex-col gap-4" id="faq-accordion">
-        <div class="faq-item bg-bordo-card rounded-lg p-5 sm:p-6 border border-bordo-border reveal-init">
-          <button aria-expanded="false" aria-controls="faq-ans-1" class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-display text-base sm:text-lg font-bold text-white group min-h-[44px]" type="button">
+        <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
+          <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
             <span class="group-hover:text-terracota-light transition-colors">¿Es una sesión de psicoterapia tradicional?</span>
-            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300 shrink-0">expand_more</span>
+            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
-          <div id="faq-ans-1" class="faq-content hidden pt-4 mt-3 border-t border-bordo-border/50 text-xs sm:text-sm text-rosado-claro/90 leading-relaxed">
+          <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
             No. Es una orientación psicológica puntual. No requiere diagnósticos clínicos prolongados ni el compromiso de semanas o meses de sesiones regulares. Es un espacio de asesoramiento clínico intensivo de una sola vez, concebido para desbloquear un dilema específico.
           </div>
         </div>
 
-        <div class="faq-item bg-bordo-card rounded-lg p-5 sm:p-6 border border-bordo-border reveal-init">
-          <button aria-expanded="false" aria-controls="faq-ans-2" class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-display text-base sm:text-lg font-bold text-white group min-h-[44px]" type="button">
-            <span class="group-hover:text-terracota-light transition-colors">¿Cómo se coordina el turno y el pago?</span>
-            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300 shrink-0">expand_more</span>
+        <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
+          <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
+            <span class="group-hover:text-terracota-light transition-colors">¿Cómo se coordina el turno?</span>
+            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
-          <div id="faq-ans-2" class="faq-content hidden pt-4 mt-3 border-t border-bordo-border/50 text-xs sm:text-sm text-rosado-claro/90 leading-relaxed">
-            Completás el breve formulario en esta página con tus preferencias horarias. Revisamos tu solicitud y te contactamos al instante por WhatsApp para confirmar el horario, enviarte los datos de transferencia o tarjeta y compartirte el enlace de la sesión. Podés reprogramar sin cargo avisando con 12 horas de anticipación.
+          <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
+            Completás el breve formulario o nos escribís por WhatsApp con tus preferencias horarias. Revisamos tu solicitud y te contactamos al instante para confirmar el horario y enviarte el enlace de videollamada.
           </div>
         </div>
 
-        <div class="faq-item bg-bordo-card rounded-lg p-5 sm:p-6 border border-bordo-border reveal-init">
-          <button aria-expanded="false" aria-controls="faq-ans-3" class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-display text-base sm:text-lg font-bold text-white group min-h-[44px]" type="button">
+        <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
+          <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
             <span class="group-hover:text-terracota-light transition-colors">¿Por qué medio se realiza la sesión?</span>
-            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300 shrink-0">expand_more</span>
+            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
-          <div id="faq-ans-3" class="faq-content hidden pt-4 mt-3 border-t border-bordo-border/50 text-xs sm:text-sm text-rosado-claro/90 leading-relaxed">
-            A través de Google Meet o videollamada/audio de WhatsApp, garantizando total privacidad, confidencialidad bajo secreto profesional y la posibilidad de conectarte desde cualquier lugar tranquilo.
+          <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
+            A través de Google Meet o videollamada cifrada de WhatsApp, garantizando total privacidad, confidencialidad bajo secreto profesional y la posibilidad de conectarte desde cualquier lugar tranquilo.
           </div>
         </div>
 
-        <div class="faq-item bg-bordo-card rounded-lg p-5 sm:p-6 border border-bordo-border reveal-init">
-          <button aria-expanded="false" aria-controls="faq-ans-4" class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-display text-base sm:text-lg font-bold text-white group min-h-[44px]" type="button">
+        <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
+          <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
             <span class="group-hover:text-terracota-light transition-colors">¿Qué pasa si después siento que quiero continuar?</span>
-            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300 shrink-0">expand_more</span>
+            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
-          <div id="faq-ans-4" class="faq-content hidden pt-4 mt-3 border-t border-bordo-border/50 text-xs sm:text-sm text-rosado-claro/90 leading-relaxed">
-            Podés solicitar otra pausa puntual cuando lo consideres oportuno o, si al concluir la sesión evaluamos juntos que el asunto requiere un proceso psicoterapéutico sostenido, te brindamos una derivación responsable con profesionales colegas de confianza.
+          <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
+            Si al concluir la sesión sentís que el asunto requiere un proceso psicoterapéutico sostenido en el tiempo, te brindamos una derivación responsable con profesionales colegas de confianza adaptados a tu necesidad.
           </div>
         </div>
 
-        <div class="faq-item bg-bordo-card rounded-lg p-5 sm:p-6 border border-bordo-border reveal-init">
-          <button aria-expanded="false" aria-controls="faq-ans-5" class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-display text-base sm:text-lg font-bold text-white group min-h-[44px]" type="button">
+        <div class="faq-item bg-[#4e0205] rounded-2xl p-6 border border-[#78181e] reveal-init">
+          <button class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-serif text-lg font-semibold text-white group" type="button">
             <span class="group-hover:text-terracota-light transition-colors">¿Atienden emergencias o crisis de riesgo de vida?</span>
-            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300 shrink-0">expand_more</span>
+            <span class="material-symbols-outlined faq-icon text-terracota-light transition-transform duration-300">expand_more</span>
           </button>
-          <div id="faq-ans-5" class="faq-content hidden pt-4 mt-3 border-t border-bordo-border/50 text-xs sm:text-sm text-rosado-claro/90 leading-relaxed">
-            No. Primera Pausa no es un servicio de guardia hospitalaria ni de emergencias psiquiátricas. Ante crisis agudas con riesgo inminente se debe acudir a la guardia más cercana o comunicarse con las líneas gratuitas de asistencia inmediata (107 SAME / 0800-999-0091 Salud Mental).
+          <div class="faq-content hidden pt-4 text-xs sm:text-sm text-[#ffdad5]/85 leading-relaxed">
+            No. Primera Pausa no es un servicio de guardia hospitalaria ni de emergencias psiquiátricas. Ante crisis agudas con riesgo inminente se debe acudir a la guardia más cercana o comunicarse a las líneas gratuitas de salud mental (107 / 0800-999-0091).
           </div>
         </div>
       </div>
@@ -933,250 +906,104 @@
   </section>
 </main>
 
-<!-- ==================== FOOTER ==================== -->
-<footer class="w-full bg-bordo-deep text-white pt-14 sm:pt-16 pb-12 border-t border-bordo-border/60">
-  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 flex flex-col gap-10 sm:gap-12">
-    <div class="bg-bordo-card rounded-lg p-6 lg:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border border-bordo-border">
-      <div class="max-w-2xl text-xs sm:text-sm text-rosado-claro leading-relaxed">
-        <strong class="font-display font-bold text-terracota-light block mb-1 uppercase tracking-wider text-xs">Aviso Clínico de Urgencia</strong>
-        <strong class="text-white">Primera Pausa no es un servicio de urgencias médicas ni guardia psiquiátrica.</strong> Si te encontrás en situación de crisis o riesgo inminente en Argentina, comunicate inmediatamente con las líneas gratuitas las 24 hs:
-      </div>
-      <div class="flex flex-wrap items-center gap-2.5 w-full lg:w-auto shrink-0">
-        <a href="tel:107" class="inline-flex items-center gap-1.5 bg-bordo-deep hover:bg-terracota text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-md border border-bordo-border transition-colors">
-          107 SAME
-        </a>
-        <a href="tel:08009990091" class="inline-flex items-center gap-1.5 bg-bordo-deep hover:bg-terracota text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-md border border-bordo-border transition-colors">
-          0800-999-0091 Salud Mental
-        </a>
-        <a href="tel:144" class="inline-flex items-center gap-1.5 bg-bordo-deep hover:bg-terracota text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-md border border-bordo-border transition-colors">
-          Línea 144
-        </a>
+<!-- ==================== FOOTER ORIGINAL STITCH ==================== -->
+<footer class="w-full bg-[#2c0002] text-white pt-16 pb-12 border-t border-[#540407]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-12">
+    <div class="bg-[#520306] rounded-2xl p-6 lg:p-8 flex flex-col md:flex-row items-start md:items-center gap-4 border border-[#75161c]">
+      <div class="flex-1 text-xs sm:text-sm text-[#ffdad5] leading-relaxed">
+        <strong class="font-bold text-white">Primera Pausa no es un servicio de urgencias médicas ni guardia psiquiátrica.</strong> Si te encontrás en situación de crisis o riesgo inminente en Argentina, comunicate inmediatamente con las líneas de asistencia gratuitas: <a href="tel:107" class="font-bold text-white underline">107</a> (SAME / Emergencias Médicas), <a href="tel:144" class="font-bold text-white underline">144</a> (Atención a Víctimas de Violencia de Género) o al <a href="tel:08009990091" class="font-bold text-white underline">0800-999-0091</a> (Salud Mental Nacional, 24 hs).
       </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
       <div class="md:col-span-5 flex flex-col gap-4">
         <div class="flex items-center gap-3">
-          <div class="w-7 h-7 rounded-md bg-terracota text-white flex items-center justify-center font-bold tracking-tighter text-xs">
+          <div class="w-6 h-6 rounded-full bg-terracota text-white flex items-center justify-center font-bold tracking-tighter text-[10px]">
             ||
           </div>
-          <span class="font-display text-2xl font-bold tracking-tight text-white uppercase">Primera Pausa</span>
+          <span class="font-serif text-2xl font-bold tracking-tight text-white">Primera Pausa</span>
         </div>
-        <p class="text-xs sm:text-sm text-rosado-claro/85 max-w-sm leading-relaxed">
+        <p class="text-xs sm:text-sm text-[#ffdad5]/75 max-w-sm leading-relaxed">
           Orientación psicológica focalizada en sesión única. Claridad, contención reflexiva y herramientas concretas para momentos de encrucijada.
         </p>
       </div>
 
       <div class="md:col-span-3 flex flex-col gap-2.5">
-        <span class="text-xs font-bold uppercase tracking-wider text-terracota-light">Navegación</span>
-        <a class="text-xs sm:text-sm text-rosado-claro/80 hover:text-white transition-colors" href="#situaciones">Situaciones</a>
-        <a class="text-xs sm:text-sm text-rosado-claro/80 hover:text-white transition-colors" href="#que-trabajamos">Qué trabajamos</a>
-        <a class="text-xs sm:text-sm text-rosado-claro/80 hover:text-white transition-colors" href="#como-funciona">Cómo funciona</a>
-        <a class="text-xs sm:text-sm text-rosado-claro/80 hover:text-white transition-colors" href="#termometro">Medidor de Peso Emocional</a>
-        <a class="text-xs sm:text-sm text-rosado-claro/80 hover:text-white transition-colors" href="#modalidades">Modalidades y Tarifas</a>
-        <a class="text-xs sm:text-sm text-rosado-claro/80 hover:text-white transition-colors" href="#quienes-somos">Equipo Profesional</a>
-        <a class="text-xs sm:text-sm text-rosado-claro/80 hover:text-white transition-colors" href="#preguntas">Preguntas Frecuentes</a>
+        <span class="text-xs font-bold uppercase tracking-wider text-terracota">Navegación</span>
+        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#situaciones">Situaciones</a>
+        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#como-funciona">Cómo funciona</a>
+        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#que-trabajamos">Qué trabajamos</a>
+        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#termometro">Carga Mental</a>
+        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#modalidades">Modalidades</a>
+        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#quienes-somos">Equipo Profesional</a>
+        <a class="text-xs sm:text-sm text-[#ffdad5]/75 hover:text-white transition-colors" href="#preguntas">Preguntas Frecuentes</a>
       </div>
 
-      <div class="md:col-span-4 flex flex-col gap-3">
-        <span class="text-xs font-bold uppercase tracking-wider text-terracota-light">Contacto y Atención</span>
-        <span class="text-xs sm:text-sm text-rosado-claro/80 leading-relaxed">
-          Atención online para toda la República Argentina y residentes en el exterior de habla hispana.
-        </span>
-        <a class="text-xs sm:text-sm text-white hover:text-terracota-light font-semibold transition-colors" href="mailto:contacto@primerapausa.com">
-          contacto@primerapausa.com
-        </a>
-        <div class="pt-1">
-          <button type="button" onclick="openPausaModal()" class="inline-flex items-center justify-center text-xs font-bold uppercase tracking-wider text-white bg-bordo-card hover:bg-terracota px-5 py-2.5 rounded-md border border-bordo-border transition-colors">
-            Abrir formulario de solicitud
-          </button>
-        </div>
+      <div class="md:col-span-4 flex flex-col gap-2.5">
+        <span class="text-xs font-bold uppercase tracking-wider text-terracota">Contacto y Atención</span>
+        <span class="text-xs sm:text-sm text-[#ffdad5]/75">Atención online para toda la República Argentina y residentes en el exterior de habla hispana.</span>
+        <a class="text-xs sm:text-sm text-[#ffdad5] hover:text-white transition-colors" href="mailto:contacto@primerapausa.com">contacto@primerapausa.com</a>
       </div>
     </div>
 
-    <div class="pt-8 border-t border-bordo-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-rosado-claro/70">
+    <div class="pt-8 border-t border-[#540407] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#ffdad5]/60">
       <p>© 2026 Primera Pausa. Todos los derechos reservados.</p>
       <div class="flex items-center gap-6">
-        <a class="hover:text-white transition-colors" href="#preguntas">Secreto Clínico y Privacidad</a>
-        <a class="hover:text-white transition-colors" href="#modalidades">Términos y Condiciones</a>
+        <a class="hover:text-white transition-colors" href="#privacidad">Políticas de Privacidad</a>
+        <a class="hover:text-white transition-colors" href="#terminos">Términos y Condiciones</a>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- ==================== STICKY BOTTOM CTA BAR (Solo Mobile) ==================== -->
-<div class="lg:hidden fixed bottom-0 left-0 w-full z-40 pb-safe bg-bordo-deep/95 backdrop-blur-xl border-t border-bordo-border shadow-2xl">
-  <div class="px-4 py-2.5 flex items-center gap-2.5">
-    <button type="button" onclick="openPausaModal()" class="flex-1 h-11 rounded-md bg-marfil text-bordo-deep font-bold text-xs uppercase tracking-wider flex items-center justify-center shadow-sm">
-      Completar formulario
-    </button>
-    <button type="button" onclick="openPausaModal('Pausa Prioritaria (<24hs - $95.000 ARS)')" class="h-11 px-4 rounded-md bg-terracota text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center shadow-sm shrink-0">
-      Hablar hoy
-    </button>
-  </div>
-</div>
-
-<!-- ==================== MODAL DE PRE-ADMISIÓN (ESTÉTICA BORDÓ & FIRME) ==================== -->
-<div id="pausa-form-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div class="relative w-full max-w-lg rounded-lg bg-bordo-alt border border-bordo-border shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300 text-white" id="pausa-modal-panel">
-    <div class="bg-bordo-deep px-6 py-5 border-b border-bordo-border flex items-start justify-between gap-4">
-      <div>
-        <span class="text-[11px] uppercase tracking-[0.2em] text-terracota-light font-bold block mb-1">
-          SOLICITUD CONFIDENCIAL
-        </span>
-        <h3 id="modal-title" class="font-display text-2xl sm:text-3xl font-bold text-white uppercase leading-tight">
-          Coordiná tu Primera Pausa
-        </h3>
-      </div>
-      <button type="button" onclick="closePausaModal()" class="w-9 h-9 rounded-md bg-bordo-card border border-bordo-border text-rosado-claro hover:bg-terracota hover:text-white flex items-center justify-center transition-colors shrink-0" aria-label="Cerrar formulario">
-        ✕
-      </button>
-    </div>
-
-    <form id="pausa-intake-form" onsubmit="submitPausaForm(event)" class="p-5 sm:p-7 flex flex-col gap-5 max-h-[80vh] overflow-y-auto">
-      <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-rosado-claro mb-2">
-          1. ¿En qué área sentís que necesitás foco hoy?
-        </label>
-        <div class="grid grid-cols-2 gap-2.5">
-          <label class="cursor-pointer">
-            <input type="radio" name="situacion" value="Vínculos / Pareja" class="peer sr-only" required />
-            <div class="p-3 rounded-md bg-bordo-deep border border-bordo-border text-xs sm:text-sm font-semibold text-rosado-claro peer-checked:border-terracota-light peer-checked:bg-terracota peer-checked:text-white transition-all text-center">
-              01 · Vínculos
-            </div>
-          </label>
-          <label class="cursor-pointer">
-            <input type="radio" name="situacion" value="Toma de decisiones" class="peer sr-only" checked />
-            <div class="p-3 rounded-md bg-bordo-deep border border-bordo-border text-xs sm:text-sm font-semibold text-rosado-claro peer-checked:border-terracota-light peer-checked:bg-terracota peer-checked:text-white transition-all text-center">
-              02 · Decisiones
-            </div>
-          </label>
-          <label class="cursor-pointer">
-            <input type="radio" name="situacion" value="Trabajo / Rumia laboral" class="peer sr-only" />
-            <div class="p-3 rounded-md bg-bordo-deep border border-bordo-border text-xs sm:text-sm font-semibold text-rosado-claro peer-checked:border-terracota-light peer-checked:bg-terracota peer-checked:text-white transition-all text-center">
-              03 · Trabajo
-            </div>
-          </label>
-          <label class="cursor-pointer">
-            <input type="radio" name="situacion" value="Otro motivo puntual" class="peer sr-only" />
-            <div class="p-3 rounded-md bg-bordo-deep border border-bordo-border text-xs sm:text-sm font-semibold text-rosado-claro peer-checked:border-terracota-light peer-checked:bg-terracota peer-checked:text-white transition-all text-center">
-              04 · Otro tema
-            </div>
-          </label>
-        </div>
-      </div>
-
-      <div>
-        <label for="form-modalidad" class="block text-xs font-bold uppercase tracking-wider text-rosado-claro mb-2">
-          2. Modalidad de pausa
-        </label>
-        <select id="form-modalidad" name="modalidad" class="w-full rounded-md bg-bordo-deep border border-bordo-border px-4 py-3 text-sm text-white focus:border-terracota-light focus:ring-1 focus:ring-terracota-light outline-none">
-          <option value="Pausa Breve (30 min - $45.000 ARS)">Pausa Breve — 30 min ($45.000 ARS)</option>
-          <option value="Pausa Estándar (60 min - $70.000 ARS)" selected>Pausa Estándar — 60 min ($70.000 ARS) · Más elegida</option>
-          <option value="Pausa Extendida (90 min - $90.000 ARS)">Pausa Extendida — 90 min ($90.000 ARS)</option>
-          <option value="Pausa Prioritaria (<24hs - $95.000 ARS)">Pausa Prioritaria — Atención &lt;24hs ($95.000 ARS)</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="form-contexto" class="block text-xs font-bold uppercase tracking-wider text-rosado-claro mb-1.5">
-          3. ¿Qué te gustaría ordenar en esta conversación? <span class="text-rosado-claro/60 font-normal lowercase">(opcional)</span>
-        </label>
-        <textarea id="form-contexto" rows="2" placeholder="En una o dos oraciones, contanos qué situación tenés en mente..." class="w-full rounded-md bg-bordo-deep border border-bordo-border p-3.5 text-sm text-white placeholder:text-rosado-claro/40 focus:border-terracota-light focus:ring-1 focus:ring-terracota-light outline-none"></textarea>
-      </div>
-
-      <div>
-        <label for="form-horario" class="block text-xs font-bold uppercase tracking-wider text-rosado-claro mb-1.5">
-          4. Tu nombre y franja horaria preferida
-        </label>
-        <input id="form-horario" type="text" required placeholder="Ej: Lucía — Mañanas o después de las 18 hs" class="w-full rounded-md bg-bordo-deep border border-bordo-border px-4 py-2.5 text-sm text-white placeholder:text-rosado-claro/40 focus:border-terracota-light focus:ring-1 focus:ring-terracota-light outline-none" />
-      </div>
-
-      <div class="pt-1 flex flex-col gap-2.5">
-        <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-terracota hover:bg-terracota-light text-white font-bold text-sm uppercase tracking-wider py-4 px-6 rounded-md shadow-xl transition-all">
-          <span>ENVIAR SOLICITUD Y COORDINAR</span>
-          <span>→</span>
-        </button>
-        <p class="text-[11px] text-rosado-claro/70 text-center leading-normal">
-          Al enviar, se abrirá WhatsApp con tu ficha breve ya redactada para que coordinemos el turno sin demoras.
-        </p>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- ==================== SCRIPTS DE INTERACTIVIDAD ==================== -->
+<!-- Scripts: Typewriter en "NECESITÁS hablar.", Slider & Accordion -->
 <script is:inline>
-  // 1. Efecto Typewriter Dinámico al entrar ("NECESITÁS HABLAR.") + Secuencia escalonada
+  // 0. Animación de escritura suave para "NECESITÁS hablar." al abrir la web
   document.addEventListener('DOMContentLoaded', () => {
-    const line1El = document.getElementById('typewriter-line-1');
-    const line2El = document.getElementById('typewriter-line-2');
+    const word1 = document.getElementById('hero-word-1');
+    const word2 = document.getElementById('hero-word-2');
+    if (!word1 || !word2) return;
+
     const text1 = "NECESITÁS";
-    const text2 = "HABLAR.";
+    const text2 = "hablar.";
+    word1.innerHTML = '<span class="type-caret"></span>';
+    word2.innerHTML = '';
+
     let i = 0;
     let j = 0;
 
-    line1El.innerHTML = '<span class="typing-cursor"></span>';
-
-    function typeLine1() {
+    function typeFirst() {
       if (i < text1.length) {
-        line1El.innerHTML = text1.slice(0, i + 1) + '<span class="typing-cursor"></span>';
+        word1.innerHTML = text1.slice(0, i + 1) + '<span class="type-caret"></span>';
         i++;
-        setTimeout(typeLine1, 55);
+        setTimeout(typeFirst, 55);
       } else {
-        line1El.innerHTML = text1;
-        line2El.innerHTML = '<span class="typing-cursor"></span>';
-        setTimeout(typeLine2, 120);
+        word1.innerText = text1;
+        word2.innerHTML = '<span class="type-caret"></span>';
+        setTimeout(typeSecond, 110);
       }
     }
 
-    function typeLine2() {
+    function typeSecond() {
       if (j < text2.length) {
-        line2El.innerHTML = text2.slice(0, j + 1) + '<span class="typing-cursor"></span>';
+        word2.innerHTML = text2.slice(0, j + 1) + '<span class="type-caret"></span>';
         j++;
-        setTimeout(typeLine2, 65);
+        setTimeout(typeSecond, 75);
       } else {
-        // Revelar progresivamente la pastilla, el texto y los botones
-        document.getElementById('hero-badge')?.classList.add('hero-step-visible');
-        setTimeout(() => {
-          document.getElementById('hero-desc')?.classList.add('hero-step-visible');
-        }, 180);
-        setTimeout(() => {
-          document.getElementById('hero-ctas')?.classList.add('hero-step-visible');
-          document.getElementById('hero-disclaimer')?.classList.add('hero-step-visible');
-        }, 360);
+        word2.innerText = text2;
       }
     }
 
-    setTimeout(typeLine1, 180);
+    setTimeout(typeFirst, 200);
   });
 
-  // 2. Menú Mobile
-  function toggleMobileMenu() {
-    const drawer = document.getElementById('mobile-nav-drawer');
-    const btn = document.getElementById('mobile-menu-btn');
-    const icon = document.getElementById('mobile-menu-icon');
-    const isHidden = drawer.classList.contains('hidden');
-
-    if (isHidden) {
-      drawer.classList.remove('hidden');
-      drawer.classList.add('flex');
-      btn.setAttribute('aria-expanded', 'true');
-      icon.innerText = 'close';
-    } else {
-      drawer.classList.add('hidden');
-      drawer.classList.remove('flex');
-      btn.setAttribute('aria-expanded', 'false');
-      icon.innerText = 'menu';
-    }
-  }
-
-  // 3. Medidor de Peso Emocional
+  // 1. Slider interactivo de Carga Mental
   const mentalSlider = document.getElementById('mental-load-slider');
   const sliderLevelTitle = document.getElementById('slider-level-title');
   const sliderIntensityBadge = document.getElementById('slider-intensity-badge');
   const sliderSuggestionTag = document.getElementById('slider-suggestion-tag');
   const sliderMessageText = document.getElementById('slider-message-text');
+  const sliderCtaBtn = document.getElementById('slider-cta-btn');
   const sliderTickBtns = document.querySelectorAll('.slider-tick-btn');
 
   const mentalLevels = {
@@ -1185,59 +1012,53 @@
       badge: "Claridad general",
       suggestion: "Sugerencia: Pausa Breve (30 min)",
       message: "“A veces solo hace falta desenredar un pensamiento incipiente antes de que crezca y tome más espacio.”",
-      cardId: "card-breve",
-      modalOption: "Pausa Breve (30 min - $45.000 ARS)"
+      waText: "Hola%2C%20hice%20el%20test%20y%20tengo%20un%20asunto%20puntual%20que%20me%20gustar%C3%ADa%20despejar%20en%20una%20Pausa%20Breve."
     },
     2: {
       title: "Nivel 2: Rumia mental",
       badge: "Fricción incipiente",
       suggestion: "Sugerencia: Pausa Breve (30 min) o Estándar (60 min)",
       message: "“A veces solo hace falta desenredar un pensamiento recurrente antes de que crezca. Una conversación a tiempo devuelve el control.”",
-      cardId: "card-estandar",
-      modalOption: "Pausa Estándar (60 min - $70.000 ARS)"
+      waText: "Hola%2C%20estuve%20haciendo%20el%20medidor%20de%20carga%20mental%20y%20siento%20un%20nivel%20de%20rumia%20mental."
     },
     3: {
       title: "Nivel 3: Trabada en un dilema",
       badge: "Parálisis por análisis",
       suggestion: "Sugerencia: Pausa Estándar (60 min)",
       message: "“La sensación de estar trabada consume más energía que la decisión misma. Vamos a ordenarlo juntas paso a paso.”",
-      cardId: "card-estandar",
-      modalOption: "Pausa Estándar (60 min - $70.000 ARS)"
+      waText: "Hola%2C%20utilic%C3%A9%20el%20medidor%20y%20estoy%20trabada%20ante%20una%20situaci%C3%B3n.%20Me%20gustar%C3%ADa%20coordinar%20una%20Pausa%20Est%C3%A1ndar."
     },
     4: {
       title: "Nivel 4: Carga abrumadora",
       badge: "Saturación emocional",
-      suggestion: "Sugerencia: Pausa Extendida (90 min)",
+      suggestion: "Sugerencia: Pausa Estándar o Extendida",
       message: "“Cuando todo se siente urgente, una pausa guiada de 60 o 90 min te devuelve el eje y baja la sobrecarga hoy mismo.”",
-      cardId: "card-extendida",
-      modalOption: "Pausa Extendida (90 min - $90.000 ARS)"
+      waText: "Hola%2C%20hice%20el%20medidor%20y%20me%20siento%20muy%20abrumada.%20Quisiera%20consultar%20disponibilidad%20para%20una%20sesi%C3%B3n."
     },
     5: {
       title: "Nivel 5: Al límite",
       badge: "Atención prioritaria",
       suggestion: "Sugerencia: Pausa Prioritaria (<24hs)",
       message: "“Cuando la angustia o el estrés te desbordan, contar con una profesional en el día es la prioridad.”",
-      cardId: "card-prioritaria",
-      modalOption: "Pausa Prioritaria (<24hs - $95.000 ARS)"
+      waText: "Hola%2C%20necesito%20atenci%C3%B3n%20urgente%20hoy.%20Hice%20el%20medidor%20y%20estoy%20al%20l%C3%ADmite.%20%C2%BFTienen%20turno%20prioritario%3F"
     }
   };
 
-  let currentSliderLevel = 2;
-
   function updateSlider(val) {
-    currentSliderLevel = Number(val);
-    const data = mentalLevels[currentSliderLevel];
+    const data = mentalLevels[val];
     if (!data) return;
-
     sliderLevelTitle.innerText = data.title;
     sliderIntensityBadge.innerText = data.badge;
     sliderSuggestionTag.innerText = data.suggestion;
     sliderMessageText.innerText = data.message;
+    sliderCtaBtn.href = "https://wa.me/?text=" + data.waText;
 
     sliderTickBtns.forEach(btn => {
-      const isSelected = btn.getAttribute('data-val') === String(val);
-      btn.classList.toggle('font-bold', isSelected);
-      btn.classList.toggle('text-terracota-light', isSelected);
+      if (btn.getAttribute('data-val') === String(val)) {
+        btn.classList.add('font-bold', 'text-terracota-light');
+      } else {
+        btn.classList.remove('font-bold', 'text-terracota-light');
+      }
     });
   }
 
@@ -1245,97 +1066,13 @@
     mentalSlider.addEventListener('input', (e) => updateSlider(e.target.value));
     sliderTickBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const val = btn.getAttribute('data-val');
-        mentalSlider.value = val;
-        updateSlider(val);
+        mentalSlider.value = btn.getAttribute('data-val');
+        updateSlider(btn.getAttribute('data-val'));
       });
     });
   }
 
-  function scrollToRecommendedCard() {
-    const data = mentalLevels[currentSliderLevel];
-    const targetCard = document.getElementById(data ? data.cardId : 'card-estandar');
-    if (!targetCard) return;
-
-    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    targetCard.classList.remove('card-target-highlight');
-    void targetCard.offsetWidth;
-    targetCard.classList.add('card-target-highlight');
-  }
-
-  // 4. Control del Modal
-  function openPausaModal(defaultModalidad) {
-    const modal = document.getElementById('pausa-form-modal');
-    const panel = document.getElementById('pausa-modal-panel');
-    const select = document.getElementById('form-modalidad');
-
-    if (defaultModalidad && select) {
-      select.value = defaultModalidad;
-    }
-
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    modal.setAttribute('aria-hidden', 'false');
-    requestAnimationFrame(() => {
-      modal.classList.remove('opacity-0');
-      panel.classList.remove('scale-95');
-    });
-  }
-
-  function openPausaModalWithArea(areaValue) {
-    const radios = document.querySelectorAll('input[name="situacion"]');
-    radios.forEach(r => {
-      r.checked = (r.value === areaValue);
-    });
-    openPausaModal();
-  }
-
-  function openPausaModalFromSlider() {
-    const data = mentalLevels[currentSliderLevel];
-    openPausaModal(data ? data.modalOption : null);
-  }
-
-  function closePausaModal() {
-    const modal = document.getElementById('pausa-form-modal');
-    const panel = document.getElementById('pausa-modal-panel');
-    modal.classList.add('opacity-0');
-    panel.classList.add('scale-95');
-    modal.setAttribute('aria-hidden', 'true');
-    setTimeout(() => {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }, 250);
-  }
-
-  document.getElementById('pausa-form-modal').addEventListener('click', (e) => {
-    if (e.target.id === 'pausa-form-modal') closePausaModal();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closePausaModal();
-  });
-
-  function submitPausaForm(e) {
-    e.preventDefault();
-    const form = e.target;
-    const situacion = form.situacion.value;
-    const modalidad = form.modalidad.value;
-    const contexto = document.getElementById('form-contexto').value.trim();
-    const horario = document.getElementById('form-horario').value.trim();
-
-    let mensaje = "Hola, completé el formulario en Primera Pausa.\n\n" +
-                  "• *Área:* " + situacion + "\n" +
-                  "• *Modalidad:* " + modalidad + "\n" +
-                  "• *Nombre y disponibilidad:* " + horario;
-    if (contexto) {
-      mensaje += "\n• *Motivo:* " + contexto;
-    }
-
-    const waUrl = "https://wa.me/?text=" + encodeURIComponent(mensaje);
-    window.open(waUrl, '_blank', 'noopener,noreferrer');
-    closePausaModal();
-  }
-
-  // 5. Acordeón de Preguntas Frecuentes
+  // 2. FAQ Accordion
   document.querySelectorAll('.faq-trigger').forEach((button) => {
     button.addEventListener('click', () => {
       const item = button.closest('.faq-item');
@@ -1345,17 +1082,15 @@
 
       document.querySelectorAll('.faq-content').forEach(c => c.classList.add('hidden'));
       document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('rotate-180'));
-      document.querySelectorAll('.faq-trigger').forEach(b => b.setAttribute('aria-expanded', 'false'));
 
       if (!isOpen) {
         content.classList.remove('hidden');
         icon.classList.add('rotate-180');
-        button.setAttribute('aria-expanded', 'true');
       }
     });
   });
 
-  // 6. IntersectionObserver para revelados suaves
+  // 3. Subtle IntersectionObserver reveals
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
